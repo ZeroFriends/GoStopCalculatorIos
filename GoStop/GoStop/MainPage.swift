@@ -22,7 +22,7 @@ struct MainPage: View {
                 }
             }
         } else {
-            NavigationViewTest()
+            GuideView()
         }
     }
 }
