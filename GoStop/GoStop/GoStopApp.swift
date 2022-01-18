@@ -11,7 +11,7 @@ import SwiftUI
 struct GoStopApp: App {
     var body: some Scene {
         WindowGroup {
-            MainScreen()
+            FirstScreen()
         }
     }
 }
