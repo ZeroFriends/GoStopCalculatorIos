@@ -14,7 +14,7 @@ struct MainPage: View {
                 VStack {
                     TopMainPage()
                     Rectangle()
-                        .foregroundColor(.gray)
+                        .foregroundColor(Color(hue: 1.0, saturation: 0.0, brightness: 0.941))
                         .frame(height: 10)
                     BottomMainPage()
             }
@@ -39,8 +39,8 @@ struct TopMainPage: View {
                 ZStack {
                     RoundedRectangle(cornerRadius: 12.5).fill().foregroundColor(.white)
                     RoundedRectangle(cornerRadius: 12.5).stroke(lineWidth: 2).foregroundColor(.orange)
-                    Button{
-                        
+        
+                    Button {
                     } label: {
                         Text("Guide")
                             .fontWeight(.bold)
