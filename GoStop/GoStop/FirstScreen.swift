@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct MainScreen: View {
+struct FirstScreen: View {
     @State var mainScreenOn = false
     
     var body: some View {
@@ -32,6 +32,6 @@ struct MainScreen: View {
 
 struct MainScreen_Previews: PreviewProvider {
     static var previews: some View {
-        MainScreen()
+        FirstScreen()
     }
 }
