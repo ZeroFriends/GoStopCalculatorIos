@@ -7,21 +7,14 @@
 
 import SwiftUI
 
-struct NavigationViewTest: View {
+struct GuideView: View {
     var body: some View {
         Text("Hello")
     }
 }
 
-struct TextView: View {
-    var body: some View {
-        NavigationView {
-            Text("here")
-        }
-    }
-}
 struct NavigationViewTest_Previews: PreviewProvider {
     static var previews: some View {
-        NavigationViewTest()
+        GuideView()
     }
 }
