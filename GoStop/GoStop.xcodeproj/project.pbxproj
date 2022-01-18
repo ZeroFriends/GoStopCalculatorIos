@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		34E86D75FCC2BE695075DBC8 /* Pods_GoStop.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 345C1BE2D7FA90837A245C8E /* Pods_GoStop.framework */; };
-		EA41AD8A2796F9D30085523C /* NavigationViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA41AD892796F9D30085523C /* NavigationViewTest.swift */; };
+		EA41AD8A2796F9D30085523C /* GuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA41AD892796F9D30085523C /* GuideView.swift */; };
 		EA41AD8C279714CA0085523C /* MainPageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA41AD8B279714CA0085523C /* MainPageModel.swift */; };
 		EA41AD8E279717900085523C /* MainPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA41AD8D279717900085523C /* MainPageViewModel.swift */; };
 		EA4F79E5278EB7A5008B78FF /* GoStopApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA4F79E4278EB7A5008B78FF /* GoStopApp.swift */; };
@@ -26,7 +26,7 @@
 		18D49972975DC68C3C1F14E5 /* Pods-GoStop.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GoStop.release.xcconfig"; path = "Target Support Files/Pods-GoStop/Pods-GoStop.release.xcconfig"; sourceTree = "<group>"; };
 		345C1BE2D7FA90837A245C8E /* Pods_GoStop.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GoStop.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F21A48E442C4B0C1913E91D /* Pods-GoStop.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GoStop.debug.xcconfig"; path = "Target Support Files/Pods-GoStop/Pods-GoStop.debug.xcconfig"; sourceTree = "<group>"; };
-		EA41AD892796F9D30085523C /* NavigationViewTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationViewTest.swift; sourceTree = "<group>"; };
+		EA41AD892796F9D30085523C /* GuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuideView.swift; sourceTree = "<group>"; };
 		EA41AD8B279714CA0085523C /* MainPageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageModel.swift; sourceTree = "<group>"; };
 		EA41AD8D279717900085523C /* MainPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageViewModel.swift; sourceTree = "<group>"; };
 		EA4F79E1278EB7A5008B78FF /* GoStop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GoStop.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -99,7 +99,7 @@
 				EA992661279570BC0064AC82 /* MainPage.swift */,
 				EA41AD8B279714CA0085523C /* MainPageModel.swift */,
 				EA41AD8D279717900085523C /* MainPageViewModel.swift */,
-				EA41AD892796F9D30085523C /* NavigationViewTest.swift */,
+				EA41AD892796F9D30085523C /* GuideView.swift */,
 				EA4F79E8278EB7A6008B78FF /* Assets.xcassets */,
 				EA4F79EA278EB7A6008B78FF /* Preview Content */,
 			);
@@ -242,7 +242,7 @@
 				EA41AD8E279717900085523C /* MainPageViewModel.swift in Sources */,
 				EA4F79E5278EB7A5008B78FF /* GoStopApp.swift in Sources */,
 				EA992662279570BC0064AC82 /* MainPage.swift in Sources */,
-				EA41AD8A2796F9D30085523C /* NavigationViewTest.swift in Sources */,
+				EA41AD8A2796F9D30085523C /* GuideView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
