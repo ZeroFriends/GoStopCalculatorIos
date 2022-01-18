@@ -6,23 +6,31 @@
 //
 
 import SwiftUI
-import Lottie
 
 struct MainPage: View {
+    @ObservedObject var viewModel = MainPageViewModel()
+    
     var body: some View {
-            ZStack {
-                VStack {
-                    TopMainPage()
-                    Rectangle()
-                        .foregroundColor(Color(hue: 1.0, saturation: 0.0, brightness: 0.941))
-                        .frame(height: 10)
-                    BottomMainPage()
+        if viewModel.NavigationGo == false {
+                ZStack {
+                    VStack {
+                        TopMainPage(viewModel: viewModel)
+                        Rectangle()
+                            .foregroundColor(Color(hue: 1.0, saturation: 0.0, brightness: 0.941))
+                            .frame(height: 10)
+                        BottomMainPage()
+                }
             }
+        } else {
+            NavigationViewTest()
         }
     }
 }
 
 struct TopMainPage: View {
+//    @State var isNavigationViewReady = false
+    @ObservedObject var viewModel: MainPageViewModel
+    
     var body: some View {
         VStack(spacing: 3) {
             HStack {
@@ -41,6 +49,9 @@ struct TopMainPage: View {
                     RoundedRectangle(cornerRadius: 12.5).stroke(lineWidth: 2).foregroundColor(.orange)
         
                     Button {
+                        withAnimation {
+                            viewModel.chooseNavigationButton()
+                        }
                     } label: {
                         Text("Guide")
                             .fontWeight(.bold)
@@ -53,7 +64,6 @@ struct TopMainPage: View {
                 ZStack {
                     RoundedRectangle(cornerRadius: 100).fill().foregroundColor(.red)
                     Button{
-                        
                     } label: {
                         Text("시작하기")
                             .fontWeight(.bold)
@@ -108,6 +118,7 @@ struct BottomMainPage: View {
 
 struct MainPage_Previews: PreviewProvider {
     static var previews: some View {
-        MainPage()
+        let viewModel = MainPageViewModel()
+        MainPage(viewModel: viewModel)
     }
 }
