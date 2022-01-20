@@ -22,7 +22,7 @@ struct MainPage: View {
                 }
             }
         } else {
-            GuideView()
+            GuideView(viewModel: viewModel)
         }
     }
 }
@@ -67,6 +67,7 @@ struct TopMainPage: View {
                     } label: {
                         Text("시작하기")
                             .fontWeight(.bold)
+                            .frame(width: 328, height: 44)
                     }
                     .foregroundColor(.white)
                 }
@@ -96,22 +97,26 @@ struct BottomMainPage: View {
                 }
                 .padding(.horizontal)
                 Spacer()
-                VStack {
-                    Image("group118")
-                    Text("게임을 추가한 내역이 없습니다.")
-                        .font(.system(size: 14))
-                        .fontWeight(.bold)
-                    HStack {
-                        Text("상단에")
-                        Text("시작하기")
-                            .underline()
+                // data.isempty
+                    VStack {
+                        Image("group118")
+                        Text("게임을 추가한 내역이 없습니다.")
+                            .font(.system(size: 14))
                             .fontWeight(.bold)
-                        Text("버튼을 눌러 게임을 생성해주세요.")
+                        HStack {
+                            Text("상단에")
+                            Text("시작하기")
+                                .underline()
+                                .fontWeight(.bold)
+                            Text("버튼을 눌러 게임을 생성해주세요.")
+                        }
+                        .font(.system(size: 14))
                     }
-                    .font(.system(size: 14))
-                }
-                Spacer()
-                Spacer()
+                    Spacer()
+                    Spacer()
+                // else {}
+                // text(date.now)
+                // text(title) <- 입력받은 텍스트필드 데이터
             }
     }
 }
