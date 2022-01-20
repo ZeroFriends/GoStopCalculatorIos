@@ -9,18 +9,25 @@ import SwiftUI
 
 struct GuideView: View {
     @ObservedObject var viewModel: MainPageViewModel
+    @State var guideImages = [Image("그룹 92"),Image("그룹 93"),Image("그룹 94"),Image("그룹 95"),Image("그룹 96"),Image("그룹 97")]
+    @State var currentPage = 0
     
     var body: some View {
         ZStack {
             VStack {
                 HStack {
                     Button {
-                        withAnimation {
-                            viewModel.chooseNavigationButton()
+                        if currentPage > 0 {
+                                currentPage -= 1
                         }
                     } label: {
-                        Image(systemName: "arrow.left")
-                            .foregroundColor(.black)
+                        if currentPage > 0 {
+                            Image(systemName: "arrow.left")
+                                .foregroundColor(.black)
+                        } else {
+                            Image(systemName: "arrow.left")
+                                .foregroundColor(.white)
+                        }
                     }
                     Spacer()
                     Text("가이드")
@@ -35,34 +42,71 @@ struct GuideView: View {
                             .foregroundColor(.black)
                     }
                 }
-                .padding([.top, .leading, .trailing], 25.0)
+                .padding(.horizontal)
                 .font(.system(size: 18))
                 ZStack {
                     Color.red
                         .ignoresSafeArea(.all, edges: .bottom)
-                    Image("그룹 93")
+                    guideImages[currentPage]
+                        .resizable()
+//                        .frame(width: 303, height: 720)
+                        .aspectRatio(3/7, contentMode: .fit)
+                        .gesture(DragGesture(minimumDistance: 0, coordinateSpace: .local)
+                                            .onEnded({ value in
+                                                if value.translation.width < 0 {
+                                                    //left
+                                                    if currentPage < 5 {
+                                                            currentPage += 1
+                                                    }
+                                                    
+                                                }
+
+                                                if value.translation.width > 0 {
+                                                    //right
+                                                    if currentPage > 0 {
+                                                            currentPage -= 1
+                                                    }
+                                                }
+                        }))
                         .offset(y: 70)
                     VStack {
+                        pageControl(current: currentPage)
+                            .padding(.top)
                         Spacer()
-                        Button {
-                            
-                        } label: {
-                            ZStack {
-                                RoundedRectangle(cornerRadius: 26)
-                                    .frame(width: 318, height: 52, alignment: .bottom)
-                                    .foregroundColor(.black)
-                                Text("시작하기")
+                        ZStack() {
+                            RoundedRectangle(cornerRadius: 26).fill().foregroundColor(.black)
+                            Button {
+                                currentPage < 5 ? currentPage += 1 : print("시작하기")
+                            } label: {
+                                Text(currentPage < 5 ? "다음" : "시작하기")
                                     .foregroundColor(.white)
                                     .fontWeight(.bold)
                                     .font(.system(size: 16))
+                                    .frame(width: 318, height: 52)
                             }
-                        }
+                        }.frame(width: 318, height: 52)//버튼 크기 밑에 padding 여부 다시 판단
                     }
                 }
             }
-            
-            
         }
+    }
+}
+
+struct pageControl: UIViewRepresentable {
+    
+    var current: Int
+    
+    func makeUIView(context: UIViewRepresentableContext<pageControl>) -> pageControl.UIViewType {
+        let page = UIPageControl()
+        page.currentPageIndicatorTintColor = .white
+        page.numberOfPages = 6
+        page.pageIndicatorTintColor = .lightGray
+        return page
+    }
+    
+    func updateUIView(_ uiView: UIPageControl, context: UIViewRepresentableContext<pageControl>) {
+        
+        uiView.currentPage = current
     }
 }
 
