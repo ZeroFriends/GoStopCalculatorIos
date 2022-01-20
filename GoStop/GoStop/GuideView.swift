@@ -84,7 +84,7 @@ struct GuideView: View {
                                     .font(.system(size: 16))
                                     .frame(width: 318, height: 52)
                             }
-                        }.frame(width: 318, height: 52)
+                        }.frame(width: 318, height: 52)//버튼 크기 밑에 padding 여부 다시 판단
                     }
                 }
             }
