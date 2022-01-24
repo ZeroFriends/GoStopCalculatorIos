@@ -14,7 +14,15 @@ class MainPageViewModel: ObservableObject {
         model.isNavigationViewReady
     }
     
+    var startViewGo: Bool {
+        model.readyForStart
+    }
+    
     func chooseNavigationButton() {
         model.navigationViewChoosen()
+    }
+    
+    func chooseStartbtn() {
+        model.choosestartBtn()
     }
 }
