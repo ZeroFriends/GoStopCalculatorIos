@@ -49,7 +49,6 @@ struct GuideView: View {
                         .ignoresSafeArea(.all, edges: .bottom)
                     guideImages[currentPage]
                         .resizable()
-//                        .frame(width: 303, height: 720)
                         .aspectRatio(3/7, contentMode: .fit)
                         .gesture(DragGesture(minimumDistance: 0, coordinateSpace: .local)
                                             .onEnded({ value in
@@ -68,7 +67,7 @@ struct GuideView: View {
                                                     }
                                                 }
                         }))
-                        .offset(y: 70)
+                        .offset(y: 50)
                     VStack {
                         pageControl(current: currentPage)
                             .padding(.top)
@@ -76,7 +75,15 @@ struct GuideView: View {
                         ZStack() {
                             RoundedRectangle(cornerRadius: 26).fill().foregroundColor(.black)
                             Button {
-                                currentPage < 5 ? currentPage += 1 : viewModel.chooseStartbtn()
+                                if currentPage  < 5 {
+                                    currentPage += 1
+                                } else {
+                                    withAnimation {
+                                        viewModel.chooseStartbtn()
+                                        viewModel.chooseNavigationButton()
+                                    }
+                                }
+                                
                             } label: {
                                 Text(currentPage < 5 ? "다음" : "시작하기")
                                     .foregroundColor(.white)
@@ -84,7 +91,7 @@ struct GuideView: View {
                                     .font(.system(size: 16))
                                     .frame(width: 318, height: 52)
                             }
-                        }.frame(width: 318, height: 52)//버튼 크기 밑에 padding 여부 다시 판단
+                        }.frame(width: 318, height: 52)
                     }
                 }
             }
