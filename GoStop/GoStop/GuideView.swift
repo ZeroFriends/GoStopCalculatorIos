@@ -118,8 +118,8 @@ struct pageControl: UIViewRepresentable {
     }
 }
 
-//struct NavigationViewTest_Previews: PreviewProvider {
-//    static var previews: some View {
-//        GuideView()
-//    }
-//}
+struct NavigationViewTest_Previews: PreviewProvider {
+    static var previews: some View {
+        GuideView(isNavigationViewReady: .constant(true), readyForStart: .constant(true))
+    }
+}
