@@ -76,7 +76,7 @@ struct GuideView: View {
                         ZStack() {
                             RoundedRectangle(cornerRadius: 26).fill().foregroundColor(.black)
                             Button {
-                                currentPage < 5 ? currentPage += 1 : print("시작하기")
+                                currentPage < 5 ? currentPage += 1 : viewModel.chooseStartbtn()
                             } label: {
                                 Text(currentPage < 5 ? "다음" : "시작하기")
                                     .foregroundColor(.white)

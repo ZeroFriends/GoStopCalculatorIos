@@ -11,7 +11,7 @@ struct MainPage: View {
     @ObservedObject var viewModel = MainPageViewModel()
     
     var body: some View {
-        if viewModel.NavigationGo == false {
+        if viewModel.NavigationGo == false && viewModel.startViewGo == false {
                 ZStack {
                     VStack {
                         TopMainPage(viewModel: viewModel)
@@ -21,8 +21,10 @@ struct MainPage: View {
                         BottomMainPage()
                 }
             }
-        } else {
+        } else if viewModel.NavigationGo == true && viewModel.startViewGo == false {
             GuideView(viewModel: viewModel)
+        } else {
+            StartView(viewModel: viewModel)
         }
     }
 }
@@ -64,6 +66,10 @@ struct TopMainPage: View {
                 ZStack {
                     RoundedRectangle(cornerRadius: 100).fill().foregroundColor(.red)
                     Button{
+                        //시작하기 버튼 action
+                        withAnimation {
+                            viewModel.chooseStartbtn()
+                        }
                     } label: {
                         Text("시작하기")
                             .fontWeight(.bold)
