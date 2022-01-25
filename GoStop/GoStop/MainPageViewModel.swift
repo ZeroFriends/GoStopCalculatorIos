@@ -8,21 +8,5 @@
 import Foundation
 
 class MainPageViewModel: ObservableObject {
-    @Published var model = MainPageModel()
-    
-    var NavigationGo: Bool {
-        model.isNavigationViewReady
-    }
-    
-    var startViewGo: Bool {
-        model.readyForStart
-    }
-    
-    func chooseNavigationButton() {
-        model.navigationViewChoosen()
-    }
-    
-    func chooseStartbtn() {
-        model.choosestartBtn()
-    }
+
 }
