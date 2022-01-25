@@ -8,9 +8,10 @@
 import SwiftUI
 
 struct GuideView: View {
-    @ObservedObject var viewModel: MainPageViewModel
     @State var guideImages = [Image("그룹 92"),Image("그룹 93"),Image("그룹 94"),Image("그룹 95"),Image("그룹 96"),Image("그룹 97")]
     @State var currentPage = 0
+    @Binding var isNavigationViewReady: Bool
+    @Binding var readyForStart: Bool
     
     var body: some View {
         ZStack {
@@ -35,7 +36,7 @@ struct GuideView: View {
                     Spacer()
                     Button {
                         withAnimation {
-                            viewModel.chooseNavigationButton()
+                            isNavigationViewReady.toggle()
                         }
                     } label: {
                         Image(systemName: "multiply")
@@ -49,7 +50,6 @@ struct GuideView: View {
                         .ignoresSafeArea(.all, edges: .bottom)
                     guideImages[currentPage]
                         .resizable()
-//                        .frame(width: 303, height: 720)
                         .aspectRatio(3/7, contentMode: .fit)
                         .gesture(DragGesture(minimumDistance: 0, coordinateSpace: .local)
                                             .onEnded({ value in
@@ -68,7 +68,7 @@ struct GuideView: View {
                                                     }
                                                 }
                         }))
-                        .offset(y: 70)
+                        .offset(y: 50)
                     VStack {
                         pageControl(current: currentPage)
                             .padding(.top)
@@ -76,7 +76,15 @@ struct GuideView: View {
                         ZStack() {
                             RoundedRectangle(cornerRadius: 26).fill().foregroundColor(.black)
                             Button {
-                                currentPage < 5 ? currentPage += 1 : viewModel.chooseStartbtn()
+                                if currentPage  < 5 {
+                                    currentPage += 1
+                                } else {
+                                    withAnimation {
+                                        readyForStart.toggle()
+                                        isNavigationViewReady.toggle()
+                                    }
+                                }
+                                
                             } label: {
                                 Text(currentPage < 5 ? "다음" : "시작하기")
                                     .foregroundColor(.white)
@@ -84,7 +92,7 @@ struct GuideView: View {
                                     .font(.system(size: 16))
                                     .frame(width: 318, height: 52)
                             }
-                        }.frame(width: 318, height: 52)//버튼 크기 밑에 padding 여부 다시 판단
+                        }.frame(width: 318, height: 52)
                     }
                 }
             }
@@ -112,7 +120,6 @@ struct pageControl: UIViewRepresentable {
 
 struct NavigationViewTest_Previews: PreviewProvider {
     static var previews: some View {
-        let viewModel = MainPageViewModel()
-        GuideView(viewModel: viewModel)
+        GuideView(isNavigationViewReady: .constant(true), readyForStart: .constant(true))
     }
 }

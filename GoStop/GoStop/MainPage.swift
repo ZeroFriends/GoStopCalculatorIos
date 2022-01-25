@@ -8,31 +8,31 @@
 import SwiftUI
 
 struct MainPage: View {
-    @ObservedObject var viewModel = MainPageViewModel()
+    @State var isNavigationViewReady = false
+    @State var readyForStart = false
     
     var body: some View {
-        if viewModel.NavigationGo == false && viewModel.startViewGo == false {
+        if isNavigationViewReady == false && readyForStart == false {
                 ZStack {
                     VStack {
-                        TopMainPage(viewModel: viewModel)
+                        TopMainPage(isNavigationViewReady: $isNavigationViewReady, readyForstart: $readyForStart)
                         Rectangle()
                             .foregroundColor(Color(hue: 1.0, saturation: 0.0, brightness: 0.941))
                             .frame(height: 10)
                         BottomMainPage()
                 }
             }
-        } else if viewModel.NavigationGo == true && viewModel.startViewGo == false {
-            GuideView(viewModel: viewModel)
+        } else if isNavigationViewReady == true && readyForStart == false {
+            GuideView(isNavigationViewReady: $isNavigationViewReady, readyForStart: $readyForStart)
         } else {
-            StartView(viewModel: viewModel)
+            StartView(isPresent: $readyForStart)
         }
     }
 }
 
 struct TopMainPage: View {
-//    @State var isNavigationViewReady = false
-    @ObservedObject var viewModel: MainPageViewModel
-    
+    @Binding var isNavigationViewReady: Bool
+    @Binding var readyForstart: Bool
     var body: some View {
         VStack(spacing: 3) {
             HStack {
@@ -52,7 +52,7 @@ struct TopMainPage: View {
         
                     Button {
                         withAnimation {
-                            viewModel.chooseNavigationButton()
+                            isNavigationViewReady.toggle()
                         }
                     } label: {
                         Text("Guide")
@@ -68,7 +68,7 @@ struct TopMainPage: View {
                     Button{
                         //시작하기 버튼 action
                         withAnimation {
-                            viewModel.chooseStartbtn()
+                            readyForstart.toggle()
                         }
                     } label: {
                         Text("시작하기")
@@ -129,7 +129,6 @@ struct BottomMainPage: View {
 
 struct MainPage_Previews: PreviewProvider {
     static var previews: some View {
-        let viewModel = MainPageViewModel()
-        MainPage(viewModel: viewModel)
+        MainPage()
     }
 }
