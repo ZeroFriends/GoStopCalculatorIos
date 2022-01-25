@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct StartView: View {
-    @ObservedObject var viewModel: MainPageViewModel
+    @Binding var isPresent: Bool
     
     var body: some View {
         ZStack {
@@ -16,12 +16,15 @@ struct StartView: View {
                 HStack {
                     Button {
                         withAnimation {
-                            viewModel.chooseStartbtn()
+                            isPresent.toggle()
                         }
                     } label: {
                         Image(systemName: "arrow.left")
                             .foregroundColor(.black)
                     }
+                    Spacer()
+                    Text("게임설정(1/2)")
+                    Spacer()
                 }
             }
         }
@@ -29,9 +32,8 @@ struct StartView: View {
     }
 }
 
-struct StartView_Previews: PreviewProvider {
-    static var previews: some View {
-        let viewModel = MainPageViewModel()
-        StartView(viewModel: viewModel)
-    }
-}
+//struct StartView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        StartView()
+//    }
+//}

@@ -8,9 +8,10 @@
 import SwiftUI
 
 struct GuideView: View {
-    @ObservedObject var viewModel: MainPageViewModel
     @State var guideImages = [Image("그룹 92"),Image("그룹 93"),Image("그룹 94"),Image("그룹 95"),Image("그룹 96"),Image("그룹 97")]
     @State var currentPage = 0
+    @Binding var isNavigationViewReady: Bool
+    @Binding var readyForStart: Bool
     
     var body: some View {
         ZStack {
@@ -35,7 +36,7 @@ struct GuideView: View {
                     Spacer()
                     Button {
                         withAnimation {
-                            viewModel.chooseNavigationButton()
+                            isNavigationViewReady.toggle()
                         }
                     } label: {
                         Image(systemName: "multiply")
@@ -79,8 +80,8 @@ struct GuideView: View {
                                     currentPage += 1
                                 } else {
                                     withAnimation {
-                                        viewModel.chooseStartbtn()
-                                        viewModel.chooseNavigationButton()
+                                        readyForStart.toggle()
+                                        isNavigationViewReady.toggle()
                                     }
                                 }
                                 
@@ -117,9 +118,8 @@ struct pageControl: UIViewRepresentable {
     }
 }
 
-struct NavigationViewTest_Previews: PreviewProvider {
-    static var previews: some View {
-        let viewModel = MainPageViewModel()
-        GuideView(viewModel: viewModel)
-    }
-}
+//struct NavigationViewTest_Previews: PreviewProvider {
+//    static var previews: some View {
+//        GuideView()
+//    }
+//}
