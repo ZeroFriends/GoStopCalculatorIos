@@ -69,6 +69,7 @@ struct StartView: View {
                                 .fontWeight(.bold)
                                 .font(.system(size: 16))
                             TextField("날짜", text: $textField)
+                                .textFieldStyle(OvalTextFieldStyle())
                             //텍스트필드 테두리 수정하기 + 여기서 입력받은 값 어떻게 처리할것인지
                             Text("플레이어")
                                 .fontWeight(.bold)
@@ -121,6 +122,16 @@ struct StartView: View {
                 }
             }
         }
+    }
+}
+
+struct OvalTextFieldStyle: TextFieldStyle {
+    func _body(configuration: TextField<Self._Label>) -> some View {
+        configuration
+            .padding(10)
+            .background(Color.gray)//임시 색
+            .cornerRadius(18)
+            .shadow(color: .gray, radius: 10)
     }
 }
 
