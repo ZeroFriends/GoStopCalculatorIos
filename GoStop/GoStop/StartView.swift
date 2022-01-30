@@ -69,6 +69,7 @@ struct StartView: View {
                                 .fontWeight(.bold)
                                 .font(.system(size: 16))
                             TextField("날짜", text: $textField)
+                                .keyboardType(.default)
                                 .textFieldStyle(OvalTextFieldStyle())
                             //텍스트필드 테두리 수정하기 + 여기서 입력받은 값 어떻게 처리할것인지
                             Text("플레이어")
@@ -85,9 +86,8 @@ struct StartView: View {
                             //텍스트필드에 맞는 custom 하기
                             .padding(.vertical)
                             HStack {
-                                Spacer()
                                 Button {
-                                    
+                                    //플레이어추가 버튼 기능 구현하기
                                 } label: {
                                     ZStack {
                                         RoundedRectangle(cornerRadius: 18).fill().foregroundColor(.white)
@@ -97,12 +97,10 @@ struct StartView: View {
                                             .fontWeight(.bold)
                                     }
                                 }
-                                .frame(width: 328, height: 36)
-                                Spacer()
+                                .frame(height: 36)
                             }
                             Spacer()
                             HStack {
-                                Spacer()
                                 Button {
                                     
                                 } label: {
@@ -113,8 +111,7 @@ struct StartView: View {
                                             .fontWeight(.bold)
                                     }
                                 }
-                                .frame(width: 328, height: 36)
-                                Spacer()
+                                .frame(height: 36)
                             }
                         }
                         .padding()
@@ -129,9 +126,12 @@ struct OvalTextFieldStyle: TextFieldStyle {
     func _body(configuration: TextField<Self._Label>) -> some View {
         configuration
             .padding(10)
-            .background(Color.gray)//임시 색
+            .foregroundColor(.gray)
+            .background(Color.white)
             .cornerRadius(18)
-            .shadow(color: .gray, radius: 10)
+            .overlay(RoundedRectangle(cornerRadius: 18)
+                        .stroke(Color.gray, lineWidth: 2)
+            )
     }
 }
 
