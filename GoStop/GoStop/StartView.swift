@@ -11,14 +11,17 @@ struct StartView: View {
     @Binding var isPresent: Bool
     @State var currentPage: Int = 1
     @State var textField = ""
+    @State var players: [String] = []
     
     var body: some View {
         GeometryReader { geometry in
             ZStack {
                 Color.red
                     .ignoresSafeArea()
+                
                 Image("group183")
-                    .position(x: geometry.size.width * 0.85, y: geometry.size.height * 0.05)
+                    .position(x: geometry.size.width * 0.85)
+                    .offset(y: 40)
                     .aspectRatio(2/3, contentMode: .fit)
 
                 VStack {
@@ -77,18 +80,37 @@ struct StartView: View {
                                 .fontWeight(.bold)
                                 .font(.system(size: 16))
                                 .padding(.vertical)
-                            HStack {
-                                Spacer()
-                                Text("플레이어 추가 버튼으로 플레이어를 등록해주세요")
-                                    .font(.system(size: 14))
-                                    .foregroundColor(.gray)
-                                Spacer()
+
+                            if players.isEmpty {
+                                HStack {
+                                    Spacer()
+                                    Text("플레이어 추가 버튼으로 플레이어를 등록해주세요")
+                                        .font(.system(size: 14))
+                                        .foregroundColor(.gray)
+                                    Spacer()
+                                }
+                                .padding(.vertical)
+                            } else {
+                                ScrollView {
+                                    VStack {
+                                        ForEach(players, id: \.self) { player in
+                                            HStack() {
+                                                Text(" \(player)" )
+                                                    .font(.system(size: 10))
+                                                Spacer()
+                                            }
+                                        }
+                                    }
+                                }
+                                .frame(height: CGFloat(players.count) * 15)
+                                .frame(maxWidth: .infinity)
                             }
                             //텍스트필드에 맞는 custom 하기
-                            .padding(.vertical)
+
                             HStack {
                                 Button {
                                     //플레이어추가 버튼 기능 구현하기
+                                    players.append("플레이어 추가 완료")//임시 값
                                 } label: {
                                     ZStack {
                                         RoundedRectangle(cornerRadius: 18).fill().foregroundColor(.white)
