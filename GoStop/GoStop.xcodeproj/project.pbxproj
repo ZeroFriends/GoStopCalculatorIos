@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		34E86D75FCC2BE695075DBC8 /* Pods_GoStop.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 345C1BE2D7FA90837A245C8E /* Pods_GoStop.framework */; };
 		EA187DE3279E70C700C94711 /* StartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA187DE2279E70C700C94711 /* StartView.swift */; };
 		EA41AD8A2796F9D30085523C /* GuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA41AD892796F9D30085523C /* GuideView.swift */; };
 		EA41AD8C279714CA0085523C /* MainPageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA41AD8B279714CA0085523C /* MainPageModel.swift */; };
@@ -25,7 +24,6 @@
 
 /* Begin PBXFileReference section */
 		18D49972975DC68C3C1F14E5 /* Pods-GoStop.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GoStop.release.xcconfig"; path = "Target Support Files/Pods-GoStop/Pods-GoStop.release.xcconfig"; sourceTree = "<group>"; };
-		345C1BE2D7FA90837A245C8E /* Pods_GoStop.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GoStop.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F21A48E442C4B0C1913E91D /* Pods-GoStop.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GoStop.debug.xcconfig"; path = "Target Support Files/Pods-GoStop/Pods-GoStop.debug.xcconfig"; sourceTree = "<group>"; };
 		EA187DE2279E70C700C94711 /* StartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartView.swift; sourceTree = "<group>"; };
 		EA41AD892796F9D30085523C /* GuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuideView.swift; sourceTree = "<group>"; };
@@ -47,7 +45,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				34E86D75FCC2BE695075DBC8 /* Pods_GoStop.framework in Frameworks */,
 				EAC8DE232793E24C0056EEC3 /* Lottie in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -55,14 +52,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		866B885B0571B5C69209FD96 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				345C1BE2D7FA90837A245C8E /* Pods_GoStop.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		E87339DFC8E6EE7533651053 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -78,7 +67,6 @@
 				EA4F79E3278EB7A5008B78FF /* GoStop */,
 				EA4F79E2278EB7A5008B78FF /* Products */,
 				E87339DFC8E6EE7533651053 /* Pods */,
-				866B885B0571B5C69209FD96 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
