@@ -21,9 +21,9 @@ struct StartView: View {
                 
                 Image("group183")
                     .position(x: geometry.size.width * 0.85)
-                    .offset(y: 40)
-                    .aspectRatio(2/3, contentMode: .fit)
-
+                    .offset(y: 100)
+//                    .aspectRatio(2/3, contentMode: .fit)
+                
                 VStack {
                     HStack {
                         Button {
