@@ -21,8 +21,7 @@ struct StartView: View {
                 
                 Image("group183")
                     .position(x: geometry.size.width * 0.85)
-                    .offset(y: 100)
-//                    .aspectRatio(2/3, contentMode: .fit)
+                    .offset(y: 120)
                 
                 VStack {
                     HStack {
@@ -94,16 +93,14 @@ struct StartView: View {
                                 ScrollView {
                                     VStack {
                                         ForEach(players, id: \.self) { player in
-                                            HStack() {
-                                                Text(" \(player)" )
-                                                    .font(.system(size: 10))
-                                                Spacer()
+                                            HStack {
+                                                Text("\(player)")
                                             }
                                         }
                                     }
+                                    .frame(maxWidth: .infinity)
                                 }
-                                .frame(height: CGFloat(players.count) * 15)
-                                .frame(maxWidth: .infinity)
+                                
                             }
                             //텍스트필드에 맞는 custom 하기
 
