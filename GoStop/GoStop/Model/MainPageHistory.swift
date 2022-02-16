@@ -7,7 +7,8 @@
 
 import Foundation
 
-struct MainPageHistory: Codable {
+struct MainPageHistory: Codable, Identifiable {
+    var id = UUID()
     let date: String //생성일자
     var historyName: String //모임이름
     var player: [String] //플레이어
