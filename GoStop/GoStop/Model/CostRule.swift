@@ -12,4 +12,5 @@ struct CostRule: Codable {
     var ppuck: Int
     var tatack: Int
     var sell: Int
+    
 }//금액 설정 구조체
