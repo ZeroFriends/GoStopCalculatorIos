@@ -140,6 +140,7 @@ struct StartView: View {
             }
             .ignoresSafeArea(.keyboard)//모임이름 설정할때 keyboard로 인하여 view크기 재설정으로 인해 레이아웃 망가짐 방지
         }
+        .navigationBarHidden(true)
     }
 }
 

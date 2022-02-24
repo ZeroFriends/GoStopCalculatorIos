@@ -97,6 +97,7 @@ struct GuideView: View {
                 }
             }
         }
+        .navigationBarHidden(true)
     }
 }
 

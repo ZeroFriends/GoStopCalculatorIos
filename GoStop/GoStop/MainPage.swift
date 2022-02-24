@@ -21,6 +21,7 @@ struct MainPage: View {
                             .frame(height: 10)
                         BottomMainPage()
                 }
+                .navigationBarHidden(true)
             }
         } else if isNavigationViewReady == true && readyForStart == false {
             GuideView(isNavigationViewReady: $isNavigationViewReady, readyForStart: $readyForStart)
