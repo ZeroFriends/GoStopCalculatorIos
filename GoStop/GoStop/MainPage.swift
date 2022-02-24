@@ -10,6 +10,7 @@ import SwiftUI
 struct MainPage: View {
     @State var isNavigationViewReady = false
     @State var readyForStart = false
+    @Binding var mainPageHistories: [MainPageHistory]
     
     var body: some View {
         if isNavigationViewReady == false && readyForStart == false {
@@ -19,14 +20,14 @@ struct MainPage: View {
                         Rectangle()
                             .foregroundColor(Color(hue: 1.0, saturation: 0.0, brightness: 0.941))
                             .frame(height: 10)
-                        BottomMainPage()
+                        BottomMainPage(mainPageHistories: $mainPageHistories)
                 }
                 .navigationBarHidden(true)
             }
         } else if isNavigationViewReady == true && readyForStart == false {
-            GuideView(isNavigationViewReady: $isNavigationViewReady, readyForStart: $readyForStart)
+            GuideView(mainPageHistories: $mainPageHistories, isNavigationViewReady: $isNavigationViewReady, readyForStart: $readyForStart)
         } else {
-            StartView(isPresent: $readyForStart)
+            StartView(isPresent: $readyForStart, mainPageHistories: $mainPageHistories)
         }
     }
 }
@@ -68,6 +69,7 @@ struct TopMainPage: View {
                     RoundedRectangle(cornerRadius: 100).fill().foregroundColor(.red)
                     Button{
                         //시작하기 버튼 action
+                        
                         withAnimation {
                             readyForstart.toggle()
                         }
@@ -87,6 +89,7 @@ struct TopMainPage: View {
 }
 
 struct BottomMainPage: View {
+    @Binding var mainPageHistories: [MainPageHistory]
     var body: some View {
             VStack(spacing: 3) {
                 HStack {
@@ -104,7 +107,8 @@ struct BottomMainPage: View {
                 }
                 .padding(.horizontal)
                 Spacer()
-                // data.isempty
+                
+                if mainPageHistories.isEmpty {
                     VStack {
                         Image("group118")
                         Text("게임을 추가한 내역이 없습니다.")
@@ -121,15 +125,28 @@ struct BottomMainPage: View {
                     }
                     Spacer()
                     Spacer()
-                // else {}
-                // text(date.now)
-                // text(title) <- 입력받은 텍스트필드 데이터
+                } else {
+                    List {
+                        ForEach(mainPageHistories) { history in
+                            NavigationLink(destination: IngameView()) {
+                                VStack(alignment: .leading) {
+                                    Text("생성일자 \(history.date)")
+                                    Text(history.historyName)
+                            }
+                        }
+                    }
+                }
             }
+        }
     }
 }
 
+
+
 struct MainPage_Previews: PreviewProvider {
+    static var history = MainPageHistory(date: "2022-2-25", historyName: "2021-09-01", rule: CostRule())//test
+    static var mainPageHistory: [MainPageHistory] = [history]
     static var previews: some View {
-        MainPage()
+        MainPage(mainPageHistories: .constant(mainPageHistory))
     }
 }
