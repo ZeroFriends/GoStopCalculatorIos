@@ -12,7 +12,7 @@ struct StartView: View {
     @State var currentPage: Int = 1
     @State var textField = ""
     @State var players: [String] = []
-    
+    @Binding var mainPageHistories: [MainPageHistory]
     var body: some View {
         GeometryReader { geometry in
             ZStack {
@@ -159,6 +159,6 @@ struct OvalTextFieldStyle: TextFieldStyle {
 
 struct StartView_Previews: PreviewProvider {
     static var previews: some View {
-        StartView(isPresent: .constant(true))
+        StartView(isPresent: .constant(true), mainPageHistories: .constant([]))
     }
 }
