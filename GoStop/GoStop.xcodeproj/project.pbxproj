@@ -16,8 +16,9 @@
 		EA4F79E7278EB7A5008B78FF /* LottieAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA4F79E6278EB7A5008B78FF /* LottieAnimationView.swift */; };
 		EA4F79E9278EB7A6008B78FF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EA4F79E8278EB7A6008B78FF /* Assets.xcassets */; };
 		EA4F79EC278EB7A6008B78FF /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EA4F79EB278EB7A6008B78FF /* Preview Assets.xcassets */; };
-		EA51902827BCF6200041AFE5 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA51902727BCF6200041AFE5 /* DataController.swift */; };
+		EA51902827BCF6200041AFE5 /* HistoryDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA51902727BCF6200041AFE5 /* HistoryDataSource.swift */; };
 		EA522B9A27C7E78700BC6416 /* IngameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA522B9927C7E78700BC6416 /* IngameView.swift */; };
+		EA83E6B827C8BE70007696BB /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA83E6B727C8BE70007696BB /* ViewModel.swift */; };
 		EA8EDF0C27AFB23D00BC7D67 /* PlayHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8EDF0B27AFB23D00BC7D67 /* PlayHistory.swift */; };
 		EA99266027955AE60064AC82 /* FirstScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA99265F27955AE60064AC82 /* FirstScreen.swift */; };
 		EA992662279570BC0064AC82 /* MainPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA992661279570BC0064AC82 /* MainPage.swift */; };
@@ -39,8 +40,9 @@
 		EA4F79E6278EB7A5008B78FF /* LottieAnimationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieAnimationView.swift; sourceTree = "<group>"; };
 		EA4F79E8278EB7A6008B78FF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EA4F79EB278EB7A6008B78FF /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		EA51902727BCF6200041AFE5 /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
+		EA51902727BCF6200041AFE5 /* HistoryDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryDataSource.swift; sourceTree = "<group>"; };
 		EA522B9927C7E78700BC6416 /* IngameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngameView.swift; sourceTree = "<group>"; };
+		EA83E6B727C8BE70007696BB /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		EA8EDF0B27AFB23D00BC7D67 /* PlayHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayHistory.swift; sourceTree = "<group>"; };
 		EA99265F27955AE60064AC82 /* FirstScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstScreen.swift; sourceTree = "<group>"; };
 		EA992661279570BC0064AC82 /* MainPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPage.swift; sourceTree = "<group>"; };
@@ -128,7 +130,8 @@
 		EA51902627BCF6000041AFE5 /* DataController */ = {
 			isa = PBXGroup;
 			children = (
-				EA51902727BCF6200041AFE5 /* DataController.swift */,
+				EA83E6B727C8BE70007696BB /* ViewModel.swift */,
+				EA51902727BCF6200041AFE5 /* HistoryDataSource.swift */,
 			);
 			path = DataController;
 			sourceTree = "<group>";
@@ -256,11 +259,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				EA99266027955AE60064AC82 /* FirstScreen.swift in Sources */,
-				EA51902827BCF6200041AFE5 /* DataController.swift in Sources */,
+				EA51902827BCF6200041AFE5 /* HistoryDataSource.swift in Sources */,
 				EA4641B427BB6075007ACF49 /* CostRule.swift in Sources */,
 				EA4F79E7278EB7A5008B78FF /* LottieAnimationView.swift in Sources */,
 				EA187DE3279E70C700C94711 /* StartView.swift in Sources */,
 				EA4641B827BB6120007ACF49 /* IngameHistory.swift in Sources */,
+				EA83E6B827C8BE70007696BB /* ViewModel.swift in Sources */,
 				EA4F79E5278EB7A5008B78FF /* GoStopApp.swift in Sources */,
 				EA8EDF0C27AFB23D00BC7D67 /* PlayHistory.swift in Sources */,
 				EA4641B627BB6088007ACF49 /* MainPageHistory.swift in Sources */,
