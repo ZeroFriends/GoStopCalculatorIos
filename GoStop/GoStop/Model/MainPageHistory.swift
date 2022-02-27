@@ -7,11 +7,12 @@
 
 import Foundation
 
-struct MainPageHistory: Codable {
+struct MainPageHistory: Codable, Identifiable {
+    var id = UUID()
     let date: String //생성일자
     var historyName: String //모임이름
-    var player: [String] //플레이어
-    var totalEarn: [Int] //총 수익현황
+    var player: [String] = [] //플레이어
+    var totalEarn: [Int] = [] //총 수익현황
     var rule: CostRule //금액설정
-    var ingameHistory: [IngameHistory] // Ingame내에서의 라운드
+    var ingameHistory: [IngameHistory] = [] // Ingame내에서의 라운드 append
 }

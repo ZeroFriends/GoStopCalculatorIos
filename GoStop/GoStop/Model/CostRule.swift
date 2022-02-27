@@ -12,4 +12,11 @@ struct CostRule: Codable {
     var ppuck: Int
     var tatack: Int
     var sell: Int
+    
+    init() {
+        self.jumDant = 0
+        self.ppuck = 0
+        self.tatack = 0
+        self.sell = 0
+    }
 }//금액 설정 구조체

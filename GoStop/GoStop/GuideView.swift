@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct GuideView: View {
+    @Binding var mainPageHistories: [MainPageHistory]
     @State var guideImages = [Image("그룹 92"),Image("그룹 93"),Image("그룹 94"),Image("그룹 95"),Image("그룹 96"),Image("그룹 97")]
     @State var currentPage = 0
     @Binding var isNavigationViewReady: Bool
@@ -97,6 +98,7 @@ struct GuideView: View {
                 }
             }
         }
+        .navigationBarHidden(true)
     }
 }
 
@@ -120,6 +122,6 @@ struct pageControl: UIViewRepresentable {
 
 struct NavigationViewTest_Previews: PreviewProvider {
     static var previews: some View {
-        GuideView(isNavigationViewReady: .constant(true), readyForStart: .constant(true))
+        GuideView(mainPageHistories: .constant([]), isNavigationViewReady: .constant(true), readyForStart: .constant(true))
     }
 }
