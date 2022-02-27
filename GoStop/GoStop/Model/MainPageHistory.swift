@@ -14,5 +14,5 @@ struct MainPageHistory: Codable, Identifiable {
     var player: [String] = [] //플레이어
     var totalEarn: [Int] = [] //총 수익현황
     var rule: CostRule //금액설정
-    var ingameHistory: [IngameHistory] = [] // Ingame내에서의 라운드
+    var ingameHistory: [IngameHistory] = [] // Ingame내에서의 라운드 append
 }

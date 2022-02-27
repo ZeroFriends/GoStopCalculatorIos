@@ -12,7 +12,7 @@ struct FirstScreen: View {
     @Environment(\.scenePhase) var scenePhase
     @Binding var mainPageHistories: [MainPageHistory]
     @State var cnt = 0
-    let saveAction: ()->Void
+    let saveAction: ()->Void//viewmodel에서 작업해야함
     
     
     var body: some View {
@@ -37,7 +37,7 @@ struct FirstScreen: View {
         }
         .onChange(of: scenePhase) { phase in
             if phase == .inactive { saveAction() }
-        }
+        }//viewmodel로써
     }
 }
 
