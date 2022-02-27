@@ -9,13 +9,13 @@ import SwiftUI
 
 @main
 struct GoStopApp: App {
-    @StateObject var dataStore = DataController()
+    @StateObject var dataStore = HistoryDataSource()
     
     var body: some Scene {
         WindowGroup {
             NavigationView {
-                FirstScreen(mainPageHistories: $dataStore.mainPageHistories) {
-                    DataController.save(mainPageHistorys: dataStore.mainPageHistories) { result in
+                FirstScreen(mainPageHistories: $dataStore.mainPageHistories) { // saveAction()
+                    HistoryDataSource.save(mainPageHistorys: dataStore.mainPageHistories) { result in
                         if case .failure(let error) = result {
                             fatalError(error.localizedDescription)
                         }
@@ -24,7 +24,7 @@ struct GoStopApp: App {
                 
             }
             .onAppear {
-                DataController.load { result in
+                HistoryDataSource.load { result in
                     switch result {
                     case .failure(let error):
                         fatalError(error.localizedDescription)
