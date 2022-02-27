@@ -7,7 +7,7 @@
 
 import Foundation
 
-class DataController: ObservableObject {
+class HistoryDataSource: ObservableObject {
     @Published var mainPageHistories: [MainPageHistory] = []
     
     private static func fileURL() throws -> URL {
