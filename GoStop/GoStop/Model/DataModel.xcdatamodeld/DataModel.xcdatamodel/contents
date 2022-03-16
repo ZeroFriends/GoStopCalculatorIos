@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="20086" systemVersion="21D62" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="IngameHistory" representedClassName="IngameHistory" syncable="YES">
+        <attribute name="money" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="origin" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MainPageHistory" inverseName="ingameHistory" inverseEntity="MainPageHistory"/>
+    </entity>
+    <entity name="MainPageHistory" representedClassName="MainPageHistory" syncable="YES">
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="historyName" optional="YES" attributeType="String"/>
+        <relationship name="ingameHistory" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="IngameHistory" inverseName="origin" inverseEntity="IngameHistory"/>
+        <relationship name="player" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Player" inverseName="origin" inverseEntity="Player"/>
+        <relationship name="rule" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Rule" inverseName="origin" inverseEntity="Rule"/>
+    </entity>
+    <entity name="Player" representedClassName="Player" syncable="YES">
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="origin" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MainPageHistory" inverseName="player" inverseEntity="MainPageHistory"/>
+    </entity>
+    <entity name="Rule" representedClassName="Rule" syncable="YES">
+        <attribute name="firstTadack" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="jumDang" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="ppuck" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="sell" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="origin" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MainPageHistory" inverseName="rule" inverseEntity="MainPageHistory"/>
+    </entity>
+    <elements>
+        <element name="MainPageHistory" positionX="-27" positionY="18" width="128" height="104"/>
+        <element name="Player" positionX="18" positionY="81" width="128" height="59"/>
+        <element name="Rule" positionX="54" positionY="108" width="128" height="104"/>
+        <element name="IngameHistory" positionX="18" positionY="99" width="128" height="59"/>
+    </elements>
+</model>
