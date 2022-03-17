@@ -147,7 +147,7 @@ struct BottomMainPage: View {
                 } else {
                     ScrollView {
                         VStack {
-                            ForEach(mainPageHistories, id: \.self) { history in
+                            ForEach(mainPageHistories.reversed(), id: \.self) { history in
                                 NavigationLink {
                                     IngameView()
                                 } label: {
@@ -174,10 +174,10 @@ struct BottomMainPage: View {
                                                     .padding(.trailing)
                                             }
                                             .alert(isPresented: $showingAlert) {
-                                                Alert(title: Text("삭제하시겠습니까?"), message: nil, primaryButton: .destructive(Text("yes"), action: {
+                                                Alert(title: Text("삭제하시겠습니까?"), message: nil, primaryButton: .destructive(Text("삭제"), action: {
                                                     coreDM.deleteMainPageHistory(mainPageHistory: history)
                                                     populateAllMainPageHistories()
-                                                }), secondaryButton: .cancel())
+                                                }), secondaryButton: .cancel(Text("취소")))
                                             }
                                             
                                         }
