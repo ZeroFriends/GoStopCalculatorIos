@@ -91,8 +91,8 @@ struct TopMainPage: View {
 
 struct BottomMainPage: View {
     let coreDM: CoreDataManager
+    @State var showingAlert = false
     @State var mainPageHistories: [MainPageHistory] = []
-    
     func populateAllMainPageHistories() {
         mainPageHistories = coreDM.getAllMainPageHistories()
     }
@@ -121,6 +121,7 @@ struct BottomMainPage: View {
                     Spacer()
                     Button("Save Test") {
                         coreDM.saveMainPageHistory()
+                        populateAllMainPageHistories()
                     }
                 }
                 .padding(.horizontal)
@@ -154,7 +155,7 @@ struct BottomMainPage: View {
                                         RoundedRectangle(cornerRadius: 18).fill().foregroundColor(.white)
                                         RoundedRectangle(cornerRadius: 18).stroke().foregroundColor(.gray)
                                         HStack {
-                                            VStack(alignment: .leading) {
+                                            VStack(alignment: .leading, spacing: 3) {
                                                 Text("생성일자 \(history.date ?? Date(), formatter: dateformat)")
                                                     .font(.system(size: 14))
                                                     .foregroundColor(.gray)
@@ -164,6 +165,21 @@ struct BottomMainPage: View {
                                             }
                                             .padding()
                                             Spacer()
+                                            Button {
+                                                showingAlert = true
+                                            } label: {
+                                                Image("moreVertBlack24Dp1")
+                                                    .resizable()
+                                                    .frame(width: 24, height: 24)
+                                                    .padding(.trailing)
+                                            }
+                                            .alert(isPresented: $showingAlert) {
+                                                Alert(title: Text("삭제하시겠습니까?"), message: nil, primaryButton: .destructive(Text("yes"), action: {
+                                                    coreDM.deleteMainPageHistory(mainPageHistory: history)
+                                                    populateAllMainPageHistories()
+                                                }), secondaryButton: .cancel())
+                                            }
+                                            
                                         }
                                         .foregroundColor(.black)
                                     }
