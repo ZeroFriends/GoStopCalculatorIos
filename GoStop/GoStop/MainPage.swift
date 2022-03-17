@@ -77,13 +77,13 @@ struct TopMainPage: View {
                     } label: {
                         Text("시작하기")
                             .fontWeight(.bold)
-                            .frame(width: 328, height: 44)
+                            .frame(height: 44)
                     }
                     .foregroundColor(.white)
                 }
-                .frame(width: 328, height: 44)
+                .frame(height: 44)
             }
-            .padding()
+            .padding(.vertical)
         }
         .padding(.horizontal)
     }
@@ -94,8 +94,16 @@ struct BottomMainPage: View {
     @State var mainPageHistories: [MainPageHistory] = []
     
     func populateAllMainPageHistories() {
-        
+        mainPageHistories = coreDM.getAllMainPageHistories()
     }
+    
+    var dateformat: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "YYYY.MM.dd"
+        return formatter
+    }
+    
+    
     
     var body: some View {
             VStack(spacing: 3) {
@@ -111,6 +119,9 @@ struct BottomMainPage: View {
                         .font(.system(size: 24))
                         .fontWeight(.bold)
                     Spacer()
+                    Button("Save Test") {
+                        coreDM.saveMainPageHistory()
+                    }
                 }
                 .padding(.horizontal)
                 Spacer()
@@ -133,17 +144,39 @@ struct BottomMainPage: View {
                     Spacer()
                     Spacer()
                 } else {
-                    List {
-                        ForEach(mainPageHistories) { history in
-                            NavigationLink(destination: IngameView()) {
-                                VStack(alignment: .leading) {
-                                    Text("생성일자 \(history.date ?? Date())")
-                                    Text(history.historyName ?? "")
+                    ScrollView {
+                        VStack {
+                            ForEach(mainPageHistories, id: \.self) { history in
+                                NavigationLink {
+                                    IngameView()
+                                } label: {
+                                    ZStack {
+                                        RoundedRectangle(cornerRadius: 18).fill().foregroundColor(.white)
+                                        RoundedRectangle(cornerRadius: 18).stroke().foregroundColor(.gray)
+                                        HStack {
+                                            VStack(alignment: .leading) {
+                                                Text("생성일자 \(history.date ?? Date(), formatter: dateformat)")
+                                                    .font(.system(size: 14))
+                                                    .foregroundColor(.gray)
+                                                Text(history.historyName ?? "")
+                                                    .fontWeight(.bold)
+                                                    .font(.system(size: 20))
+                                            }
+                                            .padding()
+                                            Spacer()
+                                        }
+                                        .foregroundColor(.black)
+                                    }
+                                    .frame(height: 67)
+                                }
+                                .padding([.top, .leading, .trailing])
                             }
                         }
                     }
                 }
-            }
+        }
+        .onAppear {
+            populateAllMainPageHistories()
         }
     }
 }
