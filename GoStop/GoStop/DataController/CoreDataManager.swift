@@ -21,6 +21,14 @@ class CoreDataManager{
         }
     }
     
-    
+    func getAllMainPageHistories() -> [MainPageHistory] {
+        let fetchRequest: NSFetchRequest<MainPageHistory> = MainPageHistory.fetchRequest()
+        
+        do {
+            return try persistentContainer.viewContext.fetch(fetchRequest)
+        } catch {
+            return []
+        }
+    }
     
 }
