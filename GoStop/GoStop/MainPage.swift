@@ -11,6 +11,8 @@ struct MainPage: View {
     @State var isNavigationViewReady = false
     @State var readyForStart = false
     
+    let coreDM: CoreDataManager
+    
     var body: some View {
         if isNavigationViewReady == false && readyForStart == false {
                 ZStack {
@@ -19,7 +21,7 @@ struct MainPage: View {
                         Rectangle()
                             .foregroundColor(Color(hue: 1.0, saturation: 0.0, brightness: 0.941))
                             .frame(height: 10)
-                        BottomMainPage()
+                        BottomMainPage(coreDM: coreDM)
                 }
                 .navigationBarHidden(true)
             }
@@ -88,6 +90,12 @@ struct TopMainPage: View {
 }
 
 struct BottomMainPage: View {
+    let coreDM: CoreDataManager
+    @State var mainPageHistories: [MainPageHistory] = []
+    
+    func populateAllMainPageHistories() {
+        
+    }
     
     var body: some View {
             VStack(spacing: 3) {
@@ -107,7 +115,7 @@ struct BottomMainPage: View {
                 .padding(.horizontal)
                 Spacer()
                 
-//                if mainPageHistories.isEmpty {
+                if mainPageHistories.isEmpty {
                     VStack {
                         Image("group118")
                         Text("게임을 추가한 내역이 없습니다.")
@@ -124,18 +132,18 @@ struct BottomMainPage: View {
                     }
                     Spacer()
                     Spacer()
-//                } else {
-//                    List {
-//                        ForEach(mainPageHistories) { history in
-//                            NavigationLink(destination: IngameView()) {
-//                                VStack(alignment: .leading) {
-//                                    Text("생성일자 \(history.date)")
-//                                    Text(history.historyName)
-//                            }
-//                        }
-//                    }
-//                }
-//            }
+                } else {
+                    List {
+                        ForEach(mainPageHistories) { history in
+                            NavigationLink(destination: IngameView()) {
+                                VStack(alignment: .leading) {
+                                    Text("생성일자 \(history.date ?? Date())")
+                                    Text(history.historyName ?? "")
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }
@@ -144,6 +152,6 @@ struct BottomMainPage: View {
 
 struct MainPage_Previews: PreviewProvider {
     static var previews: some View {
-        MainPage()
+        MainPage(coreDM: CoreDataManager())
     }
 }

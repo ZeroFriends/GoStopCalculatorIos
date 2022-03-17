@@ -10,11 +10,11 @@ import SwiftUI
 struct FirstScreen: View {
     @State var mainScreenOn = false
     @State var cnt = 0
-    
+    let coreDM: CoreDataManager
     
     var body: some View {
         ZStack {
-            MainPage()
+            MainPage(coreDM: coreDM)
             
             if !mainScreenOn {
                 LottieAnimationView()
@@ -37,6 +37,6 @@ struct FirstScreen: View {
 
 struct MainScreen_Previews: PreviewProvider {
     static var previews: some View {
-        FirstScreen()
+        FirstScreen(coreDM: CoreDataManager())
     }
 }
