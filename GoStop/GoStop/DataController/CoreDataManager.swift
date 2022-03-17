@@ -31,6 +31,26 @@ class CoreDataManager{
         }
     }
     
+    func saveMainPageHistory() {
+        let mainPageHistory = MainPageHistory(context: persistentContainer.viewContext)
+        
+        mainPageHistory.historyName = "Test"
+        mainPageHistory.date = Date()
+        
+        do {
+            try persistentContainer.viewContext.save()
+        } catch {
+            print("mainPageHistory save error \(error)")
+        }
+    }
     
-    
+    func deleteMainPageHistory(mainPageHistory: MainPageHistory) {
+        persistentContainer.viewContext.delete(mainPageHistory)
+        
+        do {
+            try persistentContainer.viewContext.save()
+        } catch {
+            persistentContainer.viewContext.rollback()
+        }
+    }
 }
