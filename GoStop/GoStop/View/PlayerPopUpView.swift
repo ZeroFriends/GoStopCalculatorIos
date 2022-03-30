@@ -47,6 +47,7 @@ struct PlayerPopUpView: View {
                             Spacer()
                             TextField("\(players[originIndex])", text: $playerName)
                                 .textFieldStyle(OvalTextFieldStyle())
+                                .keyboardType(.default)
                                 .padding(.horizontal)
                             HStack {
                                 Text(guideText)
@@ -80,7 +81,6 @@ struct PlayerPopUpView: View {
                 }
                 .frame(height:220)
                 .frame(maxWidth: 310)
-//                .background(Color.white)
             }
         }
     }
