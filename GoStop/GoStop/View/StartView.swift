@@ -9,8 +9,8 @@ import SwiftUI
 
 struct StartView: View {
     @Binding var isPresent: Bool
-    @State var textField = ""
-    @State var players: [String] = []
+    @State var HistoryNametextField = ""//모임이름
+    @State var players: [String] = []//플레이어 목록
     @State var playersNumberExcess = false
     @State var playerNumber = 0
     @State var showingPopUp = false
@@ -27,7 +27,7 @@ struct StartView: View {
     @State var jumDang = "0"
     @State var ppuck = "0"
     @State var firstTadack = "0"
-    @State var sell = "0"
+    @State var sell = "0"//rule
     
     let coreDM: CoreDataManager
     
@@ -112,7 +112,7 @@ struct StartView: View {
                                                 .font(.system(size: 16))
                                             Spacer()
                                         }
-                                        TextField("\(Date(), formatter: dateformat)", text: $textField)
+                                        TextField("\(Date(), formatter: dateformat)", text: $HistoryNametextField)
                                             .keyboardType(.default)
                                             .textFieldStyle(OvalTextFieldStyle())
                                         //텍스트필드 테두리 수정하기 + 여기서 입력받은 값 어떻게 처리할것인지
@@ -340,6 +340,8 @@ struct StartView: View {
                                                     lineIndex += 1
                                                 } else {
                                                     //save data
+//                                                    coreDM.saveMainPageHistory()
+                                                    coreDM.saveMainPageHistory(players: players, historyName: HistoryNametextField, jumDang: jumDang, ppuck: ppuck, firstTadack: firstTadack, sell: sell)
                                                     complete.toggle()
                                                 }
                                             }
