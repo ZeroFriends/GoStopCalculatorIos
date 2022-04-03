@@ -8,13 +8,23 @@
 import SwiftUI
 
 struct IngameView: View {
+    @State var toGoHome = false
+    var ingameHistory: MainPageHistory
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationLink(isActive: $toGoHome) {
+            MainPage()
+        } label: { }
+        Text(ingameHistory.historyName ?? "nil")
+            .onTapGesture {
+                toGoHome = true
+            }
+            .navigationBarHidden(true)
     }
 }
 
 struct IngameView_Previews: PreviewProvider {
     static var previews: some View {
-        IngameView()
+        IngameView(ingameHistory: MainPageHistory())
     }
 }

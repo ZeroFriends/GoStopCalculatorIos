@@ -13,7 +13,7 @@ struct GoStopApp: App {
     var body: some Scene {
         WindowGroup {
             NavigationView {
-                FirstScreen(coreDM: CoreDataManager())
+                FirstScreen()
             }
         }
     }

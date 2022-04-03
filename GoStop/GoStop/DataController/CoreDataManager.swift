@@ -8,12 +8,10 @@
 import CoreData
 import Foundation
 
-class CoreDataManager{
-    let persistentContainer: NSPersistentContainer
+class CoreDataManager: ObservableObject {
+    let persistentContainer = NSPersistentContainer(name: "DataModel")
     
     init() {
-        persistentContainer = NSPersistentContainer(name: "DataModel")
-        
         persistentContainer.loadPersistentStores { (decription, error) in
             if let error = error {
                 fatalError("Core Data Store failed \(error.localizedDescription)")
@@ -27,6 +25,7 @@ class CoreDataManager{
         do {
             return try persistentContainer.viewContext.fetch(fetchRequest)
         } catch {
+            print("empty")
             return []
         }
     }
@@ -34,7 +33,7 @@ class CoreDataManager{
     func saveMainPageHistory() {
         let mainPageHistory = MainPageHistory(context: persistentContainer.viewContext)
         
-        mainPageHistory.historyName = "Test"
+        mainPageHistory.historyName = "Test + \(Int.random(in: 0...10))"
         mainPageHistory.date = Date()
         
         do {
@@ -57,6 +56,7 @@ class CoreDataManager{
             mainPageHistoryName = historyName
         }
         mainPageHistory.historyName = mainPageHistoryName
+        mainPageHistory.date = Date()
         
         for i in players.indices {
             let player = Player(context: persistentContainer.viewContext)
@@ -71,8 +71,6 @@ class CoreDataManager{
         
         do {
             try persistentContainer.viewContext.save()
-
-            print(mainPageHistory.rule)
         } catch {
             print("Failed \(error)")
         }

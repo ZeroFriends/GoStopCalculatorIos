@@ -39,7 +39,7 @@ struct StartView: View {
     
     var body: some View {
         if complete {
-            IngameView()
+//            IngameView()
         } else {
             ZStack {
                 GeometryReader { geometry in

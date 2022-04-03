@@ -11,7 +11,7 @@ struct MainPage: View {
     @State var isNavigationViewReady = false
     @State var readyForStart = false
     
-    let coreDM: CoreDataManager
+    let coreDM: CoreDataManager = CoreDataManager()
     
     var body: some View {
         if isNavigationViewReady == false && readyForStart == false {
@@ -102,9 +102,6 @@ struct BottomMainPage: View {
         formatter.dateFormat = "YYYY.MM.dd"
         return formatter
     }
-    
-    
-    
     var body: some View {
             VStack(spacing: 3) {
                 HStack {
@@ -142,57 +139,65 @@ struct BottomMainPage: View {
                         }
                         .font(.system(size: 14))
                     }
+                    .onAppear {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                            populateAllMainPageHistories()
+                        }
+                    }
                     Spacer()
                     Spacer()
                 } else {
                     ScrollView {
                         VStack {
-                            ForEach(mainPageHistories.reversed(), id: \.self) { history in
-                                NavigationLink {
-                                    IngameView()
-                                } label: {
-                                    ZStack {
-                                        RoundedRectangle(cornerRadius: 18).fill().foregroundColor(.white)
-                                        RoundedRectangle(cornerRadius: 18).stroke().foregroundColor(.gray)
-                                        HStack {
-                                            VStack(alignment: .leading, spacing: 3) {
-                                                Text("생성일자 \(history.date ?? Date(), formatter: dateformat)")
-                                                    .font(.system(size: 14))
-                                                    .foregroundColor(.gray)
-                                                Text(history.historyName ?? "")
-                                                    .fontWeight(.bold)
-                                                    .font(.system(size: 20))
+                            ForEach(mainPageHistories, id: \.self) { history in
+                                    NavigationLink {
+                                        IngameView(ingameHistory: history)
+                                    } label: {
+                                        ZStack {
+                                            RoundedRectangle(cornerRadius: 18).fill().foregroundColor(.white)
+                                            RoundedRectangle(cornerRadius: 18).stroke().foregroundColor(.gray)
+                                            HStack {
+                                                VStack(alignment: .leading, spacing: 3) {
+                                                    Text("생성일자 \(history.date ?? Date(), formatter: dateformat)")
+                                                        .font(.system(size: 14))
+                                                        .foregroundColor(.gray)
+                                                    Text(history.historyName ?? "")
+                                                        .fontWeight(.bold)
+                                                        .font(.system(size: 20))
+                                                }
+                                                .padding()
+                                                Spacer()
+                                                Button {
+                                                    showingAlert = true
+                                                } label: {
+                                                    Image("moreVertBlack24Dp1")
+                                                        .resizable()
+                                                        .frame(width: 24, height: 24)
+                                                        .padding(.trailing)
+                                                }
+                                                .alert(isPresented: $showingAlert) {
+                                                    Alert(title: Text("삭제하시겠습니까?"), message: nil, primaryButton: .destructive(Text("삭제"), action: {
+                                                        coreDM.deleteMainPageHistory(mainPageHistory: history)
+                                                        populateAllMainPageHistories()
+                                                    }), secondaryButton: .cancel(Text("취소")))
+                                                }
+                                                
                                             }
-                                            .padding()
-                                            Spacer()
-                                            Button {
-                                                showingAlert = true
-                                            } label: {
-                                                Image("moreVertBlack24Dp1")
-                                                    .resizable()
-                                                    .frame(width: 24, height: 24)
-                                                    .padding(.trailing)
-                                            }
-                                            .alert(isPresented: $showingAlert) {
-                                                Alert(title: Text("삭제하시겠습니까?"), message: nil, primaryButton: .destructive(Text("삭제"), action: {
-                                                    coreDM.deleteMainPageHistory(mainPageHistory: history)
-                                                    populateAllMainPageHistories()
-                                                }), secondaryButton: .cancel(Text("취소")))
-                                            }
-                                            
+                                            .foregroundColor(.black)
                                         }
-                                        .foregroundColor(.black)
+                                        .frame(height: 67)
                                     }
-                                    .frame(height: 67)
-                                }
-                                .padding([.top, .leading, .trailing])
-                            }
-                        }
+                                    .padding([.top, .leading, .trailing])
+                            }//ForEach
+                        }//VStack
                     }
                 }
         }
         .onAppear {
             populateAllMainPageHistories()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                populateAllMainPageHistories()
+            }
         }
     }
 }
@@ -201,6 +206,6 @@ struct BottomMainPage: View {
 
 struct MainPage_Previews: PreviewProvider {
     static var previews: some View {
-        MainPage(coreDM: CoreDataManager())
+        MainPage()
     }
 }
