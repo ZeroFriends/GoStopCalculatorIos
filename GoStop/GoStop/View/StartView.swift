@@ -39,7 +39,7 @@ struct StartView: View {
     
     var body: some View {
         if complete {
-//            IngameView()
+            IngameView(ingameHistory: coreDM.mainPageHistoryList.last!)
         } else {
             ZStack {
                 GeometryReader { geometry in
@@ -339,8 +339,6 @@ struct StartView: View {
                                                 if lineIndex < 1 {
                                                     lineIndex += 1
                                                 } else {
-                                                    //save data
-//                                                    coreDM.saveMainPageHistory()
                                                     coreDM.saveMainPageHistory(players: players, historyName: HistoryNametextField, jumDang: jumDang, ppuck: ppuck, firstTadack: firstTadack, sell: sell)
                                                     complete.toggle()
                                                 }

@@ -15,7 +15,7 @@ struct IngameView: View {
         NavigationLink(isActive: $toGoHome) {
             MainPage()
         } label: { }
-        Text(ingameHistory.historyName ?? "nil")
+        Text("Hello")
             .onTapGesture {
                 toGoHome = true
             }
@@ -24,7 +24,8 @@ struct IngameView: View {
 }
 
 struct IngameView_Previews: PreviewProvider {
+    static let context = CoreDataManager().persistentContainer.viewContext
     static var previews: some View {
-        IngameView(ingameHistory: MainPageHistory())
+        IngameView(ingameHistory: MainPageHistory(context: context))
     }
 }

@@ -12,7 +12,7 @@ struct PlayerPopUpView: View {
     @Binding var originIndex: Int
     @Binding var show: Bool
     @State var playerName = ""
-    @State var guideText = "플레이어 이름을 입력해주세요."
+    @State var guideText = ""
     
     var body: some View {
         ZStack {
@@ -60,6 +60,8 @@ struct PlayerPopUpView: View {
                             Button {
                                 if players.contains(playerName) || playerName == "" {
                                     guideText = "중복된 플레이어 이름이있습니다."
+                                } else if players.count > 8 {
+                                  guideText = "이름 최대 8자를 초과할 수 없습니다."
                                 } else {
                                     players.insert(playerName, at: originIndex)
                                     players.remove(at: originIndex+1)

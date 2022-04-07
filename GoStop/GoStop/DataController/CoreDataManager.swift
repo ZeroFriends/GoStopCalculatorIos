@@ -9,6 +9,8 @@ import CoreData
 import Foundation
 
 class CoreDataManager: ObservableObject {
+    @Published var mainPageHistoryList: [MainPageHistory] = []
+    
     let persistentContainer = NSPersistentContainer(name: "DataModel")
     
     init() {
@@ -17,29 +19,16 @@ class CoreDataManager: ObservableObject {
                 fatalError("Core Data Store failed \(error.localizedDescription)")
             }
         }
+        fetchMainPageHistories()
     }
     
-    func getAllMainPageHistories() -> [MainPageHistory] {
-        let fetchRequest: NSFetchRequest<MainPageHistory> = MainPageHistory.fetchRequest()
-
-        do {
-            return try persistentContainer.viewContext.fetch(fetchRequest)
-        } catch {
-            print("empty")
-            return []
-        }
-    }
-    
-    func saveMainPageHistory() {
-        let mainPageHistory = MainPageHistory(context: persistentContainer.viewContext)
-        
-        mainPageHistory.historyName = "Test + \(Int.random(in: 0...10))"
-        mainPageHistory.date = Date()
+    func fetchMainPageHistories() {
+        let request = NSFetchRequest<MainPageHistory>(entityName: "MainPageHistory")
         
         do {
-            try persistentContainer.viewContext.save()
+            mainPageHistoryList = try persistentContainer.viewContext.fetch(request)
         } catch {
-            print("mainPageHistory save error \(error)")
+            print(error)
         }
     }
     
@@ -71,6 +60,7 @@ class CoreDataManager: ObservableObject {
         
         do {
             try persistentContainer.viewContext.save()
+            fetchMainPageHistories()
         } catch {
             print("Failed \(error)")
         }
@@ -82,6 +72,7 @@ class CoreDataManager: ObservableObject {
         
         do {
             try persistentContainer.viewContext.save()
+            fetchMainPageHistories()
         } catch {
             persistentContainer.viewContext.rollback()
         }

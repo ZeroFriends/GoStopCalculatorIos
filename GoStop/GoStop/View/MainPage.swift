@@ -91,11 +91,8 @@ struct TopMainPage: View {
 
 struct BottomMainPage: View {
     let coreDM: CoreDataManager
+    @State var uselessHistory: MainPageHistory?
     @State var showingAlert = false
-    @State var mainPageHistories: [MainPageHistory] = []
-    func populateAllMainPageHistories() {
-        mainPageHistories = coreDM.getAllMainPageHistories()
-    }
     
     var dateformat: DateFormatter {
         let formatter = DateFormatter()
@@ -116,15 +113,11 @@ struct BottomMainPage: View {
                         .font(.system(size: 24))
                         .fontWeight(.bold)
                     Spacer()
-                    Button("Save Test") {
-                        coreDM.saveMainPageHistory()
-                        populateAllMainPageHistories()
-                    }
                 }
                 .padding(.horizontal)
                 Spacer()
                 
-                if mainPageHistories.isEmpty {
+                if coreDM.mainPageHistoryList.isEmpty {
                     VStack {
                         Image("group118")
                         Text("게임을 추가한 내역이 없습니다.")
@@ -139,17 +132,12 @@ struct BottomMainPage: View {
                         }
                         .font(.system(size: 14))
                     }
-                    .onAppear {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                            populateAllMainPageHistories()
-                        }
-                    }
                     Spacer()
                     Spacer()
                 } else {
                     ScrollView {
                         VStack {
-                            ForEach(mainPageHistories, id: \.self) { history in
+                            ForEach(coreDM.mainPageHistoryList.reversed(), id: \.self) { history in
                                     NavigationLink {
                                         IngameView(ingameHistory: history)
                                     } label: {
@@ -168,6 +156,7 @@ struct BottomMainPage: View {
                                                 .padding()
                                                 Spacer()
                                                 Button {
+                                                    uselessHistory = history
                                                     showingAlert = true
                                                 } label: {
                                                     Image("moreVertBlack24Dp1")
@@ -177,8 +166,8 @@ struct BottomMainPage: View {
                                                 }
                                                 .alert(isPresented: $showingAlert) {
                                                     Alert(title: Text("삭제하시겠습니까?"), message: nil, primaryButton: .destructive(Text("삭제"), action: {
-                                                        coreDM.deleteMainPageHistory(mainPageHistory: history)
-                                                        populateAllMainPageHistories()
+                                                        print(uselessHistory ?? "no history")
+                                                        coreDM.deleteMainPageHistory(mainPageHistory: uselessHistory!)
                                                     }), secondaryButton: .cancel(Text("취소")))
                                                 }
                                                 
@@ -192,12 +181,6 @@ struct BottomMainPage: View {
                         }//VStack
                     }
                 }
-        }
-        .onAppear {
-            populateAllMainPageHistories()
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                populateAllMainPageHistories()
-            }
         }
     }
 }
