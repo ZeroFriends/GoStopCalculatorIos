@@ -12,20 +12,51 @@ struct IngameView: View {
     var ingameHistory: MainPageHistory
     
     var body: some View {
-        NavigationLink(isActive: $toGoHome) {
-            MainPage()
-        } label: { }
-        Text("Hello")
-            .onTapGesture {
-                toGoHome = true
+        ZStack {
+            NavigationLink(isActive: $toGoHome) {
+                MainPage()
+            } label: { }
+            VStack {
+                HStack {
+                    Button {
+                        toGoHome = true
+                    } label: {
+                        Image(systemName: "arrow.left")
+                            .foregroundColor(.black)
+                    }
+                    Spacer()
+                    Text(ingameHistory.historyName!)
+                        .font(.system(size: 14))
+                        .bold()
+                    Spacer()
+                    Text("게임규칙")
+                        .font(.system(size:14))
+                        .foregroundColor(.red)
+                }
+                .padding()
+                divideRectangle()
+                
             }
-            .navigationBarHidden(true)
+        }//ZStack
+        .navigationBarHidden(true)
+    }
+}
+
+struct divideRectangle: View {
+    var body: some View {
+        Rectangle()
+            .frame(height: 1)
+            .foregroundColor(/*@START_MENU_TOKEN@*/Color.gray/*@END_MENU_TOKEN@*/)
     }
 }
 
 struct IngameView_Previews: PreviewProvider {
-    static let context = CoreDataManager().persistentContainer.viewContext
     static var previews: some View {
-        IngameView(ingameHistory: MainPageHistory(context: context))
+        let context = CoreDataManager().persistentContainer.viewContext
+        let testHistory = MainPageHistory(context: context)
+        
+        testHistory.historyName = "2021.09.21"
+        
+        return IngameView(ingameHistory: testHistory).environment(\.managedObjectContext, context)
     }
 }
