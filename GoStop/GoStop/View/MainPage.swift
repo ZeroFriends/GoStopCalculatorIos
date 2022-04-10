@@ -139,7 +139,7 @@ struct BottomMainPage: View {
                         VStack {
                             ForEach(coreDM.mainPageHistoryList.reversed(), id: \.self) { history in
                                     NavigationLink {
-                                        IngameView(ingameHistory: history)
+                                        IngameView(mainPageHistory: history)
                                     } label: {
                                         ZStack {
                                             RoundedRectangle(cornerRadius: 18).fill().foregroundColor(.white)

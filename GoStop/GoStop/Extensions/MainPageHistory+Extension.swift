@@ -11,6 +11,8 @@ extension MainPageHistory {
     public var playerlist: [Player] {
         let set = player as? Set<Player> ?? []
         
-        return Array(set)
+        return Array(set.sorted {
+            $0.name! < $1.name!
+        })
     }
 }
