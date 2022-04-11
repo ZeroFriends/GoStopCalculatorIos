@@ -97,8 +97,7 @@ struct IngameView: View {
                         }
                         HStack(spacing: 40) {
                             HStack {
-                                if mainPageHistory.playerlist.count == 3 ||
-                                    mainPageHistory.playerlist.count == 4  {
+                                if mainPageHistory.playerlist.count >= 3 {
                                     Text("3   ")
                                         .font(.system(size: 16, weight: .bold))
                                         .foregroundColor(.red)
@@ -110,7 +109,7 @@ struct IngameView: View {
                                 }
                             }
                             HStack {
-                                if mainPageHistory.playerlist.count == 4 {
+                                if mainPageHistory.playerlist.count >= 4 {
                                     Text("4   ")
                                         .font(.system(size: 16, weight: .bold))
                                         .foregroundColor(.red)
@@ -127,7 +126,28 @@ struct IngameView: View {
                     .padding(.horizontal)
                 }
                 .padding([.leading, .trailing, .bottom])
-                
+                HStack {
+                    Text("진행내역 🤝")
+                        .font(.system(size: 28, weight: .bold))
+                    Spacer()
+                }
+                .padding(.horizontal)
+                ScrollView {
+                    //라운드 내역 기록
+                }
+                Button {
+                    //게임시작 action
+                } label: {
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 22)
+                            .foregroundColor(.red)
+                            .frame(height: 44)
+                        Text("게임시작")
+                            .font(.system(size: 16, weight: .bold))
+                            .foregroundColor(.white)
+                    }
+                    .padding(.horizontal)
+                }
             }//VStack
         }//ZStack
         .navigationBarHidden(true)
