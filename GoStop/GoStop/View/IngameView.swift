@@ -29,6 +29,7 @@ struct IngameView: View {
                         Image(systemName: "arrow.left")
                             .foregroundColor(.black)
                     }
+                    .padding(.trailing, 28)
                     Spacer()
                     Text(mainPageHistory.historyName!)
                         .font(.system(size: 14))
@@ -78,7 +79,7 @@ struct IngameView: View {
                                 Text("1   ")
                                     .font(.system(size: 16, weight: .bold))
                                     .foregroundColor(.red)
-                                Text(mainPageHistory.playerlist[0].name!)
+                                Text(mainPageHistory.playerlist[0].name ?? "")
                                     .font(.system(size: 16, weight: .medium))
                                 Spacer()
                                 Text("원")
@@ -88,7 +89,7 @@ struct IngameView: View {
                                 Text("2   ")
                                     .font(.system(size: 16, weight: .bold))
                                     .foregroundColor(.red)
-                                Text(mainPageHistory.playerlist[1].name!)
+                                Text(mainPageHistory.playerlist[1].name ?? "")
                                     .font(.system(size: 16, weight: .medium))
                                 Spacer()
                                 Text("원")
@@ -98,10 +99,10 @@ struct IngameView: View {
                         HStack(spacing: 40) {
                             HStack {
                                 if mainPageHistory.playerlist.count >= 3 {
-                                    Text("3   ")
+                                    Text("3  ")
                                         .font(.system(size: 16, weight: .bold))
                                         .foregroundColor(.red)
-                                    Text(mainPageHistory.playerlist[2].name!)
+                                    Text(mainPageHistory.playerlist[2].name ?? "")
                                         .font(.system(size: 16, weight: .medium))
                                     Spacer()
                                     Text("원")
@@ -113,11 +114,13 @@ struct IngameView: View {
                                     Text("4   ")
                                         .font(.system(size: 16, weight: .bold))
                                         .foregroundColor(.red)
-                                    Text(mainPageHistory.playerlist[3].name!)
+                                    Text(mainPageHistory.playerlist[3].name ?? "")
                                         .font(.system(size: 16, weight: .medium))
                                     Spacer()
                                     Text("원")
                                         .font(.system(size: 12, weight: .medium))
+                                } else {
+                                    Spacer()
                                 }
                             }
                         }

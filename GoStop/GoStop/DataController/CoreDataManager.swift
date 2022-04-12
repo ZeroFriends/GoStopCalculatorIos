@@ -56,7 +56,7 @@ class CoreDataManager: ObservableObject {
         mainPageHistory.rule?.jumDang = Int32(jumDang) ?? 0
         mainPageHistory.rule?.ppuck = Int32(ppuck) ?? 0
         mainPageHistory.rule?.firstTadack = Int32(firstTadack) ?? 0
-        mainPageHistory.rule?.jumDang = Int32(jumDang) ?? 0
+        mainPageHistory.rule?.sell = Int32(sell) ?? 0
         
         do {
             try persistentContainer.viewContext.save()
