@@ -137,6 +137,7 @@ struct IngameView: View {
                 .padding(.horizontal)
                 ScrollView {
                     //라운드 내역 기록
+                    
                 }
                 Button {
                     //게임시작 action
