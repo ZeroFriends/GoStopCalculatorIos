@@ -10,6 +10,7 @@ import Foundation
 
 class CoreDataManager: ObservableObject {
     @Published var mainPageHistoryList: [MainPageHistory] = []
+    @Published var roundList: [Round] = [] // 원하는 mainPageHistory의 round를 담는 배열 역할
     
     let persistentContainer = NSPersistentContainer(name: "DataModel")
     
@@ -32,6 +33,10 @@ class CoreDataManager: ObservableObject {
         }
     }
     
+    //round fetch 함수 선언부
+    
+    //round를 생성할때 어떤 MainPageHistory 소속의 round인지를 파악하기 위해 id를 MainPageHistory랑 맞춰서 save 진행 예정
+    
     func saveMainPageHistory(players: [String], historyName: String, jumDang: String, ppuck: String, firstTadack: String, sell: String) {
         let mainPageHistory = MainPageHistory(context: persistentContainer.viewContext)
         
@@ -46,6 +51,7 @@ class CoreDataManager: ObservableObject {
         }
         mainPageHistory.historyName = mainPageHistoryName
         mainPageHistory.date = Date()
+        mainPageHistory.id = UUID()
         
         for i in players.indices {
             let player = Player(context: persistentContainer.viewContext)
