@@ -15,4 +15,10 @@ extension MainPageHistory {
             $0.name! < $1.name!
         })
     }
+    
+    public var roundList: [Round] {
+        let set = round as? Set<Round> ?? []
+        
+        return Array(set)
+    }
 }

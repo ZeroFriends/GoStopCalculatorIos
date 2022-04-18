@@ -39,7 +39,7 @@ struct StartView: View {
     
     var body: some View {
         if complete {
-            IngameView(mainPageHistory: coreDM.mainPageHistoryList.last!)
+            IngameView(coreDM: coreDM, mainPageHistory: coreDM.mainPageHistoryList.last!)
         } else {
             ZStack {
                 GeometryReader { geometry in

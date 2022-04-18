@@ -10,7 +10,13 @@ import SwiftUI
 struct IngameView: View {
     @State var toGoHome = false
     @State var gameRuleButton = false
+    let coreDM: CoreDataManager
     var mainPageHistory: MainPageHistory
+    @State var rounds: [Round] = []
+    
+    private func populateRounds() {
+        rounds = coreDM.fetchRound(id: mainPageHistory.id ?? UUID())
+    }
     
     var body: some View {
         ZStack {
@@ -136,9 +142,14 @@ struct IngameView: View {
                 }
                 .padding(.horizontal)
                 ScrollView {
-                    //라운드 내역 기록
-                    
+                    VStack {
+                        ForEach(rounds, id: \.self) { round in
+                            Text("\(rounds.count)")
+                        }
+                    }
+                    .frame(maxWidth: .infinity)
                 }
+                
                 Button {
                     //게임시작 action
                 } label: {
@@ -155,6 +166,9 @@ struct IngameView: View {
             }//VStack
         }//ZStack
         .navigationBarHidden(true)
+        .onAppear {
+            populateRounds()
+        }
     }
 }
 
@@ -171,15 +185,15 @@ struct IngameView_Previews: PreviewProvider {
         let context = CoreDataManager().persistentContainer.viewContext
         let testHistory = MainPageHistory(context: context)
         let players = ["플레이어1","플레이어2","플레이어3","플레이어4"]
-        
+
         for i in 0 ..< 4 {
             let player = Player(context: context)
             player.name = players[i]
             testHistory.addToPlayer(player)
         }
-        
+
         testHistory.historyName = "2021.09.21"
 
-        return IngameView(mainPageHistory: testHistory).environment(\.managedObjectContext, context)
+        return IngameView(coreDM: CoreDataManager(), mainPageHistory: testHistory).environment(\.managedObjectContext, context)
     }
 }
