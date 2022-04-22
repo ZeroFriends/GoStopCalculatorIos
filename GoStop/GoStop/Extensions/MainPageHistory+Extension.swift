@@ -16,9 +16,4 @@ extension MainPageHistory {
         })
     }
     
-    public var roundList: [Round] {
-        let set = round as? Set<Round> ?? []
-        
-        return Array(set)
-    }
 }
