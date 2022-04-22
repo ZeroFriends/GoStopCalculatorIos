@@ -43,49 +43,31 @@ class CoreDataManager: ObservableObject {
         }
     }
     
-//    func fetchRound() {
-//        let request = NSFetchRequest<Round>(entityName: "Round")
-//
-//        do {
-//            roundList = try persistentContainer.viewContext.fetch(request)
-//        } catch {
-//            print(error)
-//        }
-//
-//    }
-//    //round fetch 함수 선언부
-//    func fetchSpecificRound(uuid: UUID) {
-//        let request = NSFetchRequest<Round>(entityName: "Round")
-//        let predicate = NSPredicate(format: "id == %@", uuid as CVarArg)
-//        request.predicate = predicate
-//
-//        do {
-//            roundList = try persistentContainer.viewContext.fetch(request)
-//        } catch {
-//            print(error)
-//        }
-//
-//    }
-//    //round를 생성할때 어떤 MainPageHistory 소속의 round인지를 파악하기 위해 id를 MainPageHistory랑 맞춰서 save 진행 예정
-//    func saveRound(uuid: UUID, mainPageHistory: MainPageHistory) {
-//        let round = Round(context: persistentContainer.viewContext)
-//        round.id = uuid
-//
-//        let ingamePlayer = IngamePlayer(context: persistentContainer.viewContext)
-//        ingamePlayer.name = mainPageHistory.playerlist[0].name
-//
-//        round.addToIngamePlayer(ingamePlayer)
-//
-//        mainPageHistory.addToRound(round)
-//
-//        do {
-//            try persistentContainer.viewContext.save()
-//            fetchMainPageHistories()
-//            fetchRound()
-//        } catch {
-//            print("Failed \(error)")
-//        }
-//    }
+    func fetchPlayers(id: UUID) -> [Player] {
+        let request = NSFetchRequest<Player>(entityName: "Player")
+        
+        do {
+            return try persistentContainer.viewContext.fetch(request).filter { $0.id == id }
+        } catch {
+            return []
+        }
+    }
+    
+    func fetchSpecificPlayerTotalCost(id: UUID) -> Int32 {
+        var cost: [IngamePlayerPlayList] = []
+        let request = NSFetchRequest<IngamePlayerPlayList>(entityName: "IngamePlayerPlayList")
+        var sum: Int32 = 0
+        
+        do {
+            cost = try persistentContainer.viewContext.fetch(request).filter { $0.id == id }
+            for i in cost {
+                sum += i.cost
+            }
+            return sum
+        } catch {
+            return 0
+        }
+    }
     
     func saveMainPageHistory(players: [String], historyName: String, jumDang: String, ppuck: String, firstTadack: String, sell: String) {
         let mainPageHistory = MainPageHistory(context: persistentContainer.viewContext)
@@ -106,6 +88,7 @@ class CoreDataManager: ObservableObject {
         for i in players.indices {
             let player = Player(context: persistentContainer.viewContext)
             player.name = players[i]
+            player.id = mainPageHistory.id
             mainPageHistory.addToPlayer(player)
         }
         mainPageHistory.rule = Rule(context: persistentContainer.viewContext)
