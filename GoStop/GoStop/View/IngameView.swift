@@ -9,9 +9,12 @@ import SwiftUI
 
 struct IngameView: View {
     @State var toGoHome = false
+    @State var calculateButton = false
     @State var gameRuleButton = false
+    
     let coreDM: CoreDataManager
     var mainPageHistory: MainPageHistory
+    
     @State var rounds: [Round] = []
     
     private func populateRounds() {
@@ -27,10 +30,18 @@ struct IngameView: View {
                 gameRuleView(mainPageHistory: mainPageHistory)
             } label: {
             }
+            NavigationLink(isActive: $calculateButton) {
+                CalculateView(mainPageHistory: mainPageHistory)
+            } label: {
+            }
             VStack {
                 HStack {
                     Button {
-                        toGoHome = true
+                        var transaction = Transaction()
+                        transaction.disablesAnimations = true
+                        withTransaction(transaction) {
+                            toGoHome = true
+                        }
                     } label: {
                         Image(systemName: "arrow.left")
                             .foregroundColor(.black)
@@ -56,7 +67,7 @@ struct IngameView: View {
                 ZStack {
                     RoundedRectangle(cornerRadius: 18)
                         .foregroundColor(.white)
-                        .frame(height: 148)
+                        .frame(height: 45 + CGFloat(mainPageHistory.playerlist.count/2+mainPageHistory.playerlist.count%2)*55)
                         .shadow(color: .gray, radius: 3, x: 0, y: 3)
                     VStack {
                         HStack {
@@ -73,66 +84,41 @@ struct IngameView: View {
                                         .stroke(lineWidth: 1)
                                         .foregroundColor(.red)
                                         .frame(width: 79, height: 25)
-                                    Text("정산내역 >")
-                                        .font(.system(size: 14, weight: .bold))
-                                        .foregroundColor(.red)
+                                    Button {
+                                        calculateButton = true
+                                    } label: {
+                                        Text("정산내역 >")
+                                            .font(.system(size: 14, weight: .bold))
+                                            .foregroundColor(.red)
+                                    }
                                 }
                             }
                         }
-                        .padding(.vertical)
-                        HStack(spacing: 40) {
-                            HStack {
-                                Text("1   ")
-                                    .font(.system(size: 16, weight: .bold))
-                                    .foregroundColor(.red)
-                                Text(mainPageHistory.playerlist[0].name ?? "")
-                                    .font(.system(size: 16, weight: .medium))
-                                Spacer()
-                                Text("원")
-                                    .font(.system(size: 12, weight: .medium))
-                            }
-                            HStack {
-                                Text("2   ")
-                                    .font(.system(size: 16, weight: .bold))
-                                    .foregroundColor(.red)
-                                Text(mainPageHistory.playerlist[1].name ?? "")
-                                    .font(.system(size: 16, weight: .medium))
-                                Spacer()
-                                Text("원")
-                                    .font(.system(size: 12, weight: .medium))
-                            }
-                        }
-                        HStack(spacing: 40) {
-                            HStack {
-                                if mainPageHistory.playerlist.count >= 3 {
-                                    Text("3  ")
+                        .frame(height: 35)
+                        .padding(.horizontal)
+                        .padding(.top)
+                        let columns = [
+                                GridItem(.adaptive(minimum: 150))
+                            ]
+                        LazyVGrid(columns: columns) {
+                            ForEach(mainPageHistory.playerlist, id: \.self) { player in
+                                let specificCost = coreDM.fetchSpecificPlayerTotalCost(id: mainPageHistory.id ?? UUID())
+                                HStack {
+                                    Text("\(mainPageHistory.playerlist.firstIndex(of: player)!+1)")
                                         .font(.system(size: 16, weight: .bold))
                                         .foregroundColor(.red)
-                                    Text(mainPageHistory.playerlist[2].name ?? "")
-                                        .font(.system(size: 16, weight: .medium))
+                                    Text(player.name ?? "")
                                     Spacer()
+                                    Text("\(specificCost)")
                                     Text("원")
                                         .font(.system(size: 12, weight: .medium))
                                 }
-                            }
-                            HStack {
-                                if mainPageHistory.playerlist.count >= 4 {
-                                    Text("4   ")
-                                        .font(.system(size: 16, weight: .bold))
-                                        .foregroundColor(.red)
-                                    Text(mainPageHistory.playerlist[3].name ?? "")
-                                        .font(.system(size: 16, weight: .medium))
-                                    Spacer()
-                                    Text("원")
-                                        .font(.system(size: 12, weight: .medium))
-                                } else {
-                                    Spacer()
-                                }
+                                .frame(width: 150)
+                                .padding([.leading, .trailing, .bottom])
                             }
                         }
-                        .padding(.vertical)
+                        .padding()
                     }
-                    .padding(.horizontal)
                 }
                 .padding([.leading, .trailing, .bottom])
                 HStack {
@@ -141,15 +127,96 @@ struct IngameView: View {
                     Spacer()
                 }
                 .padding(.horizontal)
-                ScrollView {
-                    VStack {
-                        ForEach(rounds, id: \.self) { round in
-                            Text("\(rounds.count)")
-                        }
+                if rounds.isEmpty {
+                    Spacer()
+                    Image("errorOutlineBlack24Dp1")
+                    Text("게임을 진행한 내역이 없습니다.")
+                        .font(.system(size: 16, weight: .semibold))
+                    HStack {
+                        Text("하단에")
+                        Text("게임시작")
+                            .underline()
+                            .fontWeight(.semibold)
+                        Text("버튼을 눌러 게임을 진행해주세요.")
                     }
-                    .frame(maxWidth: .infinity)
+                    .font(.system(size: 14))
+                    Spacer()
+                } else {
+                    ScrollView {
+                        VStack {
+                            ForEach(rounds.reversed(), id: \.self) { round in
+                                ZStack {
+                                    RoundedRectangle(cornerRadius: 18)
+                                        .foregroundColor(.white)
+                                        .frame(height: 148)
+                                        .shadow(color: .gray, radius: 3, x: 0, y: 3)
+                                    VStack {
+                                        HStack {
+                                            Text("\(Int(rounds.firstIndex(of: round)!)+1) 라운드")
+                                                .font(.system(size: 24, weight: .bold))
+                                            Spacer()
+                                        }
+                                        .padding(.vertical)
+                                        HStack(spacing: 40) {
+                                            HStack {
+                                                Text("1   ")
+                                                    .font(.system(size: 16, weight: .bold))
+                                                    .foregroundColor(.red)
+                                                Text(mainPageHistory.playerlist[0].name ?? "")
+                                                    .font(.system(size: 16, weight: .medium))
+                                                Spacer()
+                                                Text("원")
+                                                    .font(.system(size: 12, weight: .medium))
+                                            }
+                                            HStack {
+                                                Text("2   ")
+                                                    .font(.system(size: 16, weight: .bold))
+                                                    .foregroundColor(.red)
+                                                Text(mainPageHistory.playerlist[1].name ?? "")
+                                                    .font(.system(size: 16, weight: .medium))
+                                                Spacer()
+                                                Text("원")
+                                                    .font(.system(size: 12, weight: .medium))
+                                            }
+                                        }
+                                        HStack(spacing: 40) {
+                                            HStack {
+                                                if mainPageHistory.playerlist.count >= 3 {
+                                                    Text("3  ")
+                                                        .font(.system(size: 16, weight: .bold))
+                                                        .foregroundColor(.red)
+                                                    Text(mainPageHistory.playerlist[2].name ?? "")
+                                                        .font(.system(size: 16, weight: .medium))
+                                                    Spacer()
+                                                    Text("원")
+                                                        .font(.system(size: 12, weight: .medium))
+                                                }
+                                            }
+                                            HStack {
+                                                if mainPageHistory.playerlist.count >= 4 {
+                                                    Text("4   ")
+                                                        .font(.system(size: 16, weight: .bold))
+                                                        .foregroundColor(.red)
+                                                    Text(mainPageHistory.playerlist[3].name ?? "")
+                                                        .font(.system(size: 16, weight: .medium))
+                                                    Spacer()
+                                                    Text("원")
+                                                        .font(.system(size: 12, weight: .medium))
+                                                } else {
+                                                    Spacer()
+                                                }
+                                            }
+                                        }
+                                        .padding(.vertical)
+                                    }
+                                    .padding(.horizontal)//VStack
+                                }
+                                .padding()
+                            }
+                        }
+                        .frame(maxWidth: .infinity)
+                    }
                 }
-                
                 Button {
                     //게임시작 action
                 } label: {
