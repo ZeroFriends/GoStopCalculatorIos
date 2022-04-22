@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EA0380162813134A00292035 /* CalculateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA0380152813134A00292035 /* CalculateView.swift */; };
+		EA038018281330D800292035 /* Player+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA038017281330D800292035 /* Player+Extension.swift */; };
 		EA06770E27F1CA6C00D2444D /* PlayerPopUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA06770D27F1CA6C00D2444D /* PlayerPopUpView.swift */; };
 		EA187DE3279E70C700C94711 /* StartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA187DE2279E70C700C94711 /* StartView.swift */; };
 		EA23FE5C27F4BE010087F293 /* HelpPopUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA23FE5B27F4BE010087F293 /* HelpPopUpView.swift */; };
@@ -30,6 +32,8 @@
 /* Begin PBXFileReference section */
 		18D49972975DC68C3C1F14E5 /* Pods-GoStop.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GoStop.release.xcconfig"; path = "Target Support Files/Pods-GoStop/Pods-GoStop.release.xcconfig"; sourceTree = "<group>"; };
 		3F21A48E442C4B0C1913E91D /* Pods-GoStop.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GoStop.debug.xcconfig"; path = "Target Support Files/Pods-GoStop/Pods-GoStop.debug.xcconfig"; sourceTree = "<group>"; };
+		EA0380152813134A00292035 /* CalculateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculateView.swift; sourceTree = "<group>"; };
+		EA038017281330D800292035 /* Player+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Player+Extension.swift"; sourceTree = "<group>"; };
 		EA06770D27F1CA6C00D2444D /* PlayerPopUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerPopUpView.swift; sourceTree = "<group>"; };
 		EA187DE2279E70C700C94711 /* StartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartView.swift; sourceTree = "<group>"; };
 		EA23FE5B27F4BE010087F293 /* HelpPopUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpPopUpView.swift; sourceTree = "<group>"; };
@@ -83,6 +87,7 @@
 				EA23FE5B27F4BE010087F293 /* HelpPopUpView.swift */,
 				EA522B9927C7E78700BC6416 /* IngameView.swift */,
 				EA33F831280331F900EDB7B9 /* gameRuleView.swift */,
+				EA0380152813134A00292035 /* CalculateView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -91,6 +96,7 @@
 			isa = PBXGroup;
 			children = (
 				EA33F82F2803257500EDB7B9 /* MainPageHistory+Extension.swift */,
+				EA038017281330D800292035 /* Player+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -277,6 +283,7 @@
 				EA06770E27F1CA6C00D2444D /* PlayerPopUpView.swift in Sources */,
 				EA99266027955AE60064AC82 /* FirstScreen.swift in Sources */,
 				EA4F79E7278EB7A5008B78FF /* LottieAnimationView.swift in Sources */,
+				EA0380162813134A00292035 /* CalculateView.swift in Sources */,
 				EA187DE3279E70C700C94711 /* StartView.swift in Sources */,
 				EA4F79E5278EB7A5008B78FF /* GoStopApp.swift in Sources */,
 				EA23FE5C27F4BE010087F293 /* HelpPopUpView.swift in Sources */,
@@ -285,6 +292,7 @@
 				EA992662279570BC0064AC82 /* MainPage.swift in Sources */,
 				EA33F832280331F900EDB7B9 /* gameRuleView.swift in Sources */,
 				EA5CEAFE27E2493B00234E29 /* DataModel.xcdatamodeld in Sources */,
+				EA038018281330D800292035 /* Player+Extension.swift in Sources */,
 				EA41AD8A2796F9D30085523C /* GuideView.swift in Sources */,
 				EA522B9A27C7E78700BC6416 /* IngameView.swift in Sources */,
 			);
