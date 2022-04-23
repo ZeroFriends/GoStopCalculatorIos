@@ -31,7 +31,7 @@ struct IngameView: View {
             } label: {
             }
             NavigationLink(isActive: $calculateButton) {
-                CalculateView(mainPageHistory: mainPageHistory)
+                CalculateView(coreDM: coreDM, mainPageHistory: mainPageHistory)
             } label: {
             }
             VStack {
@@ -64,11 +64,9 @@ struct IngameView: View {
                 .padding(.horizontal)
                 divideRectangle()
                 
-                ZStack {
-                    RoundedRectangle(cornerRadius: 18)
-                        .foregroundColor(.white)
-                        .frame(height: 45 + CGFloat(mainPageHistory.playerlist.count/2+mainPageHistory.playerlist.count%2)*55)
-                        .shadow(color: .gray, radius: 3, x: 0, y: 3)
+//                    RoundedRectangle(cornerRadius: 18)
+//                        .foregroundColor(.white)
+//                        .shadow(color: .gray, radius: 3, x: 0, y: 3)
                     VStack {
                         HStack {
                             Text("수익현황 👏").font(.system(size: 24, weight: .bold))
@@ -98,7 +96,7 @@ struct IngameView: View {
                         .padding(.horizontal)
                         .padding(.top)
                         let columns = [
-                                GridItem(.adaptive(minimum: 150))
+                                GridItem(.adaptive(minimum: 120))
                             ]
                         LazyVGrid(columns: columns) {
                             ForEach(mainPageHistory.playerlist, id: \.self) { player in
@@ -119,8 +117,12 @@ struct IngameView: View {
                         }
                         .padding()
                     }
-                }
-                .padding([.leading, .trailing, .bottom])
+                    .background (
+                        RoundedRectangle(cornerRadius: 18)
+                            .foregroundColor(.white)
+                            .shadow(color: .gray, radius: 3, x: 0, y: 3)
+                    )
+                    .padding(.horizontal)
                 HStack {
                     Text("진행내역 🤝")
                         .font(.system(size: 28, weight: .bold))
