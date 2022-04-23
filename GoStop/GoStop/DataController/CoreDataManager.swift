@@ -54,20 +54,41 @@ class CoreDataManager: ObservableObject {
     }
     
     func fetchSpecificPlayerTotalCost(id: UUID) -> Int32 {
-        var cost: [IngamePlayerPlayList] = []
-        let request = NSFetchRequest<IngamePlayerPlayList>(entityName: "IngamePlayerPlayList")
+        var ingamePlayer: [IngamePlayer] = []
+        let request = NSFetchRequest<IngamePlayer>(entityName: "IngamePlayer")
         var sum: Int32 = 0
         
         do {
-            cost = try persistentContainer.viewContext.fetch(request).filter { $0.id == id }
-            for i in cost {
-                sum += i.cost
+            ingamePlayer = try persistentContainer.viewContext.fetch(request).filter { $0.id == id }
+            for player in ingamePlayer {
+                sum += player.totalCost
             }
             return sum
         } catch {
             return 0
         }
-    }
+    }// 정산내역과 수익현황에 쓰이는 total
+    
+    func fetchSpecificPlayerToPlayerCost(mainName: String, enemyName: String, id: UUID) -> Int32 {
+        var ingamePlayer: [IngamePlayer]
+        let request = NSFetchRequest<IngamePlayer>(entityName: "IngamePlayer")
+        var sum: Int32 = 0
+
+        do {
+            ingamePlayer = try persistentContainer.viewContext.fetch(request).filter{ $0.id == id}.filter{ $0.name == mainName }
+            for player in ingamePlayer {
+                let ingameList = player.enemyList.filter{ $0.enemyName! == enemyName }
+                for i in ingameList {
+                    sum += i.cost
+                }
+            }
+            return sum
+        } catch {
+            print("fetchSpecificPlayerToPlayerCost method error")
+            return 0
+        }
+
+    }// 정산내역에 쓰이는 디테일한 내역
     
     func saveMainPageHistory(players: [String], historyName: String, jumDang: String, ppuck: String, firstTadack: String, sell: String) {
         let mainPageHistory = MainPageHistory(context: persistentContainer.viewContext)
