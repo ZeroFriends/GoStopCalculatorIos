@@ -3,11 +3,13 @@
     <entity name="IngamePlayer" representedClassName="IngamePlayer" syncable="YES" codeGenerationType="class">
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="totalCost" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="origin" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Round" inverseName="ingamePlayer" inverseEntity="Round"/>
         <relationship name="playList" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="IngamePlayerPlayList" inverseName="origin" inverseEntity="IngamePlayerPlayList"/>
     </entity>
     <entity name="IngamePlayerPlayList" representedClassName="IngamePlayerPlayList" syncable="YES" codeGenerationType="class">
         <attribute name="cost" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="enemyName" optional="YES" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <relationship name="origin" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="IngamePlayer" inverseName="playList" inverseEntity="IngamePlayer"/>
     </entity>
@@ -37,8 +39,8 @@
         <relationship name="origin" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MainPageHistory" inverseName="rule" inverseEntity="MainPageHistory"/>
     </entity>
     <elements>
-        <element name="IngamePlayer" positionX="80.7783203125" positionY="14.06306457519531" width="128" height="103"/>
-        <element name="IngamePlayerPlayList" positionX="303.792236328125" positionY="-4.20648193359375" width="128" height="88"/>
+        <element name="IngamePlayer" positionX="80.7783203125" positionY="14.06306457519531" width="128" height="118"/>
+        <element name="IngamePlayerPlayList" positionX="303.792236328125" positionY="-4.20648193359375" width="128" height="103"/>
         <element name="MainPageHistory" positionX="70.988525390625" positionY="299.640869140625" width="128" height="133"/>
         <element name="Player" positionX="-233.281005859375" positionY="272.8033447265625" width="128" height="88"/>
         <element name="Round" positionX="-121.400634765625" positionY="126.6251525878906" width="128" height="88"/>
