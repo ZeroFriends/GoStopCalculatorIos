@@ -48,9 +48,21 @@ struct CalculateView: View {
                                     .font(.system(size: 16, weight: .bold))
                                     .foregroundColor(.red)
                                 Text(player.name ?? "")
+                                    .font(.system(size: 16, weight: .bold))
                                 Spacer()
-                                let totalCost = coreDM.fetchSpecificPlayerTotalCost(id: mainPageHistory.id ?? UUID())
-                                Text("\(totalCost)")
+                                let totalCost = coreDM.fetchSpecificPlayerTotalCost(id: mainPageHistory.id ?? UUID(), name: player.name ?? "")
+                                if totalCost > 0 {
+                                    Text("+\(totalCost)원")
+                                        .font(.system(size: 16, weight: .bold))
+                                        .foregroundColor(.red)
+                                } else if totalCost < 0 {
+                                    Text("-\(totalCost)원")
+                                        .font(.system(size: 16, weight: .bold))
+                                        .foregroundColor(.blue)
+                                } else {
+                                    Text("\(totalCost)원")
+                                        .font(.system(size: 16, weight: .bold))
+                                }
                             }
                             .padding(.bottom, 3)
                             
@@ -62,9 +74,25 @@ struct CalculateView: View {
                                     HStack {
                                         let sum: Int32 = coreDM.fetchSpecificPlayerToPlayerCost(mainName: mainName, enemyName: enemyName, id: mainID)
                                         Text(innerPlayer.name ?? "")
+                                            .font(.system(size: 14, weight: .medium))
                                         Text("에게")
-                                        Text("\(sum)")
-                                        Text("을 받아야 합니다")
+                                            .font(.system(size: 14, weight: .medium))
+                                        if sum > 0 {
+                                            Text("+\(sum)원")
+                                                .font(.system(size: 14, weight: .bold))
+                                                .foregroundColor(.red)
+                                            Text("을 받아야 합니다.")
+                                                .font(.system(size: 14, weight: .medium))
+                                        } else if sum < 0 {
+                                            Text("\(sum)원")
+                                                .font(.system(size: 14, weight: .bold))
+                                                .foregroundColor(.blue)
+                                            Text("을 받아야 합니다.")
+                                                .font(.system(size: 14, weight: .medium))
+                                        } else {
+                                            Text("받을 금액이 없습니다.")
+                                                .font(.system(size: 14, weight: .medium))
+                                        }
                                         Spacer()
                                     }
                                 }
@@ -79,8 +107,7 @@ struct CalculateView: View {
                         )
                     }
                 }
-                .padding(.horizontal)
-                .padding(.top)
+                .padding()
                 .frame(maxWidth: .infinity)
             }
         }
