@@ -24,6 +24,7 @@
 		EA5CEB1027E2528100234E29 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA5CEB0F27E2528100234E29 /* CoreDataManager.swift */; };
 		EA99266027955AE60064AC82 /* FirstScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA99265F27955AE60064AC82 /* FirstScreen.swift */; };
 		EA992662279570BC0064AC82 /* MainPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA992661279570BC0064AC82 /* MainPage.swift */; };
+		EAC13AF2281A7A2F001D5C2B /* RoundDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAC13AF1281A7A2F001D5C2B /* RoundDetailView.swift */; };
 		EAC8DE232793E24C0056EEC3 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = EAC8DE222793E24C0056EEC3 /* Lottie */; };
 		EAC8DE252793E3560056EEC3 /* 8707-loading.json in Resources */ = {isa = PBXBuildFile; fileRef = EAC8DE242793E3560056EEC3 /* 8707-loading.json */; };
 		EAC8DE272793E3BB0056EEC3 /* 로티이미지.json in Resources */ = {isa = PBXBuildFile; fileRef = EAC8DE262793E3BB0056EEC3 /* 로티이미지.json */; };
@@ -52,6 +53,7 @@
 		EA5CEB0F27E2528100234E29 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		EA99265F27955AE60064AC82 /* FirstScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstScreen.swift; sourceTree = "<group>"; };
 		EA992661279570BC0064AC82 /* MainPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPage.swift; sourceTree = "<group>"; };
+		EAC13AF1281A7A2F001D5C2B /* RoundDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundDetailView.swift; sourceTree = "<group>"; };
 		EAC8DE242793E3560056EEC3 /* 8707-loading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "8707-loading.json"; sourceTree = "<group>"; };
 		EAC8DE262793E3BB0056EEC3 /* 로티이미지.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "로티이미지.json"; sourceTree = "<group>"; };
 		EAD530C72814611500D9C2D3 /* Round+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Round+Extension.swift"; sourceTree = "<group>"; };
@@ -92,6 +94,7 @@
 				EA522B9927C7E78700BC6416 /* IngameView.swift */,
 				EA33F831280331F900EDB7B9 /* gameRuleView.swift */,
 				EA0380152813134A00292035 /* CalculateView.swift */,
+				EAC13AF1281A7A2F001D5C2B /* RoundDetailView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -298,6 +301,7 @@
 				EA5CEB1027E2528100234E29 /* CoreDataManager.swift in Sources */,
 				EA992662279570BC0064AC82 /* MainPage.swift in Sources */,
 				EA33F832280331F900EDB7B9 /* gameRuleView.swift in Sources */,
+				EAC13AF2281A7A2F001D5C2B /* RoundDetailView.swift in Sources */,
 				EAD530CA2814613200D9C2D3 /* IngamePlayer+Extension.swift in Sources */,
 				EA5CEAFE27E2493B00234E29 /* DataModel.xcdatamodeld in Sources */,
 				EA038018281330D800292035 /* Player+Extension.swift in Sources */,
