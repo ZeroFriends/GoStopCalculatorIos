@@ -53,13 +53,13 @@ class CoreDataManager: ObservableObject {
         }
     }
     
-    func fetchSpecificPlayerTotalCost(id: UUID) -> Int32 {
+    func fetchSpecificPlayerTotalCost(id: UUID, name: String) -> Int32 {
         var ingamePlayer: [IngamePlayer] = []
         let request = NSFetchRequest<IngamePlayer>(entityName: "IngamePlayer")
         var sum: Int32 = 0
         
         do {
-            ingamePlayer = try persistentContainer.viewContext.fetch(request).filter { $0.id == id }
+            ingamePlayer = try persistentContainer.viewContext.fetch(request).filter { $0.id == id }.filter { $0.name == name }
             for player in ingamePlayer {
                 sum += player.totalCost
             }
@@ -89,6 +89,39 @@ class CoreDataManager: ObservableObject {
         }
 
     }// 정산내역에 쓰이는 디테일한 내역
+    
+    func saveRoundInMainPageHistory(mainPageHistory: MainPageHistory) {
+        let round = Round(context: persistentContainer.viewContext)
+        round.id = mainPageHistory.id
+        
+        let ingamePlayers = ["플레이어1", "플레이어2", "플레이어3", "플레이어4"]
+        
+        for ingamePlayer in ingamePlayers {
+            let player = IngamePlayer(context: persistentContainer.viewContext)
+            player.id = mainPageHistory.id
+            player.name = ingamePlayer
+            player.totalCost = 0
+            for oneOfEnemyList in ingamePlayers {
+                if oneOfEnemyList != ingamePlayer {
+                    let enemy = IngamePlayerPlayList(context: persistentContainer.viewContext)
+                    enemy.cost = 0
+                    enemy.id = mainPageHistory.id
+                    enemy.enemyName = oneOfEnemyList
+                    player.addToPlayList(enemy)
+                }
+            }
+            
+            round.addToIngamePlayer(player)
+        }
+        
+        mainPageHistory.addToRound(round)
+        
+        do {
+            try persistentContainer.viewContext.save()
+        } catch {
+            print("\(error)")
+        }
+    }//round save test용 method
     
     func saveMainPageHistory(players: [String], historyName: String, jumDang: String, ppuck: String, firstTadack: String, sell: String) {
         let mainPageHistory = MainPageHistory(context: persistentContainer.viewContext)
