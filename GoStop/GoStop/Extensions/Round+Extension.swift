@@ -8,5 +8,11 @@
 import Foundation
 
 extension Round {
-
+    public var ingamePlayerList: [IngamePlayer] {
+        let set = ingamePlayer as? Set<IngamePlayer> ?? []
+        
+        return Array(set.sorted {
+            $0.name! < $1.name!
+        })
+    }
 }
