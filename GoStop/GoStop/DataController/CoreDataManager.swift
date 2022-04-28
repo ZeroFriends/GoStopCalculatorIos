@@ -77,7 +77,7 @@ class CoreDataManager: ObservableObject {
         do {
             ingamePlayer = try persistentContainer.viewContext.fetch(request).filter{ $0.id == id}.filter{ $0.name == mainName }
             for player in ingamePlayer {
-                let ingameList = player.enemyList.filter{ $0.enemyName! == enemyName }
+                let ingameList = player.ingamePlayerPlayList.filter{ $0.enemyName! == enemyName }
                 for i in ingameList {
                     sum += i.cost
                 }

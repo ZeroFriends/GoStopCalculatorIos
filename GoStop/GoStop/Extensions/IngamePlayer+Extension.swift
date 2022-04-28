@@ -8,7 +8,7 @@
 import Foundation
 
 extension IngamePlayer {
-    public var enemyList: [IngamePlayerPlayList] {
+    public var ingamePlayerPlayList: [IngamePlayerPlayList] {
         let set = playList as? Set<IngamePlayerPlayList> ?? []
         
         return Array(set.sorted {
