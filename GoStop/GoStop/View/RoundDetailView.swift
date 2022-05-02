@@ -12,6 +12,11 @@ struct RoundDetailView: View {
     var coreDM: CoreDataManager
     var mainPageHistory: MainPageHistory
     var round: Round
+//    @State var ingamePlayers: [IngamePlayer] = []
+//
+//    private func populateIngamePlayer() {
+//        ingamePlayers = coreDM.fetchIngamePlayers(id: mainPageHistory.id!, roundId: round.roundId!)
+//    }
     
     var body: some View {
         VStack {
@@ -42,6 +47,8 @@ struct RoundDetailView: View {
             ScrollView {
                 VStack {
                     ForEach(round.ingamePlayerList, id: \.self) { ingamePlayer in
+                        let inner = ingamePlayer.innerArray
+                        
                         VStack {
                             HStack {
                                 Text("\(round.ingamePlayerList.firstIndex(of: ingamePlayer)!+1)\t")
@@ -65,59 +72,34 @@ struct RoundDetailView: View {
                             }//HStack
                             .padding(.bottom, 3)
                             
-//                            ForEach(ingamePlayer.enemyList, id: \.self) { enemy in
-//                                HStack {
-//                                    Text(enemy.name ?? "")
-//                                        .font(.system(size: 14, weight: .medium))
-//                                    Text("에게")
-//                                        .font(.system(size: 14, weight: .medium))
-//                                    if enemy.cost! > 0 {
-//                                        Text("+\(enemy.cost!)원")
-//                                            .font(.system(size: 14, weight: .bold))
-//                                            .foregroundColor(.red)
-//                                        Text("을 받아야 합니다.")
-//                                            .font(.system(size: 14, weight: .medium))
-//                                    } else if enemy.cost! < 0 {
-//                                        Text("\(enemy.cost!)원")
-//                                            .font(.system(size: 14, weight: .bold))
-//                                            .foregroundColor(.blue)
-//                                        Text("을 받아야 합니다.")
-//                                            .font(.system(size: 14, weight: .medium))
-//                                    } else {
-//                                        Text("받을 금액이 없습니다.")
-//                                            .font(.system(size: 14, weight: .medium))
-//                                    }
-//                                    Spacer()
-//                                }
-//                            }//이 부분의 ForEach만 추가하면 build가 느려짐 test code 작성의 문제인건지 이 부분이 문제인지 End game view 개발하면서 파악해야함
-                            ForEach(round.ingamePlayerList, id: \.self) { innerIngamePlayer in
-                                let sum = 0//cost fetch 부분 ingamePlayer와 innerIngamePlayer를 가지고 cost를 가져와야함 지금은 임시 데이터
-                                if ingamePlayer.name != innerIngamePlayer.name {
-                                    HStack {
-                                        Text(innerIngamePlayer.name ?? "")
+                            ForEach(inner, id: \.self) { innerIngamePlayer in
+
+                                let cost = innerIngamePlayer.cost
+                                HStack {
+                                    Text(innerIngamePlayer.enemyName ?? "")
+                                        .font(.system(size: 14, weight: .medium))
+                                    Text("에게")
+                                        .font(.system(size: 14, weight: .medium))
+                                    if cost > 0 {
+                                        Text("+\(cost)원")
+                                            .font(.system(size: 14, weight: .bold))
+                                            .foregroundColor(.red)
+                                        Text("을 받아야 합니다.")
                                             .font(.system(size: 14, weight: .medium))
-                                        Text("에게")
+                                    } else if cost < 0 {
+                                        Text("\(cost)원")
+                                            .font(.system(size: 14, weight: .bold))
+                                            .foregroundColor(.blue)
+                                        Text("을 받아야 합니다.")
                                             .font(.system(size: 14, weight: .medium))
-                                        if sum > 0 {
-                                            Text("+\(sum)원")
-                                                .font(.system(size: 14, weight: .bold))
-                                                .foregroundColor(.red)
-                                            Text("을 받아야 합니다.")
-                                                .font(.system(size: 14, weight: .medium))
-                                        } else if sum < 0 {
-                                            Text("\(sum)원")
-                                                .font(.system(size: 14, weight: .bold))
-                                                .foregroundColor(.blue)
-                                            Text("을 받아야 합니다.")
-                                                .font(.system(size: 14, weight: .medium))
-                                        } else {
-                                            Text("받을 금액이 없습니다.")
-                                                .font(.system(size: 14, weight: .medium))
-                                        }
-                                        Spacer()
-                                    }//HStack
-                                }
-                            }
+                                    } else {
+                                        Text("받을 금액이 없습니다.")
+                                            .font(.system(size: 14, weight: .medium))
+                                    }
+                                    Spacer()
+                                }//HStack
+                            }//ForEach
+
                         }
                         .padding()
                         .background (
@@ -131,6 +113,9 @@ struct RoundDetailView: View {
                 .frame(maxWidth: .infinity)
             }//ScrollView
         }//VStack
+        .onAppear {
+//            populateIngamePlayer()
+        }
         .navigationBarHidden(true)
     }
 }

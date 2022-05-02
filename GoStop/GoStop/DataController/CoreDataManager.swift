@@ -53,6 +53,16 @@ class CoreDataManager: ObservableObject {
         }
     }
     
+    func fetchIngamePlayers(id: UUID, roundId: UUID) -> [IngamePlayer] {
+        let request = NSFetchRequest<IngamePlayer>(entityName: "IngamePlayer")
+        
+        do {
+            return try persistentContainer.viewContext.fetch(request).filter{ $0.id == id }.filter{ $0.roundId == roundId }
+        } catch {
+            return []
+        }
+    }
+    
     func fetchSpecificPlayerTotalCost(id: UUID, name: String) -> Int32 {
         var ingamePlayer: [IngamePlayer] = []
         let request = NSFetchRequest<IngamePlayer>(entityName: "IngamePlayer")
@@ -77,7 +87,7 @@ class CoreDataManager: ObservableObject {
         do {
             ingamePlayer = try persistentContainer.viewContext.fetch(request).filter{ $0.id == id}.filter{ $0.name == mainName }
             for player in ingamePlayer {
-                let ingameList = player.ingamePlayerPlayList.filter{ $0.enemyName! == enemyName }
+                let ingameList = player.innerArray.filter{ $0.enemyName! == enemyName }
                 for i in ingameList {
                     sum += i.cost
                 }
@@ -93,19 +103,21 @@ class CoreDataManager: ObservableObject {
     func saveRoundInMainPageHistory(mainPageHistory: MainPageHistory) {
         let round = Round(context: persistentContainer.viewContext)
         round.id = mainPageHistory.id
-        
+        round.roundId = UUID()
         let ingamePlayers = ["플레이어1", "플레이어2", "플레이어3", "플레이어4"]
         
         for ingamePlayer in ingamePlayers {
             let player = IngamePlayer(context: persistentContainer.viewContext)
             player.id = mainPageHistory.id
             player.name = ingamePlayer
+            player.roundId = round.roundId
             player.totalCost = 0
             for oneOfEnemyList in ingamePlayers {
                 if oneOfEnemyList != ingamePlayer {
                     let enemy = IngamePlayerPlayList(context: persistentContainer.viewContext)
                     enemy.cost = 0
                     enemy.id = mainPageHistory.id
+                    enemy.roundId = round.roundId
                     enemy.enemyName = oneOfEnemyList
                     player.addToPlayList(enemy)
                 }

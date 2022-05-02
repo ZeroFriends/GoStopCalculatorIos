@@ -8,11 +8,13 @@
 import Foundation
 
 extension IngamePlayer {
-    public var ingamePlayerPlayList: [IngamePlayerPlayList] {
+    
+    public var innerArray: [IngamePlayerPlayList] {
         let set = playList as? Set<IngamePlayerPlayList> ?? []
         
         return Array(set.sorted {
             $0.enemyName! < $1.enemyName!
         })
     }
+    
 }
