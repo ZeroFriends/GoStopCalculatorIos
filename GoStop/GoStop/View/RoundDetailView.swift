@@ -106,7 +106,7 @@ struct RoundDetailView: View {
                             RoundedRectangle(cornerRadius: 18)
                                 .foregroundColor(.white)
                                 .shadow(color: .gray, radius: 5, x: 0, y: 3)
-                    )
+                        )
                     }
                 }
                 .padding()

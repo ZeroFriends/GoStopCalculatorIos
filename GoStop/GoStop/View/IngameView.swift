@@ -214,11 +214,7 @@ struct IngameView: View {
                         }
                     }
                 }
-                Button {
-                    //게임시작 action, round 생성 test code 만들어보자
-                    coreDM.saveRoundInMainPageHistory(mainPageHistory: mainPageHistory)
-                    populateRounds()
-                } label: {
+                NavigationLink(destination: EndGameView(coreDM: coreDM, mainPageHistory: mainPageHistory), label: {
                     ZStack {
                         RoundedRectangle(cornerRadius: 22)
                             .foregroundColor(.red)
@@ -228,7 +224,24 @@ struct IngameView: View {
                             .foregroundColor(.white)
                     }
                     .padding(.horizontal)
-                }
+                })
+                
+//                Button {
+//                    //게임시작 action, round 생성 test code 만들어보자
+//                    coreDM.saveRoundInMainPageHistory(mainPageHistory: mainPageHistory) 이거는 테스트용
+//                    populateRounds()
+//                } label: {
+//                    ZStack {
+//                        RoundedRectangle(cornerRadius: 22)
+//                            .foregroundColor(.red)
+//                            .frame(height: 44)
+//                        Text("게임시작")
+//                            .font(.system(size: 16, weight: .bold))
+//                            .foregroundColor(.white)
+//                    }
+//                    .padding(.horizontal)
+//                }
+                
             }//VStack
         }//ZStack
         .navigationBarHidden(true)

@@ -24,6 +24,7 @@
 		EA5CEB1027E2528100234E29 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA5CEB0F27E2528100234E29 /* CoreDataManager.swift */; };
 		EA99266027955AE60064AC82 /* FirstScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA99265F27955AE60064AC82 /* FirstScreen.swift */; };
 		EA992662279570BC0064AC82 /* MainPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA992661279570BC0064AC82 /* MainPage.swift */; };
+		EAAF94A328210E1B00A0C3BC /* EndGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAAF94A228210E1B00A0C3BC /* EndGameView.swift */; };
 		EAC13AF2281A7A2F001D5C2B /* RoundDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAC13AF1281A7A2F001D5C2B /* RoundDetailView.swift */; };
 		EAC8DE232793E24C0056EEC3 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = EAC8DE222793E24C0056EEC3 /* Lottie */; };
 		EAC8DE252793E3560056EEC3 /* 8707-loading.json in Resources */ = {isa = PBXBuildFile; fileRef = EAC8DE242793E3560056EEC3 /* 8707-loading.json */; };
@@ -53,6 +54,7 @@
 		EA5CEB0F27E2528100234E29 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		EA99265F27955AE60064AC82 /* FirstScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstScreen.swift; sourceTree = "<group>"; };
 		EA992661279570BC0064AC82 /* MainPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPage.swift; sourceTree = "<group>"; };
+		EAAF94A228210E1B00A0C3BC /* EndGameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndGameView.swift; sourceTree = "<group>"; };
 		EAC13AF1281A7A2F001D5C2B /* RoundDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundDetailView.swift; sourceTree = "<group>"; };
 		EAC8DE242793E3560056EEC3 /* 8707-loading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "8707-loading.json"; sourceTree = "<group>"; };
 		EAC8DE262793E3BB0056EEC3 /* 로티이미지.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "로티이미지.json"; sourceTree = "<group>"; };
@@ -95,6 +97,7 @@
 				EA33F831280331F900EDB7B9 /* gameRuleView.swift */,
 				EA0380152813134A00292035 /* CalculateView.swift */,
 				EAC13AF1281A7A2F001D5C2B /* RoundDetailView.swift */,
+				EAAF94A228210E1B00A0C3BC /* EndGameView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -290,6 +293,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EAD530C82814611500D9C2D3 /* Round+Extension.swift in Sources */,
+				EAAF94A328210E1B00A0C3BC /* EndGameView.swift in Sources */,
 				EA06770E27F1CA6C00D2444D /* PlayerPopUpView.swift in Sources */,
 				EA99266027955AE60064AC82 /* FirstScreen.swift in Sources */,
 				EA4F79E7278EB7A5008B78FF /* LottieAnimationView.swift in Sources */,
