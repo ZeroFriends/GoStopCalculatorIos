@@ -145,6 +145,7 @@ struct StartView: View {
                                                         }
                                                     }
                                                     .frame(height: 36)
+                                                    .padding()
                                                 }
                                             }
                                             .padding(.vertical)
@@ -201,6 +202,7 @@ struct StartView: View {
                                                         }
                                                     }
                                                     .frame(height: 36)
+                                                    .padding()
                                                 }
                                             }
                                             .alert(isPresented: $playersNumberExcess) {
