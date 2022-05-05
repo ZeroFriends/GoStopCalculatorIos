@@ -22,7 +22,11 @@ struct EndGameView: View {
                       "게임에서 패배한 플레이어들의 박 여부를 체크해주세요."]
     @State private var index = 0
     @State private var checkBoxOn = Array(repeating: false, count: 10)
-    @State private var recordOption: [String] = []
+    
+    @State private var selling = Array(repeating: false, count: 4)//광팔기 tap 확인 유무
+    
+    @State private var recordOption: [String] = []//옵션점수기록용
+    
     var body: some View {
         VStack {
             HStack {
@@ -91,6 +95,7 @@ struct EndGameView: View {
                     }
                     .background(
                         RoundedRectangle(cornerRadius: 12).stroke().foregroundColor(.red)
+                            .frame(height: 26)
                     )
                 } else if index >= 2 {
                     Button {
@@ -103,6 +108,7 @@ struct EndGameView: View {
                     }
                     .background(
                         RoundedRectangle(cornerRadius: 12).stroke().foregroundColor(.red)
+                            .frame(height: 26)
                     )
                 }
             }
@@ -137,49 +143,30 @@ struct EndGameView: View {
                     VStack {
                         ForEach(ingamePlayers, id:\.self) { ingamePlayer in
                             let playerIndex = ingamePlayers.firstIndex(of: ingamePlayer)!
-                            HStack {
-                                Text("\(playerIndex+1)\t")
-                                    .font(.system(size: 16, weight: .medium))
-                                    .foregroundColor(.red)
-                                Text(ingamePlayer)
-                                    .font(.system(size: 16, weight: .medium))
-                                    .foregroundColor(.black)
-                                Spacer()
+                            Button {
+                                
+                            } label: {
+                                HStack {
+                                    Text("\(playerIndex+1)\t")
+                                        .font(.system(size: 16, weight: .medium))
+                                        .foregroundColor(.red)
+                                    Text(ingamePlayer)
+                                        .font(.system(size: 16, weight: .medium))
+                                        .foregroundColor(.black)
+                                    Spacer()
+                                }
+                                HStack {
+                                    Text(" ")
+                                    Spacer()
+                                    Rectangle()
+                                        .frame(width: 135, height: 1)
+                                }
+                                .padding(.top, -5)
+                                .padding(.bottom, 20)
                             }
-                            HStack {
-                                Text(" ")
-                                Spacer()
-                                Rectangle()
-                                    .frame(width: 135, height: 1)
-                            }
-                            .padding(.top, -5)
-                            .padding(.bottom, 20)
-//                                VStack {
-//                                    HStack {
-//                                        Text("3 ")
-//                                            .foregroundColor(.red)
-//                                            .font(.system(size: 16))
-//                                            .fontWeight(.bold)
-//                                        Text("첫 따닥 ")
-//                                            .fontWeight(.medium)
-//                                        Spacer()
-//                                        TextField("0", text: $firstTadack)
-//                                            .multilineTextAlignment(.trailing)
-//                                            .keyboardType(.decimalPad)
-//                                            .frame(width: 110)
-//                                        Text("원")
-//                                    }
-//                                    HStack {
-//                                        Text("  ")
-//                                        Spacer()
-//                                        Rectangle()
-//                                            .frame(width: 135, height: 1)
-//                                    }
-//                                    .padding(.top, -5)
-//                                    .padding(.bottom, 20)
-//                                }
                         }
                     }
+                    .padding()
                 } else if index == 2 {//옵션 점수 기록
                     
                 } else if index == 3 {//승자 점수 기록
@@ -190,6 +177,7 @@ struct EndGameView: View {
             }//ScrollView
             if index == 0 {
                 Button {
+                    ingamePlayers = []
                     for checkIndex in 0 ..< checkBoxOn.count {
                         if checkBoxOn[checkIndex] == true {
                             ingamePlayers.append(mainPageHistory.playerlist[checkIndex].name!)
