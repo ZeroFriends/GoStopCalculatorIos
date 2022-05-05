@@ -60,7 +60,7 @@ struct PlayerPopUpView: View {
                             Button {
                                 if players.contains(playerName) || playerName == "" {
                                     guideText = "중복된 플레이어 이름이있습니다."
-                                } else if players.count > 8 {
+                                } else if playerName.count > 8 {
                                   guideText = "이름 최대 8자를 초과할 수 없습니다."
                                 } else {
                                     players.insert(playerName, at: originIndex)
@@ -84,6 +84,10 @@ struct PlayerPopUpView: View {
                 .frame(height:220)
                 .frame(maxWidth: 310)
             }
+        }
+        .onChange(of: show) { _ in
+            playerName = ""
+            guideText = ""
         }
     }
 }
