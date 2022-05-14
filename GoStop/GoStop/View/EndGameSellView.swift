@@ -130,6 +130,8 @@ struct BuildTopView: View {
     }
 }
 
+
+
 struct EndGameSellView_Previews: PreviewProvider {
     static var previews: some View {
         let context = CoreDataManager().persistentContainer.viewContext

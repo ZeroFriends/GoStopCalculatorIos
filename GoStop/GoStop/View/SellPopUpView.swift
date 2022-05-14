@@ -14,6 +14,18 @@ struct SellPopUpView: View {
     let title = "광팔 수 있는 패"
     let subTitle = "*지역마다 약간의 다른 규칙이 있을 수 있습니다"
     
+    var textList = ["1월","3월","8월","11월","12월"]
+    
+    var textView: some View {
+        HStack {
+            Spacer()
+            ForEach(textList, id: \.self) { text in
+                Text("\(text)")
+                Spacer()
+            }
+        }
+    }
+    
     var body: some View {
         ZStack {
             if show {
@@ -29,6 +41,47 @@ struct SellPopUpView: View {
                             .foregroundColor(.gray)
                             .font(.system(size: 12, weight: .medium))
                         Spacer()
+                        
+                        HStack {
+                            Text("광)")
+                                .font(.system(size: 16, weight: .bold))
+                            Spacer()
+                        }
+                        .padding(.horizontal)
+                        Image("group2")
+
+                        textView
+                            .padding(.bottom)
+                        HStack {
+                            Text("쌍피)")
+                                .font(.system(size: 16, weight: .bold))
+                            Spacer()
+                            Spacer()
+                            Text("보너스)")
+                                .font(.system(size: 15, weight: .bold))
+                            Spacer()
+                        }
+                        .padding(.horizontal)
+                        
+                        HStack {
+                            Image("group14")
+                            Spacer()
+                        }
+                        .padding(.horizontal)
+                        Spacer()
+                        
+                        Button {
+                            show = false
+                        } label: {
+                            ZStack {
+                                Rectangle()
+                                    .foregroundColor(.red)
+                                Text("확인")
+                                    .foregroundColor(.white)
+                                    .font(.system(size: 16, weight: .bold))
+                            }
+                            .frame(height: 44)
+                        }
                     }
                 }
                 .frame(width: 340, height: 500)
