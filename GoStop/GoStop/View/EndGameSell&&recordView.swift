@@ -10,15 +10,17 @@ import SwiftUI
 struct PopUpIcon: View {
     
     var title: String
+    var color: Color
     
     var body: some View {
         Text(title)
             .font(.system(size: 14, weight: .bold))
-            .foregroundColor(.red)
-            .padding(5)
+            .foregroundColor(color)
+            .padding(3)
+            .padding(.horizontal, 10)
             .background(
                 RoundedRectangle(cornerRadius: 13).stroke(lineWidth: 1)
-                    .foregroundColor(.red)
+                    .foregroundColor(color)
             )
     }
 }
@@ -112,49 +114,51 @@ struct EndGameSellView: View {//광팔기 view
                             sellListPopUp = true
                         }
                     } label: {
-                        PopUpIcon(title: "광팔 수 있는 패")
+                        PopUpIcon(title: "광팔 수 있는 패", color: .red)
                     }
                 }
                 .padding()
-                ForEach(ingamePlayers, id: \.self) { ingamePlayer in
-                    let index = ingamePlayers.firstIndex(of: ingamePlayer)!
-                    HStack {
-                        Text("\(index+1)")
-                            .font(.system(size: 16, weight: seller[index] ? .bold : .medium))
-                            .foregroundColor(.red)
-                        Text(ingamePlayer)
-                            .font(.system(size: 16, weight: seller[index] ? .bold : .medium))
-                        Spacer()
-                        Button {
-                            seller = Array(repeating: false, count: 4)
-                            sellerInput = ["","","",""]
-                            seller[index] = true
-                        } label: {
-                            VStack {
-                                HStack {
-                                    TextField("-", text: $sellerInput[index])
-                                        .multilineTextAlignment(.trailing)
-                                        .keyboardType(.decimalPad)
-                                        .frame(width: 110)
-                                        .foregroundColor(.black)
-                                    Text("장")
-                                        .foregroundColor(seller[index] ? .black : .gray)
+                ScrollView {
+                    ForEach(ingamePlayers, id: \.self) { ingamePlayer in
+                        let index = ingamePlayers.firstIndex(of: ingamePlayer)!
+                        HStack {
+                            Text("\(index+1)")
+                                .font(.system(size: 16, weight: seller[index] ? .bold : .medium))
+                                .foregroundColor(.red)
+                            Text(ingamePlayer)
+                                .font(.system(size: 16, weight: seller[index] ? .bold : .medium))
+                            Spacer()
+                            Button {
+                                seller = Array(repeating: false, count: 4)
+                                sellerInput = ["","","",""]
+                                seller[index] = true
+                            } label: {
+                                VStack {
+                                    HStack {
+                                        TextField("-", text: $sellerInput[index])
+                                            .multilineTextAlignment(.trailing)
+                                            .keyboardType(.decimalPad)
+                                            .frame(width: 110)
+                                            .foregroundColor(.black)
+                                        Text("장")
+                                            .foregroundColor(seller[index] ? .black : .gray)
+                                    }
                                 }
                             }
                         }
-                    }
-                    HStack {
-                        Text("  ")
-                        Spacer()
-                        Rectangle()
-                            .frame(width: 135, height: 1)
-                            .foregroundColor(seller[index] ? .red : .gray)
-                    }
-                    .padding(.top, -10)
-                    .padding(.bottom, 20)
-                }//이 부분도 충분히 재사용할 수 있음 전환해보자
+                        HStack {
+                            Text("  ")
+                            Spacer()
+                            Rectangle()
+                                .frame(width: 135, height: 1)
+                                .foregroundColor(seller[index] ? .red : .gray)
+                        }
+                        .padding(.top, -10)
+                        .padding(.bottom, 20)
+                    }//이 부분도 충분히 재사용할 수 있음 전환해보자
+                    .padding(.horizontal)
+                }
                 .padding(.horizontal)
-                Spacer()
                 NavigationLink {
                     //옵션 점수기록으로 이동해야함
                 } label: {
@@ -177,19 +181,90 @@ struct EndGameSellView: View {//광팔기 view
             SellPopUpView(show: $sellListPopUp)
         }
         .navigationBarHidden(true)
-        .ignoresSafeArea(.keyboard)
+        .ignoresSafeArea(.keyboard, edges: .bottom)
     }
 }
 
 struct EndGameOptionView: View {
     @Binding var rootIsActive: Bool
     @Binding var goToOption: Bool
+    @State var calculateScorePopUp = false
+    
+    var mainPageHistory: MainPageHistory
+    let coreDM: CoreDataManager
+    var ingamePlayers: [String] = ["플레이어1","플레이어2","플레이어3","플레이어4"]
+    let subTitle = "옵션 점수기록"
+    let subExplain = "운이 좋네요!\n해당하는 곳에 체크를 해주세요."
+    let sellerIndex: Int?
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-            .onTapGesture {
-                goToOption = false
-                rootIsActive = false
+        ZStack {
+            VStack {
+                BuildTopView(rootIsActive: $rootIsActive,
+                         goToPrev: $goToOption,
+                         mainTitle: mainPageHistory.historyName ?? "",
+                         subTitle: subTitle,
+                         subExplain: subExplain)
+                HStack {
+                    Text("플레이어 리스트")
+                        .font(.system(size: 16, weight: .bold))
+                    Spacer()
+                    Button {
+                        withAnimation {
+                            calculateScorePopUp = true
+                        }
+                    } label: {
+                        PopUpIcon(title: "점수 계산 법", color: .red)
+                    }
+                }
+                .padding()
+                ScrollView {
+                    ForEach(ingamePlayers, id: \.self) { ingamePlayer in
+                        let index = ingamePlayers.firstIndex(of: ingamePlayer)!
+                        HStack {
+                            Text("\(index+1)")
+                                .font(.system(size: 16, weight: sellerIndex == index ? .bold : .medium))
+                                .foregroundColor(.red)
+                            Text(ingamePlayer)
+                                .font(.system(size: 16, weight: sellerIndex == index ? .bold : .medium))
+                            PopUpIcon(title: "광팜", color: .gray)
+                            Spacer()
+                        }
+                        HStack {
+                            Text("  ")
+                            Spacer()
+                            Rectangle()
+                                .frame(width: 135, height: 1)
+                                .foregroundColor(.gray)
+                        }//광파는 사람만 나타나게 해야함
+                        .padding(.top, -10)
+                        .padding(.bottom, 20)
+                        .opacity( sellerIndex == index ? 1 : 0)
+                    }
+                    .padding(.horizontal)
+                }
+                .padding(.horizontal)
+                NavigationLink {
+                    //승자 점수기록 으로 이동해야함
+                } label: {
+                    HStack {
+                        Spacer()
+                        Text("다음(2/4)")
+                            .font(.system(size: 16, weight: .bold))
+                            .foregroundColor(.white)
+                        Spacer()
+                    }
+                    .padding()
+                }
+                .background(
+                    RoundedRectangle(cornerRadius: 22)
+                        .foregroundColor(.red)
+                )
+                .padding(.horizontal)
             }
+            SellPopUpView(show: $calculateScorePopUp)
+        }
+        .navigationBarHidden(true)
+        .ignoresSafeArea(.keyboard, edges: .bottom)
     }
 }
 //EndGameView 전체적인 view 의 재사용성에 대한 고민
@@ -208,6 +283,10 @@ struct EndGameSellView_Previews: PreviewProvider {
 
 struct EndGameOptionView_Previews: PreviewProvider {
     static var previews: some View {
-        EndGameOptionView(rootIsActive: .constant(false),goToOption: .constant(false))
+        let context = CoreDataManager().persistentContainer.viewContext
+        let testHistory = MainPageHistory(context: context)
+        
+        testHistory.historyName = "2021.09.21"
+        return EndGameOptionView(rootIsActive: .constant(false),goToOption: .constant(false), mainPageHistory: testHistory, coreDM: CoreDataManager(), sellerIndex: nil)
     }
 }
