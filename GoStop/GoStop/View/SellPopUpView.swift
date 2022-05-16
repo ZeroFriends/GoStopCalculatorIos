@@ -18,12 +18,18 @@ struct SellPopUpView: View {
     
     var textView: some View {
         HStack {
+            Text("1월")
+            Spacer(minLength: 38)
+            Text("3월")
+            Spacer(minLength: 38)
+            Text("8월")
+            Spacer(minLength: 35)
+            Text("11월")
             Spacer()
-            ForEach(textList, id: \.self) { text in
-                Text("\(text)")
-                Spacer()
-            }
+            Text("12월")
         }
+        .padding(.leading, 35)
+        .padding(.trailing, 28)
     }
     
     var body: some View {
@@ -37,6 +43,7 @@ struct SellPopUpView: View {
                             .foregroundColor(.black)
                             .font(.system(size: 20, weight: .bold))
                             .padding(.top)
+                            .padding(.bottom, 1)
                         Text(subTitle)
                             .foregroundColor(.gray)
                             .font(.system(size: 12, weight: .medium))
