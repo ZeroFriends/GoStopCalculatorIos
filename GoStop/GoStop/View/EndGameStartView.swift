@@ -110,7 +110,9 @@ struct EndGameStartView: View {
                            label: {
             })
             
-            NavigationLink(isActive: $goToOption, destination: {EndGameOptionView(rootIsActive: $rootIsActive, goToOption: $goToOption)},
+            NavigationLink(isActive: $goToOption, destination: {EndGameOptionView(rootIsActive: $rootIsActive, goToOption: $goToOption,
+            mainPageHistory: mainPageHistory, coreDM: coreDM, ingamePlayers: ingamePlayers, sellerIndex: nil)
+            },
                            label: {
             })
             
