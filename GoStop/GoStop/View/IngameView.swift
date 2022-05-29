@@ -5,17 +5,20 @@
 //  Created by 이태현 on 2022/02/25.
 //
 
+import NavigationStack
 import SwiftUI
 
+//NavigationStack 설정해줘야 하는 부분
 struct IngameView: View {
-    @State var isActive = false
-    
+//    @State var isActive = false// root view
     @State var toGoHome = false
     @State var calculateButton = false
     @State var gameRuleButton = false
     
     let coreDM: CoreDataManager
     var mainPageHistory: MainPageHistory
+    
+    @StateObject var navigationStack = NavigationStack()
     
     @State var rounds: [Round] = []
     
@@ -24,7 +27,7 @@ struct IngameView: View {
     }
     
     var body: some View {
-        NavigationView {
+
             ZStack {
                 NavigationLink(isActive: $toGoHome) {
                     MainPage()
@@ -38,6 +41,7 @@ struct IngameView: View {
                     CalculateView(coreDM: coreDM, mainPageHistory: mainPageHistory)
                 } label: {
                 }
+                NavigationStackView(navigationStack: navigationStack) {
                 VStack {
                     HStack {
                         Button {
@@ -218,28 +222,29 @@ struct IngameView: View {
                             }
                         }
                     }
-                    NavigationLink(destination: EndGameStartView(coreDM: coreDM, mainPageHistory: mainPageHistory, rootIsActive: self.$isActive),
-                                   isActive: self.$isActive)
-                    {
-                        ZStack {
-                            RoundedRectangle(cornerRadius: 22)
-                                .foregroundColor(.red)
-                                .frame(height: 44)
-                            Text("게임시작")
-                                .font(.system(size: 16, weight: .bold))
-                                .foregroundColor(.white)
+//                    NavigationStackView(navigationStack: navigationStack) {
+                        PushView(
+                            destination: EndGameStartView(coreDM: coreDM,
+                                                          mainPageHistory: mainPageHistory)
+                        ) {
+                            ZStack {
+                                RoundedRectangle(cornerRadius: 22)
+                                    .foregroundColor(.red)
+                                    .frame(height: 44)
+                                Text("게임시작")
+                                    .font(.system(size: 16, weight: .bold))
+                                    .foregroundColor(.white)
+                            }
+                            .padding(.horizontal)
                         }
-                        .padding(.horizontal)
                     }
-                    .isDetailLink(false)
+                    
                 }//VStack
             }//ZStack
             .navigationBarHidden(true)
             .onAppear {
                 populateRounds()
             }
-        }
-        .navigationBarHidden(true)
     }
 }
 

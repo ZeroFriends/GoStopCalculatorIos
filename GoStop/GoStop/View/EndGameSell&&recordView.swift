@@ -5,7 +5,9 @@
 //  Created by 이태현 on 2022/05/10.
 //
 
+import NavigationStack
 import SwiftUI
+
 
 struct PopUpIcon: View {
     
@@ -26,9 +28,6 @@ struct PopUpIcon: View {
 }
 
 struct BuildTopView: View {
-    @Binding var rootIsActive: Bool
-    @Binding var goToPrev: Bool
-    
     @Environment(\.presentationMode) var presentationMode
     var mainTitle: String
     var subTitle: String
@@ -37,23 +36,19 @@ struct BuildTopView: View {
     var body: some View {
         VStack {
             HStack {
-                Button {
-                    presentationMode.wrappedValue.dismiss()
-                } label: {
+                
+                PopView {
                     Image(systemName: "arrow.left")
                         .foregroundColor(.black)
                 }
+
                 Spacer()
                 Text(mainTitle)
                     .font(.system(size: 14))
                     .bold()
                 Spacer()
-                Button {
-                    withAnimation {
-                        self.rootIsActive = false
-                        goToPrev = false
-                    }
-                } label: {
+                PopView(destination: .root) {
+//                    viewBinding.goToRoot()
                     Image(systemName: "multiply")
                         .foregroundColor(.black)
                 }
@@ -85,10 +80,8 @@ struct BuildTopView: View {
 }
 
 struct EndGameSellView: View {//광팔기 view
-    @Binding var rootIsActive: Bool
-    @Binding var goToSell: Bool
     @State var sellListPopUp = false
-    
+    @Environment(\.presentationMode) var presentationMode
     var mainPageHistory: MainPageHistory
     let coreDM: CoreDataManager
     var ingamePlayers: [String] = ["플레이어1","플레이어2","플레이어3","플레이어4"]
@@ -96,15 +89,15 @@ struct EndGameSellView: View {//광팔기 view
     @State var sellerInput = ["","","",""]//몇장을 팔지 기록용
     let subTitle = "광팔기"
     let subExplain = "4인 플레이경우 한명이 필수로 광을 팔아야 플레이가 가능합니다. 광을 판 플레이어를 선택해주세요"
+    @State var sellerIndex = 0
     
     var body: some View {
         ZStack {
             VStack {
-                BuildTopView(rootIsActive: $rootIsActive,
-                         goToPrev: $goToSell,
-                         mainTitle: mainPageHistory.historyName ?? "",
-                         subTitle: subTitle,
-                         subExplain: subExplain)
+                BuildTopView(
+                             mainTitle: mainPageHistory.historyName ?? "",
+                             subTitle: subTitle,
+                             subExplain: subExplain)
                 HStack {
                     Text("플레이어 리스트")
                         .font(.system(size: 16, weight: .bold))
@@ -132,6 +125,7 @@ struct EndGameSellView: View {//광팔기 view
                                 seller = Array(repeating: false, count: 4)
                                 sellerInput = ["","","",""]
                                 seller[index] = true
+                                sellerIndex = index
                             } label: {
                                 VStack {
                                     HStack {
@@ -159,9 +153,11 @@ struct EndGameSellView: View {//광팔기 view
                     .padding(.horizontal)
                 }
                 .padding(.horizontal)
-                NavigationLink {
-                    //옵션 점수기록으로 이동해야함
-                } label: {
+                PushView(destination: EndGameOptionView(mainPageHistory: mainPageHistory,
+                                                        coreDM: coreDM,
+                                                        ingamePlayers: ingamePlayers,
+                                                        sellerIndex: sellerIndex))
+                {
                     HStack {
                         Spacer()
                         Text("다음(1/4)")
@@ -170,13 +166,14 @@ struct EndGameSellView: View {//광팔기 view
                         Spacer()
                     }
                     .padding()
+                    
+                    .background(
+                        RoundedRectangle(cornerRadius: 22)
+                            .foregroundColor(seller.filter{ $0 == true}.count == 1 ? .red : .gray)
+                    )
+                    .padding(.horizontal)
+                    .disabled(seller.filter{ $0 == true}.count == 0)
                 }
-                .background(
-                    RoundedRectangle(cornerRadius: 22)
-                        .foregroundColor(seller.filter{ $0 == true}.count == 1 ? .red : .gray)
-                )
-                .padding(.horizontal)
-                .disabled(seller.filter{ $0 == true}.count == 0)
             }
             SellPopUpView(show: $sellListPopUp)
         }
@@ -186,47 +183,42 @@ struct EndGameSellView: View {//광팔기 view
 }
 
 struct EndGameOptionView: View {
-    @Binding var rootIsActive: Bool
-    @Binding var goToOption: Bool
     @State var calculateScorePopUp = false
+    @Environment(\.presentationMode) var presentationMode
     
     var mainPageHistory: MainPageHistory
     let coreDM: CoreDataManager
     var ingamePlayers: [String] = ["플레이어1","플레이어2","플레이어3","플레이어4"]
     let subTitle = "옵션 점수기록"
     let subExplain = "운이 좋네요!\n해당하는 곳에 체크를 해주세요."
-    let sellerIndex: Int?
+    let sellerIndex: Int? // 누가 광을 판 사람인지
     var body: some View {
         ZStack {
             VStack {
-                BuildTopView(rootIsActive: $rootIsActive,
-                         goToPrev: $goToOption,
-                         mainTitle: mainPageHistory.historyName ?? "",
+                BuildTopView(mainTitle: mainPageHistory.historyName ?? "",
                          subTitle: subTitle,
                          subExplain: subExplain)
                 HStack {
                     Text("플레이어 리스트")
                         .font(.system(size: 16, weight: .bold))
                     Spacer()
-                    Button {
-                        withAnimation {
-                            calculateScorePopUp = true
-                        }
+                    NavigationLink {
+                        CalculateScoreView()
                     } label: {
                         PopUpIcon(title: "점수 계산 법", color: .red)
                     }
                 }
                 .padding()
-                ScrollView {
                     ForEach(ingamePlayers, id: \.self) { ingamePlayer in
                         let index = ingamePlayers.firstIndex(of: ingamePlayer)!
                         HStack {
                             Text("\(index+1)")
-                                .font(.system(size: 16, weight: sellerIndex == index ? .bold : .medium))
-                                .foregroundColor(.red)
+                                .font(.system(size: 16, weight: sellerIndex == index ? .medium : .bold))
+                                .foregroundColor(sellerIndex == index ? .gray : .red)
                             Text(ingamePlayer)
-                                .font(.system(size: 16, weight: sellerIndex == index ? .bold : .medium))
+                                .font(.system(size: 16, weight: sellerIndex == index ? .medium : .bold))
                             PopUpIcon(title: "광팜", color: .gray)
+                                .opacity(sellerIndex == index ? 1 : 0)
                             Spacer()
                         }
                         HStack {
@@ -239,10 +231,10 @@ struct EndGameOptionView: View {
                         .padding(.top, -10)
                         .padding(.bottom, 20)
                         .opacity( sellerIndex == index ? 1 : 0)
-                    }
-                    .padding(.horizontal)
                 }
                 .padding(.horizontal)
+                .padding(.horizontal)
+                Spacer()
                 NavigationLink {
                     //승자 점수기록 으로 이동해야함
                 } label: {
@@ -261,15 +253,12 @@ struct EndGameOptionView: View {
                 )
                 .padding(.horizontal)
             }
-            SellPopUpView(show: $calculateScorePopUp)
         }
         .navigationBarHidden(true)
         .ignoresSafeArea(.keyboard, edges: .bottom)
+
     }
 }
-//EndGameView 전체적인 view 의 재사용성에 대한 고민
-
-
 
 struct EndGameSellView_Previews: PreviewProvider {
     static var previews: some View {
@@ -277,7 +266,7 @@ struct EndGameSellView_Previews: PreviewProvider {
         let testHistory = MainPageHistory(context: context)
 
         testHistory.historyName = "2021.09.21"
-        return EndGameSellView(rootIsActive: .constant(false),goToSell: .constant(false),mainPageHistory: testHistory, coreDM: CoreDataManager())
+        return EndGameSellView(mainPageHistory: testHistory, coreDM: CoreDataManager())
     }
 }
 
@@ -287,6 +276,6 @@ struct EndGameOptionView_Previews: PreviewProvider {
         let testHistory = MainPageHistory(context: context)
         
         testHistory.historyName = "2021.09.21"
-        return EndGameOptionView(rootIsActive: .constant(false),goToOption: .constant(false), mainPageHistory: testHistory, coreDM: CoreDataManager(), sellerIndex: nil)
+        return EndGameOptionView(mainPageHistory: testHistory, coreDM: CoreDataManager(), sellerIndex: nil)
     }
 }
