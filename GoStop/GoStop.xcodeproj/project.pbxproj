@@ -27,12 +27,14 @@
 		EA99266027955AE60064AC82 /* FirstScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA99265F27955AE60064AC82 /* FirstScreen.swift */; };
 		EA992662279570BC0064AC82 /* MainPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA992661279570BC0064AC82 /* MainPage.swift */; };
 		EAAF94A328210E1B00A0C3BC /* EndGameStartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAAF94A228210E1B00A0C3BC /* EndGameStartView.swift */; };
+		EAB2F89F2833F1B5005E9DD6 /* CalculateScoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB2F89E2833F1B5005E9DD6 /* CalculateScoreView.swift */; };
 		EAC13AF2281A7A2F001D5C2B /* RoundDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAC13AF1281A7A2F001D5C2B /* RoundDetailView.swift */; };
 		EAC8DE232793E24C0056EEC3 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = EAC8DE222793E24C0056EEC3 /* Lottie */; };
 		EAC8DE252793E3560056EEC3 /* 8707-loading.json in Resources */ = {isa = PBXBuildFile; fileRef = EAC8DE242793E3560056EEC3 /* 8707-loading.json */; };
 		EAC8DE272793E3BB0056EEC3 /* 로티이미지.json in Resources */ = {isa = PBXBuildFile; fileRef = EAC8DE262793E3BB0056EEC3 /* 로티이미지.json */; };
 		EAD530C82814611500D9C2D3 /* Round+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAD530C72814611500D9C2D3 /* Round+Extension.swift */; };
 		EAD530CA2814613200D9C2D3 /* IngamePlayer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAD530C92814613200D9C2D3 /* IngamePlayer+Extension.swift */; };
+		EADB5F332843F271000F5928 /* NavigationStack in Frameworks */ = {isa = PBXBuildFile; productRef = EADB5F322843F271000F5928 /* NavigationStack */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -59,6 +61,7 @@
 		EA99265F27955AE60064AC82 /* FirstScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstScreen.swift; sourceTree = "<group>"; };
 		EA992661279570BC0064AC82 /* MainPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPage.swift; sourceTree = "<group>"; };
 		EAAF94A228210E1B00A0C3BC /* EndGameStartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndGameStartView.swift; sourceTree = "<group>"; };
+		EAB2F89E2833F1B5005E9DD6 /* CalculateScoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculateScoreView.swift; sourceTree = "<group>"; };
 		EAC13AF1281A7A2F001D5C2B /* RoundDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundDetailView.swift; sourceTree = "<group>"; };
 		EAC8DE242793E3560056EEC3 /* 8707-loading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "8707-loading.json"; sourceTree = "<group>"; };
 		EAC8DE262793E3BB0056EEC3 /* 로티이미지.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "로티이미지.json"; sourceTree = "<group>"; };
@@ -72,6 +75,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EAC8DE232793E24C0056EEC3 /* Lottie in Frameworks */,
+				EADB5F332843F271000F5928 /* NavigationStack in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -104,6 +108,7 @@
 				EAAF94A228210E1B00A0C3BC /* EndGameStartView.swift */,
 				EA0C234D282A322F00CF335D /* EndGameSell&&recordView.swift */,
 				EA0C2351282A445E00CF335D /* SellPopUpView.swift */,
+				EAB2F89E2833F1B5005E9DD6 /* CalculateScoreView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -196,6 +201,7 @@
 			name = GoStop;
 			packageProductDependencies = (
 				EAC8DE222793E24C0056EEC3 /* Lottie */,
+				EADB5F322843F271000F5928 /* NavigationStack */,
 			);
 			productName = GoStop;
 			productReference = EA4F79E1278EB7A5008B78FF /* GoStop.app */;
@@ -227,6 +233,7 @@
 			mainGroup = EA4F79D8278EB7A5008B78FF;
 			packageReferences = (
 				EAC8DE212793E24C0056EEC3 /* XCRemoteSwiftPackageReference "lottie-ios" */,
+				EADB5F312843F271000F5928 /* XCRemoteSwiftPackageReference "swiftui-navigation-stack" */,
 			);
 			productRefGroup = EA4F79E2278EB7A5008B78FF /* Products */;
 			projectDirPath = "";
@@ -312,6 +319,7 @@
 				EA5CEB1027E2528100234E29 /* CoreDataManager.swift in Sources */,
 				EA992662279570BC0064AC82 /* MainPage.swift in Sources */,
 				EA0C234E282A322F00CF335D /* EndGameSell&&recordView.swift in Sources */,
+				EAB2F89F2833F1B5005E9DD6 /* CalculateScoreView.swift in Sources */,
 				EA33F832280331F900EDB7B9 /* gameRuleView.swift in Sources */,
 				EAC13AF2281A7A2F001D5C2B /* RoundDetailView.swift in Sources */,
 				EAD530CA2814613200D9C2D3 /* IngamePlayer+Extension.swift in Sources */,
@@ -537,6 +545,14 @@
 				minimumVersion = 3.0.0;
 			};
 		};
+		EADB5F312843F271000F5928 /* XCRemoteSwiftPackageReference "swiftui-navigation-stack" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/matteopuc/swiftui-navigation-stack.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -544,6 +560,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = EAC8DE212793E24C0056EEC3 /* XCRemoteSwiftPackageReference "lottie-ios" */;
 			productName = Lottie;
+		};
+		EADB5F322843F271000F5928 /* NavigationStack */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EADB5F312843F271000F5928 /* XCRemoteSwiftPackageReference "swiftui-navigation-stack" */;
+			productName = NavigationStack;
 		};
 /* End XCSwiftPackageProductDependency section */
 
