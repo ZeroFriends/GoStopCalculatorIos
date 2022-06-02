@@ -13,10 +13,11 @@ struct PopUpIcon: View {
     
     var title: String
     var color: Color
+    var size: CGFloat
     
     var body: some View {
         Text(title)
-            .font(.system(size: 14, weight: .bold))
+            .font(.system(size: size, weight: .bold))
             .foregroundColor(color)
             .padding(3)
             .padding(.horizontal, 10)
@@ -48,7 +49,6 @@ struct BuildTopView: View {
                     .bold()
                 Spacer()
                 PopView(destination: .root) {
-//                    viewBinding.goToRoot()
                     Image(systemName: "multiply")
                         .foregroundColor(.black)
                 }
@@ -107,7 +107,7 @@ struct EndGameSellView: View {//광팔기 view
                             sellListPopUp = true
                         }
                     } label: {
-                        PopUpIcon(title: "광팔 수 있는 패", color: .red)
+                        PopUpIcon(title: "광팔 수 있는 패", color: .red, size: 14)
                     }
                 }
                 .padding()
@@ -156,6 +156,7 @@ struct EndGameSellView: View {//광팔기 view
                 PushView(destination: EndGameOptionView(mainPageHistory: mainPageHistory,
                                                         coreDM: coreDM,
                                                         ingamePlayers: ingamePlayers,
+                                                        sellerInput: sellerInput,
                                                         sellerIndex: sellerIndex))
                 {
                     HStack {
@@ -182,6 +183,16 @@ struct EndGameSellView: View {//광팔기 view
     }
 }
 
+struct EndGameSellView_Previews: PreviewProvider {
+    static var previews: some View {
+        let context = CoreDataManager().persistentContainer.viewContext
+        let testHistory = MainPageHistory(context: context)
+
+        testHistory.historyName = "2021.09.21"
+        return EndGameSellView(mainPageHistory: testHistory, coreDM: CoreDataManager())
+    }
+}
+
 struct EndGameOptionView: View {
     @State var calculateScorePopUp = false
     @Environment(\.presentationMode) var presentationMode
@@ -191,6 +202,7 @@ struct EndGameOptionView: View {
     var ingamePlayers: [String] = ["플레이어1","플레이어2","플레이어3","플레이어4"]
     let subTitle = "옵션 점수기록"
     let subExplain = "운이 좋네요!\n해당하는 곳에 체크를 해주세요."
+    @State var sellerInput: [String] = ["","","",""]
     let sellerIndex: Int? // 누가 광을 판 사람인지
     var body: some View {
         ZStack {
@@ -205,7 +217,7 @@ struct EndGameOptionView: View {
                     NavigationLink {
                         CalculateScoreView()
                     } label: {
-                        PopUpIcon(title: "점수 계산 법", color: .red)
+                        PopUpIcon(title: "점수 계산 법", color: .red, size: 14)
                     }
                 }
                 .padding()
@@ -217,27 +229,41 @@ struct EndGameOptionView: View {
                                 .foregroundColor(sellerIndex == index ? .gray : .red)
                             Text(ingamePlayer)
                                 .font(.system(size: 16, weight: sellerIndex == index ? .medium : .bold))
-                            PopUpIcon(title: "광팜", color: .gray)
+                            PopUpIcon(title: "광팜", color: .gray, size: 12)
                                 .opacity(sellerIndex == index ? 1 : 0)
                             Spacer()
+                            if sellerIndex != nil {
+                                Text("\(sellerInput[sellerIndex!]) 장")
+                                    .foregroundColor(.gray)
+                                    .opacity(sellerIndex == index ? 1 : 0)
+                            }
                         }
-                        HStack {
-                            Text("  ")
-                            Spacer()
-                            Rectangle()
-                                .frame(width: 135, height: 1)
-                                .foregroundColor(.gray)
-                        }//광파는 사람만 나타나게 해야함
-                        .padding(.top, -10)
-                        .padding(.bottom, 20)
-                        .opacity( sellerIndex == index ? 1 : 0)
+                        if sellerIndex == index {
+                            HStack {
+                                Text("  ")
+                                Spacer()
+                                Rectangle()
+                                    .frame(width: 135, height: 1)
+                                    .foregroundColor(.gray)
+                            }//광파는 사람만 나타나게 해야함
+                            .padding(.top, -20)
+                            .padding(.bottom, 10)
+                        } else {
+                            HStack {
+                                optionSelecter()
+                            }
+                            .padding(.bottom, 10)
+                        }
                 }
                 .padding(.horizontal)
                 .padding(.horizontal)
                 Spacer()
-                NavigationLink {
-                    //승자 점수기록 으로 이동해야함
-                } label: {
+                PushView(destination: EndGamewinnerRecord(mainPageHistory: mainPageHistory,
+                                                          coreDM: coreDM,
+                                                          ingamePlayers: ingamePlayers,
+                                                          sellerInput: sellerInput,
+                                                          sellerIndex: sellerIndex))
+                {
                     HStack {
                         Spacer()
                         Text("다음(2/4)")
@@ -258,16 +284,44 @@ struct EndGameOptionView: View {
         .ignoresSafeArea(.keyboard, edges: .bottom)
 
     }
-}
-
-struct EndGameSellView_Previews: PreviewProvider {
-    static var previews: some View {
-        let context = CoreDataManager().persistentContainer.viewContext
-        let testHistory = MainPageHistory(context: context)
-
-        testHistory.historyName = "2021.09.21"
-        return EndGameSellView(mainPageHistory: testHistory, coreDM: CoreDataManager())
+    struct optionSelecter: View {
+        
+        @State var firstPuck = false
+        @State var secondPuck = false
+        @State var thirdPuck = false
+        @State var firstTatac = false
+        
+        var body: some View {
+            Button {
+                firstPuck.toggle()
+                secondPuck = false
+                thirdPuck = false
+            } label: {
+                PopUpIcon(title: "첫 뻑", color: firstPuck == false ? .gray : .red, size: 16)
+            }
+            Button {
+                firstPuck = false
+                secondPuck.toggle()
+                thirdPuck = false
+            } label: {
+                PopUpIcon(title: "연 뻑", color: secondPuck == false ? .gray : .red, size: 16)
+            }
+            Button {
+                firstPuck = false
+                secondPuck = false
+                thirdPuck.toggle()
+            } label: {
+                PopUpIcon(title: "삼연 뻑", color: thirdPuck == false ? .gray : .red, size: 16)
+            }
+            Button {
+                firstTatac.toggle()
+            } label: {
+                PopUpIcon(title: "첫 따닥", color: firstTatac == false ? .gray : .red, size: 16)
+            }
+            Spacer()
+        }
     }
+    
 }
 
 struct EndGameOptionView_Previews: PreviewProvider {
@@ -276,6 +330,146 @@ struct EndGameOptionView_Previews: PreviewProvider {
         let testHistory = MainPageHistory(context: context)
         
         testHistory.historyName = "2021.09.21"
-        return EndGameOptionView(mainPageHistory: testHistory, coreDM: CoreDataManager(), sellerIndex: nil)
+        return EndGameOptionView(mainPageHistory: testHistory,
+                                 coreDM: CoreDataManager(),
+                                 sellerInput: ["","3","",""],
+                                 sellerIndex: 1)
+    }
+}
+
+struct EndGamewinnerRecord: View {
+    var mainPageHistory: MainPageHistory
+    let coreDM: CoreDataManager
+    let subTitle = "승자 점수기록"
+    let subExplain = "이긴 플레이어 선택하고,\n몇점을 내었는지 계산 후 점수를 적어주세요"
+    var ingamePlayers: [String] = ["플레이어1","플레이어2","플레이어3","플레이어4"]
+    @State var sellerInput: [String] = ["","","",""]
+    let sellerIndex: Int?
+    @State var winner: [Bool] = Array(repeating: false, count: 4)
+    @State var winnerInput: [String] = ["","","",""]
+    @State var winnerIndex: Int?
+    var body: some View {
+        VStack {
+            BuildTopView(mainTitle: mainPageHistory.historyName ?? "",
+                         subTitle: subTitle,
+                         subExplain: subExplain)
+            HStack {
+                Text("플레이어 리스트")
+                    .font(.system(size: 16, weight: .bold))
+                Spacer()
+                NavigationLink {
+                    CalculateScoreView()
+                } label: {
+                    PopUpIcon(title: "점수 계산 법", color: .red, size: 14)
+                }
+            }
+            .padding()
+                ForEach(ingamePlayers, id: \.self) { ingamePlayer in
+                    let index = ingamePlayers.firstIndex(of: ingamePlayer)!
+                    HStack {
+                        Text("\(index+1)")
+                            .font(.system(size: 16, weight: sellerIndex == index ? .medium : .bold))
+                            .foregroundColor(sellerIndex == index ? .gray : .red)
+                        Text(ingamePlayer)
+                            .font(.system(size: 16, weight: sellerIndex == index ? .medium : .bold))
+                        PopUpIcon(title: "광팜", color: .gray, size: 12)
+                            .opacity(sellerIndex == index ? 1 : 0)
+                        Spacer()
+
+                        if sellerIndex != nil {
+                            if sellerIndex == index {
+                                Text("\(sellerInput[sellerIndex!]) 장")
+                                    .foregroundColor(.gray)
+                            } else {
+                                Button {
+                                    winner = Array(repeating: false, count: 4)
+                                    winnerInput = ["","","",""]
+                                    winner[index] = true
+                                    winnerIndex = index
+                                } label: {
+                                    TextField("-", text: $winnerInput[index])
+                                        .multilineTextAlignment(.trailing)
+                                        .keyboardType(.decimalPad)
+                                        .foregroundColor(.black)
+                                    Text("점")
+                                        .foregroundColor(.black)
+                                }
+                            }
+                        } else {
+                            Button {
+                                winner = Array(repeating: false, count: 4)
+                                winnerInput = ["","","",""]
+                                winner[index] = true
+                                winnerIndex = index
+                            } label: {
+                                TextField("-", text: $winnerInput[index])
+                                    .multilineTextAlignment(.trailing)
+                                    .keyboardType(.decimalPad)
+                                    .foregroundColor(.black)
+                                Text("점")
+                                    .foregroundColor(.black)
+                            }
+                        }
+                    }
+                    if sellerIndex == index {
+                        HStack {
+                            Text("  ")
+                            Spacer()
+                            Rectangle()
+                                .frame(width: 135, height: 1)
+                                .foregroundColor(.gray)
+                        }
+                        .padding(.top, -10)
+                        .padding(.bottom, 20)
+                    } else {
+                        HStack {
+                            Text("  ")
+                            Spacer()
+                            Rectangle()
+                                .frame(width: 135, height: 1)
+                                .foregroundColor(winner[index] ? .red : .white)
+                        }
+                        .padding(.top, -10)
+                        .padding(.bottom, 20)
+                    }
+            }//foreach
+            .padding(.horizontal)
+            .padding(.horizontal)
+            Spacer()
+            PushView(destination: EndGameLoserRecord()) {
+                HStack {
+                    Spacer()
+                    Text("다음(3/4)")
+                        .font(.system(size: 16, weight: .bold))
+                        .foregroundColor(.white)
+                    Spacer()
+                }
+                .padding()
+            }
+            .background(
+                RoundedRectangle(cornerRadius: 22)
+                    .foregroundColor(.red)
+            )
+            .padding(.horizontal)
+        }//VStack
+    }
+}
+
+struct EndGamewinnerRecord_Previews: PreviewProvider {
+    static var previews: some View {
+        let context = CoreDataManager().persistentContainer.viewContext
+        let testHistory = MainPageHistory(context: context)
+        
+        testHistory.historyName = "2021.09.21"
+        return EndGamewinnerRecord(mainPageHistory: testHistory,
+                                   coreDM: CoreDataManager(),
+                                   sellerInput: ["","3","",""],
+                                   sellerIndex: 1)
+    }
+}
+
+struct EndGameLoserRecord: View {
+    var body: some View {
+        Text("loser record view")
     }
 }
