@@ -573,21 +573,15 @@ struct EndGameLoserRecord: View {
         var body: some View {
             Button {
                 pBack.toggle()
-                gwangBack = false
-                mungBack = false
             } label: {
                 PopUpIcon(title: "피박", color: pBack == false ? .gray : .red, size: 16)
             }
             Button {
-                pBack = false
                 gwangBack.toggle()
-                mungBack = false
             } label: {
                 PopUpIcon(title: "광박", color: gwangBack == false ? .gray : .red, size: 16)
             }
             Button {
-                pBack = false
-                gwangBack = false
                 mungBack.toggle()
             } label: {
                 PopUpIcon(title: "멍박", color: mungBack == false ? .gray : .red, size: 16)
@@ -621,7 +615,18 @@ struct EndGameLoserRecord_Previews: PreviewProvider {
 
 struct LastView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack {
+            HStack {
+                Text("게임종료")
+                    .font(.system(size: 14))
+                    .bold()
+            }
+            divideRectangle()
+                .padding(.horizontal, -20)
+            Spacer()
+            
+            Spacer()
+        }
     }
 }
 
