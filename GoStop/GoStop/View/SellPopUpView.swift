@@ -55,7 +55,7 @@ struct SellPopUpView: View {
                             Spacer()
                         }
                         .padding(.horizontal)
-                        Image("group2")
+                        Image("group222")
 
                         textView
                             .padding(.bottom)
