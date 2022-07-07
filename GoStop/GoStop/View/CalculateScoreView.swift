@@ -158,7 +158,8 @@ struct CalculateScoreView: View {
                         LoserScore()
                             .padding(.horizontal)
                     } else if fightFlower == true {
-                        
+                        FightFlowerScore()
+                            .padding(.horizontal)
                     } else if doubleScore == true {
                         DoubleScoreMake()
                             .padding(.horizontal)
@@ -197,29 +198,17 @@ struct CalculateScoreView: View {
         }
     }
     struct OptionScore: View {
+        var boldTitle = ["뻑", "첫 따닥"]
+        var explains = ["""
+                        첫 뻑 : 첫 턴에 뻑을 저지른 경우 설정 금액 즉시 획득.
+                        
+                        연 뻑 : 첫 뻑을 저지른 다음 턴에 다시 뻑을 저지른 경우 설정 금액의 2배 즉시 획득.
+                        
+                        삼연뻑 : 연뻑을 저지른 다음 턴에 다시 뻑을 저지른 경우. 12점의 점수로 게임 종료. 설정금액의 4배 즉시 획득.
+                        """,
+                        "첫 턴에 따닥을 성공시킨 경우. 점수에는 계산되지 않으나 3점에 해당하는 금액을 게임 도중에 즉시 획득."]
         var body: some View {
-            VStack(alignment: .leading, spacing: 15) {
-                HStack {
-                    Text("뻑")
-                        .font(.system(size: 16, weight: .bold))
-                    Spacer()
-                }
-                Text("첫 뻑 : 첫 턴에 뻑을 저지른 경우 설정금액 즉시 획득.")
-                Text("연 뻑 : 첫 뻑을 저지른 다음 턴에서 다시 뻑을 저지른 경우 설정 금액의 2배 죽시 지급")
-                Text("삼연뻑 : 연뻑을 저지른 다음 턴에 다시 뻑을 저지른 경우. 12점의 점수로 게임 종료. 설정금액의 4배 즉시 획득")
-                Divider()
-            }
-            .font(.system(size: 14, weight: .medium))
-            .padding(.vertical)
-            VStack(alignment: .leading, spacing: 15) {
-                HStack {
-                    Text("첫 따닥")
-                        .font(.system(size: 16, weight: .bold))
-                    Spacer()
-                }
-                Text("첫 턴에 따닥을 성공시킨 경우, 점수에는 계산되지 않으나 3점에 해당하는 금액을 게임 도중에 즉시 획득.")
-            }
-            .font(.system(size: 14, weight: .medium))
+            InnerShape(boldTitle: boldTitle, explains: explains)
         }
     }
     
@@ -248,9 +237,187 @@ struct CalculateScoreView: View {
     
     struct FightFlowerScore: View {
         var body: some View {
-            Text("Hello")
+            VStack(spacing: 15) {
+                HStack(spacing: 25) {
+                    ZStack {
+                        Rectangle()
+                            .frame(width: 156, height: 156)
+                            .foregroundColor(.white)
+                            .shadow(color: .gray, radius: 1, x: 0, y: 0)
+                        VStack(spacing: 25) {
+                            Image("group")
+                            Text("5광 • 15점")
+                                .font(.system(size: 14, weight: .bold))
+                        }
+                        .padding()
+                    }
+                    ZStack {
+                        Rectangle()
+                            .frame(width: 156, height: 156)
+                            .foregroundColor(.white)
+                            .shadow(color: .gray, radius: 1, x: 0, y: 0)
+                        VStack(spacing: 25) {
+                            Image("group16")
+                            Text("4광 • 4점")
+                                .font(.system(size: 14, weight: .bold))
+                        }
+                        .padding()
+                    }
+                }
+                HStack(spacing: 25) {
+                    ZStack {
+                        Rectangle()
+                            .frame(width: 156, height: 156)
+                            .foregroundColor(.white)
+                            .shadow(color: .gray, radius: 1, x: 0, y: 0)
+                        VStack(spacing: 25) {
+                            Image("groupCopy2")
+                            Text("3광 • 3점")
+                                .font(.system(size: 14, weight: .bold))
+                        }
+                        .padding()
+                    }
+                    ZStack {
+                        Rectangle()
+                            .frame(width: 156, height: 156)
+                            .foregroundColor(.white)
+                            .shadow(color: .gray, radius: 1, x: 0, y: 0)
+                        VStack(spacing: 25) {
+                            Image("group17")
+                            VStack {
+                                Text("비광 • 2점")
+                                    .font(.system(size: 14, weight: .bold))
+                                Text("광 2개+비광")
+                                    .font(.system(size: 8, weight: .medium))
+                            }
+                        }
+                        .padding()
+                        .padding(.bottom, -8)
+                    }
+                }
+                HStack(spacing: 25) {
+                    ZStack {
+                        Rectangle()
+                            .frame(width: 156, height: 156)
+                            .foregroundColor(.white)
+                            .shadow(color: .gray, radius: 1, x: 0, y: 0)
+                        VStack(spacing: 25) {
+                            Image("group5")
+                            VStack {
+                                Text("5광 • 1점")
+                                    .font(.system(size: 14, weight: .bold))
+                                Text("1장 추가 시 1점씩 추가\n/고도리 중복계산 가능")
+                                    .font(.system(size: 8, weight: .medium))
+                                    .multilineTextAlignment(.center)
+                            }
+                        }
+                        .padding()
+                    }
+                    ZStack {
+                        Rectangle()
+                            .frame(width: 156, height: 156)
+                            .foregroundColor(.white)
+                            .shadow(color: .gray, radius: 1, x: 0, y: 0)
+                        VStack(spacing: 25) {
+                            Image("group6")
+                            VStack {
+                                Text("5장 • 1점")
+                                    .font(.system(size: 14, weight: .bold))
+                                Text("1장 추가 시 1점씩 추가\n/홍단,청단,초단 중복계산 가능")
+                                    .font(.system(size: 8, weight: .medium))
+                                    .multilineTextAlignment(.center)
+                            }
+                        }
+                        .padding()
+                        .padding(.bottom, -8)
+                    }
+                }
+                HStack(spacing: 25) {
+                    ZStack {
+                        Rectangle()
+                            .frame(width: 156, height: 156)
+                            .foregroundColor(.white)
+                            .shadow(color: .gray, radius: 1, x: 0, y: 0)
+                        VStack(spacing: 25) {
+                            Image("group3")
+                            Text("홍단 • 3점")
+                                .font(.system(size: 14, weight: .bold))
+                        }
+                        .padding()
+                    }
+                    ZStack {
+                        Rectangle()
+                            .frame(width: 156, height: 156)
+                            .foregroundColor(.white)
+                            .shadow(color: .gray, radius: 1, x: 0, y: 0)
+                        VStack(spacing: 25) {
+                            Image("group2")
+                            Text("청단 • 3점")
+                                .font(.system(size: 14, weight: .bold))
+                        }
+                        .padding()
+                    }
+                }
+                HStack(spacing: 25) {
+                    ZStack {
+                        Rectangle()
+                            .frame(width: 156, height: 156)
+                            .foregroundColor(.white)
+                            .shadow(color: .gray, radius: 1, x: 0, y: 0)
+                        VStack(spacing: 25) {
+                            Image("group20")
+                            Text("초단 • 3점")
+                                .font(.system(size: 14, weight: .bold))
+                        }
+                        .padding()
+                    }
+                    ZStack {
+                        Rectangle()
+                            .frame(width: 156, height: 156)
+                            .foregroundColor(.white)
+                            .shadow(color: .gray, radius: 1, x: 0, y: 0)
+                        VStack(spacing: 25) {
+                            Image("group21")
+                            Text("고도리 • 5점")
+                                .font(.system(size: 14, weight: .bold))
+                        }
+                        .padding()
+                    }
+                }
+                HStack(spacing: 25) {
+                    ZStack {
+                        Rectangle()
+                            .frame(width: 156, height: 156)
+                            .foregroundColor(.white)
+                            .shadow(color: .gray, radius: 1, x: 0, y: 0)
+                        VStack {
+                            Image("group22")
+                            Text("10장 • 1점")
+                                .font(.system(size: 14, weight: .bold))
+                            Text("1장 추가 시 1점씩 추가\n/쌍피 2점, 쓰리피 3점추가")
+                                .font(.system(size: 8, weight: .medium))
+                                .multilineTextAlignment(.center)
+                        }
+                        .padding()
+                    }
+                    ZStack {
+                        Rectangle()
+                            .frame(width: 156, height: 156)
+                            .foregroundColor(.white)
+                            .shadow(color: .gray, radius: 1, x: 0, y: 0)
+                        VStack(spacing: 25) {
+                            Image("group21")
+                            Text("고도리 • 5점")
+                                .font(.system(size: 14, weight: .bold))
+                        }
+                        .padding()
+                    }
+                    .opacity(0)//균형맞추기위해 만들었기때문에 투명도 설정으로 안보이게 함
+                }
+            }
+            .padding(.top, 15)
         }
-    }
+    }//화투점수 계산
     
     struct DoubleScoreMake: View {
         var boldTitle = ["피박", "광박", "고박", "흔들기", "폭탄"]
