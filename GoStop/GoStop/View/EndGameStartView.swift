@@ -11,8 +11,8 @@ import SwiftUI
 struct EndGameStartView: View {
     let coreDM: CoreDataManager
     var mainPageHistory: MainPageHistory
+    @ObservedObject var endGameVM = EndGameViewModel()
     
-    @State var ingamePlayers: [String] = []
     @Environment(\.presentationMode) var presentationMode
     
     @State var endGameSell = false
@@ -20,8 +20,6 @@ struct EndGameStartView: View {
     
     var subTitle = "시작하기"
     var subExplain = "2인 이상 4인까지 게임을 플레이 할 수 있으며,\n4인 플레이를 할 경우 1명은 광을 반드시 팔아야 합니다."
-
-    @State private var checkBoxOn = Array(repeating: false, count: 10)
 
     var body: some View {
 
@@ -76,23 +74,24 @@ struct EndGameStartView: View {
                         ForEach(mainPageHistory.playerlist, id:\.self) { player in
                             let checkBoxIndex = mainPageHistory.playerlist.firstIndex(of: player)!
                             Button {
-                                checkBoxOn[checkBoxIndex].toggle()
+//                                checkBoxOn[checkBoxIndex].toggle()
+                                endGameVM.checkBoxOn[checkBoxIndex].toggle()
                             } label: {
                                 HStack {
                                     Text("\(checkBoxIndex+1)\t")
-                                        .font(.system(size: 16, weight: checkBoxOn[checkBoxIndex] == true ? .bold : .medium))
+                                        .font(.system(size: 16, weight: endGameVM.checkBoxOn[checkBoxIndex] == true ? .bold : .medium))
                                         .foregroundColor(.red)
                                     Text(player.name ?? "")
-                                        .font(.system(size: 16, weight: checkBoxOn[checkBoxIndex] == true ? .bold : .medium))
+                                        .font(.system(size: 16, weight: endGameVM.checkBoxOn[checkBoxIndex] == true ? .bold : .medium))
                                         .foregroundColor(.black)
                                     Spacer()
-                                    Image(checkBoxOn[checkBoxIndex] == true ? "checkCircleBlack24Dp" : "radioButtonUncheckedBlack24DpCopy")
+                                    Image(endGameVM.checkBoxOn[checkBoxIndex] == true ? "checkCircleBlack24Dp" : "radioButtonUncheckedBlack24DpCopy")
                                 }
                                 .padding()
                             }
                             .background(
                                 RoundedRectangle(cornerRadius: 8)
-                                    .foregroundColor(checkBoxOn[checkBoxIndex] == true ? CustomColor.checkBoxColor : .white)
+                                    .foregroundColor(endGameVM.checkBoxOn[checkBoxIndex] == true ? CustomColor.checkBoxColor : .white)
                             )
                         }
                     }//VStack
@@ -104,22 +103,21 @@ struct EndGameStartView: View {
                 PushView(destination: EndGameSellView(
                     mainPageHistory: mainPageHistory,
                     coreDM: coreDM,
-                    ingamePlayers: ingamePlayers), isActive: $endGameSell) {}
+                    endGameVM: endGameVM), isActive: $endGameSell) {}
                 
                 PushView(destination: EndGameOptionView(
                     mainPageHistory: mainPageHistory,
                     coreDM: coreDM,
-                    ingamePlayers: ingamePlayers,
-                    sellerIndex: nil), isActive: $endGameOption) {}
+                    endGameVM: endGameVM), isActive: $endGameOption) {}
                 
                 Button {
-                    ingamePlayers = []
-                    for checkIndex in 0 ..< checkBoxOn.count {
-                        if checkBoxOn[checkIndex] == true {
-                            ingamePlayers.append(mainPageHistory.playerlist[checkIndex].name!)
+                    endGameVM.ingamePlayers = []
+                    for checkIndex in 0 ..< 10 {
+                        if endGameVM.checkBoxOn[checkIndex] == true {
+                            endGameVM.ingamePlayers.append(mainPageHistory.playerlist[checkIndex].name!)
                         }
                     }
-                    if ingamePlayers.count == 4 {
+                    if endGameVM.ingamePlayers.count == 4 {
                         endGameSell = true
                         // 플레이어 4명이면 무조건 광을 팔아야 하니까
                     } else {
@@ -136,11 +134,11 @@ struct EndGameStartView: View {
                     .padding(.vertical, 10)
                     .background(
                         RoundedRectangle(cornerRadius: 22)
-                            .foregroundColor(checkBoxOn.filter{ $0 == true}.count < 2 ||
-                                             checkBoxOn.filter{ $0 == true}.count > 4 ? .gray : .red)
+                            .foregroundColor(endGameVM.checkBoxOn.filter{ $0 == true}.count < 2 ||
+                                             endGameVM.checkBoxOn.filter{ $0 == true}.count > 4 ? .gray : .red)
                     )
                 }
-                .disabled(checkBoxOn.filter{ $0 == true}.count < 2 || checkBoxOn.filter{ $0 == true}.count > 4)
+                .disabled(endGameVM.checkBoxOn.filter{ $0 == true}.count < 2 || endGameVM.checkBoxOn.filter{ $0 == true}.count > 4)
                 
             }//VStack
             .padding(.horizontal)
