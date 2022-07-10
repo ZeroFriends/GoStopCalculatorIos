@@ -595,7 +595,69 @@ struct LastView: View {
                 .padding(.horizontal, -20)
             Spacer()
             Image("confetti")
+            Text("수고하셨습니다!")
+                .font(.system(size: 24, weight: .bold))
+            HStack {
+                Text("하단에")
+                Text("저장하기")
+                    .underline()
+                    .fontWeight(.bold)
+                Text("버튼을 누르고 다음게임을 진행해주세요.")
+            }
+            .font(.system(size: 14, weight: .medium))
+            .foregroundColor(CustomColor.lastViewTextColor)
             Spacer()
+
+            VStack {
+                HStack {
+                    Text("\(mainPageHistory.rounds.count+1) 라운드")
+                    Spacer()
+                }
+                let columns = [
+                        GridItem(.adaptive(minimum: 120))
+                    ]
+                LazyVGrid(columns: columns) {
+                    ForEach(endGameVM.ingamePlayers, id: \.self) { player in
+                        let index = endGameVM.ingamePlayers.firstIndex(of: player)!
+                        HStack {
+                            Text("\(index+1)")
+                                .font(.system(size: 16, weight: .bold))
+                                .foregroundColor(.red)
+                            Text(player)
+                            Spacer()
+                            Text("\(endGameVM.totalCost[index])")
+                            Text("원")
+                                .font(.system(size: 12, weight: .medium))
+                        }
+                    }
+                }
+            }// 라운드 이름, 플레이어, 금액 다 나와야하는곳
+            .padding()
+            .background (
+                RoundedRectangle(cornerRadius: 18)
+                    .foregroundColor(.white)
+                    .shadow(color: .gray, radius: 5, x: 0, y: 3)
+            )
+            .padding(.horizontal)
+            PopView(destination: .root) {
+                HStack {
+                    Spacer()
+                    Text("저장하기")
+                        .font(.system(size: 16, weight: .bold))
+                        .foregroundColor(.white)
+                    Spacer()
+                }
+                .padding()
+            }
+            .background(
+                RoundedRectangle(cornerRadius: 22)
+                    .foregroundColor(.red)
+            )
+            .padding(.horizontal)
+            .padding(.top)
+        }
+        .onAppear {
+            print("testSuccess")
         }
     }
 }
@@ -605,11 +667,13 @@ struct LastView_Previews: PreviewProvider {
         
         let context = CoreDataManager().persistentContainer.viewContext
         let testHistory = MainPageHistory(context: context)
-        
+        let endGameVM = EndGameViewModel()
+        endGameVM.ingamePlayers = ["플레이어 1","플레이어 2"]
+        endGameVM.totalCost = [200, -200]
         testHistory.historyName = "2021.09.21"
         
         return LastView(mainPageHistory: testHistory,
                  coreDM: CoreDataManager(),
-                 endGameVM: EndGameViewModel())
+                 endGameVM: endGameVM)
     }
 }
