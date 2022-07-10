@@ -4,6 +4,7 @@
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="roundId" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="sequence" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="totalCost" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="origin" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Round" inverseName="ingamePlayer" inverseEntity="Round"/>
         <relationship name="playList" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="IngamePlayerPlayList" inverseName="origin" inverseEntity="IngamePlayerPlayList"/>
@@ -44,7 +45,7 @@
         <relationship name="origin" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MainPageHistory" inverseName="rule" inverseEntity="MainPageHistory"/>
     </entity>
     <elements>
-        <element name="IngamePlayer" positionX="80.7783203125" positionY="14.06306457519531" width="128" height="133"/>
+        <element name="IngamePlayer" positionX="80.7783203125" positionY="14.06306457519531" width="128" height="148"/>
         <element name="IngamePlayerPlayList" positionX="303.792236328125" positionY="-4.20648193359375" width="128" height="133"/>
         <element name="MainPageHistory" positionX="70.988525390625" positionY="299.640869140625" width="128" height="133"/>
         <element name="Player" positionX="-233.281005859375" positionY="272.8033447265625" width="128" height="103"/>
