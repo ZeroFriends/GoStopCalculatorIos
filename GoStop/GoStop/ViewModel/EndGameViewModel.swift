@@ -27,4 +27,9 @@ class EndGameViewModel: ObservableObject {
     @Published var winnerInput = ["","","",""]
     @Published var winnerIndex = -1
     //승자기록
+    
+    @Published var totalCost = [0,0,0,0]
+    
+    
+    //totalCost 계산은 어떻게?
 }
