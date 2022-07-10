@@ -25,6 +25,7 @@
 		EA5CEAFE27E2493B00234E29 /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EA5CEAFC27E2493B00234E29 /* DataModel.xcdatamodeld */; };
 		EA5CEB1027E2528100234E29 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA5CEB0F27E2528100234E29 /* CoreDataManager.swift */; };
 		EA61476D287A9FE600B145DE /* EndGameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA61476C287A9FE600B145DE /* EndGameViewModel.swift */; };
+		EA61476F287ABA5500B145DE /* CustomColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA61476E287ABA5500B145DE /* CustomColor.swift */; };
 		EA99266027955AE60064AC82 /* FirstScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA99265F27955AE60064AC82 /* FirstScreen.swift */; };
 		EA992662279570BC0064AC82 /* MainPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA992661279570BC0064AC82 /* MainPage.swift */; };
 		EAAF94A328210E1B00A0C3BC /* EndGameStartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAAF94A228210E1B00A0C3BC /* EndGameStartView.swift */; };
@@ -60,6 +61,7 @@
 		EA5CEAFD27E2493B00234E29 /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
 		EA5CEB0F27E2528100234E29 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		EA61476C287A9FE600B145DE /* EndGameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndGameViewModel.swift; sourceTree = "<group>"; };
+		EA61476E287ABA5500B145DE /* CustomColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomColor.swift; sourceTree = "<group>"; };
 		EA99265F27955AE60064AC82 /* FirstScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstScreen.swift; sourceTree = "<group>"; };
 		EA992661279570BC0064AC82 /* MainPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPage.swift; sourceTree = "<group>"; };
 		EAAF94A228210E1B00A0C3BC /* EndGameStartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndGameStartView.swift; sourceTree = "<group>"; };
@@ -122,6 +124,7 @@
 				EA038017281330D800292035 /* Player+Extension.swift */,
 				EAD530C72814611500D9C2D3 /* Round+Extension.swift */,
 				EAD530C92814613200D9C2D3 /* IngamePlayer+Extension.swift */,
+				EA61476E287ABA5500B145DE /* CustomColor.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -330,6 +333,7 @@
 				EA5CEB1027E2528100234E29 /* CoreDataManager.swift in Sources */,
 				EA992662279570BC0064AC82 /* MainPage.swift in Sources */,
 				EA0C234E282A322F00CF335D /* EndGameSell&&recordView.swift in Sources */,
+				EA61476F287ABA5500B145DE /* CustomColor.swift in Sources */,
 				EAB2F89F2833F1B5005E9DD6 /* CalculateScoreView.swift in Sources */,
 				EA33F832280331F900EDB7B9 /* gameRuleView.swift in Sources */,
 				EAC13AF2281A7A2F001D5C2B /* RoundDetailView.swift in Sources */,
