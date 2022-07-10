@@ -138,6 +138,8 @@ class CoreDataManager: ObservableObject {
     func saveMainPageHistory(players: [String], historyName: String, jumDang: String, ppuck: String, firstTadack: String, sell: String) {
         let mainPageHistory = MainPageHistory(context: persistentContainer.viewContext)
         
+        var seq: Int16 = 0
+        
         var mainPageHistoryName: String
         if historyName.isEmpty {
             let nowDate = Date()
@@ -151,18 +153,22 @@ class CoreDataManager: ObservableObject {
         mainPageHistory.date = Date()
         mainPageHistory.id = UUID()
         
-        for i in players.indices {
-            let player = Player(context: persistentContainer.viewContext)
-            player.name = players[i]
-            player.id = mainPageHistory.id
-            mainPageHistory.addToPlayer(player)
-        }
         mainPageHistory.rule = Rule(context: persistentContainer.viewContext)
         mainPageHistory.rule?.jumDang = Int32(jumDang) ?? 0
         mainPageHistory.rule?.ppuck = Int32(ppuck) ?? 0
         mainPageHistory.rule?.firstTadack = Int32(firstTadack) ?? 0
         mainPageHistory.rule?.sell = Int32(sell) ?? 0
         
+        
+        for i in players.indices {
+            let player = Player(context: persistentContainer.viewContext)
+            player.name = players[i]
+            player.id = mainPageHistory.id
+            player.sequence = seq
+            mainPageHistory.addToPlayer(player)
+            seq += 1
+        }
+
         do {
             try persistentContainer.viewContext.save()
             fetchMainPageHistories()
