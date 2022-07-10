@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="20086" systemVersion="21E258" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="20086" systemVersion="21F79" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="IngamePlayer" representedClassName="IngamePlayer" syncable="YES" codeGenerationType="class">
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="name" optional="YES" attributeType="String"/>
@@ -13,6 +13,7 @@
         <attribute name="enemyName" optional="YES" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="roundId" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="sequence" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="origin" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="IngamePlayer" inverseName="playList" inverseEntity="IngamePlayer"/>
     </entity>
     <entity name="MainPageHistory" representedClassName="MainPageHistory" syncable="YES" codeGenerationType="class">
@@ -26,6 +27,7 @@
     <entity name="Player" representedClassName="Player" syncable="YES" codeGenerationType="class">
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="sequence" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="origin" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MainPageHistory" inverseName="player" inverseEntity="MainPageHistory"/>
     </entity>
     <entity name="Round" representedClassName="Round" syncable="YES" codeGenerationType="class">
@@ -43,9 +45,9 @@
     </entity>
     <elements>
         <element name="IngamePlayer" positionX="80.7783203125" positionY="14.06306457519531" width="128" height="133"/>
-        <element name="IngamePlayerPlayList" positionX="303.792236328125" positionY="-4.20648193359375" width="128" height="118"/>
+        <element name="IngamePlayerPlayList" positionX="303.792236328125" positionY="-4.20648193359375" width="128" height="133"/>
         <element name="MainPageHistory" positionX="70.988525390625" positionY="299.640869140625" width="128" height="133"/>
-        <element name="Player" positionX="-233.281005859375" positionY="272.8033447265625" width="128" height="88"/>
+        <element name="Player" positionX="-233.281005859375" positionY="272.8033447265625" width="128" height="103"/>
         <element name="Round" positionX="-121.400634765625" positionY="126.6251525878906" width="128" height="103"/>
         <element name="Rule" positionX="393.41650390625" positionY="299.84912109375" width="128" height="118"/>
     </elements>
