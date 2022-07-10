@@ -12,7 +12,7 @@ extension Round {
         let set = ingamePlayer as? Set<IngamePlayer> ?? []
         
         return Array(set.sorted {
-            $0.name! < $1.name!
+            $0.sequence < $1.sequence
         })
     }
 }
