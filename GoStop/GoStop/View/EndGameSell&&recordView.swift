@@ -84,12 +84,9 @@ struct EndGameSellView: View {//광팔기 view
     @Environment(\.presentationMode) var presentationMode
     var mainPageHistory: MainPageHistory
     let coreDM: CoreDataManager
-    var ingamePlayers: [String] = ["플레이어1","플레이어2","플레이어3","플레이어4"]
-    @State var seller: [Bool] = Array(repeating: false, count: 4)// 광팔기 창은 4명이이어야하니까 count == 4
-    @State var sellerInput = ["","","",""]//몇장을 팔지 기록용
+    @ObservedObject var endGameVM: EndGameViewModel
     let subTitle = "광팔기"
     let subExplain = "4인 플레이경우 한명이 필수로 광을 팔아야 플레이가 가능합니다. 광을 판 플레이어를 선택해주세요"
-    @State var sellerIndex = 0
     
     var body: some View {
         ZStack {
@@ -112,30 +109,30 @@ struct EndGameSellView: View {//광팔기 view
                 }
                 .padding()
                 ScrollView {
-                    ForEach(ingamePlayers, id: \.self) { ingamePlayer in
-                        let index = ingamePlayers.firstIndex(of: ingamePlayer)!
+                    ForEach(endGameVM.ingamePlayers, id: \.self) { ingamePlayer in
+                        let index = endGameVM.ingamePlayers.firstIndex(of: ingamePlayer)!
                         HStack {
                             Text("\(index+1)")
-                                .font(.system(size: 16, weight: seller[index] ? .bold : .medium))
+                                .font(.system(size: 16, weight: endGameVM.seller[index] ? .bold : .medium))
                                 .foregroundColor(.red)
                             Text(ingamePlayer)
-                                .font(.system(size: 16, weight: seller[index] ? .bold : .medium))
+                                .font(.system(size: 16, weight: endGameVM.seller[index] ? .bold : .medium))
                             Spacer()
                             Button {
-                                seller = Array(repeating: false, count: 4)
-                                sellerInput = ["","","",""]
-                                seller[index] = true
-                                sellerIndex = index
+                                endGameVM.seller = Array(repeating: false, count: 4)
+                                endGameVM.sellerInput = ["","","",""]
+                                endGameVM.seller[index] = true
+                                endGameVM.sellerIndex = index
                             } label: {
                                 VStack {
                                     HStack {
-                                        TextField("-", text: $sellerInput[index])
+                                        TextField("-", text: $endGameVM.sellerInput[index])
                                             .multilineTextAlignment(.trailing)
                                             .keyboardType(.decimalPad)
                                             .frame(width: 110)
                                             .foregroundColor(.black)
                                         Text("장")
-                                            .foregroundColor(seller[index] ? .black : .gray)
+                                            .foregroundColor(endGameVM.seller[index] ? .black : .gray)
                                     }
                                 }
                             }
@@ -145,7 +142,7 @@ struct EndGameSellView: View {//광팔기 view
                             Spacer()
                             Rectangle()
                                 .frame(width: 135, height: 1)
-                                .foregroundColor(seller[index] ? .red : .gray)
+                                .foregroundColor(endGameVM.seller[index] ? .red : .gray)
                         }
                         .padding(.top, -10)
                         .padding(.bottom, 20)
@@ -155,9 +152,7 @@ struct EndGameSellView: View {//광팔기 view
                 .padding(.horizontal)
                 PushView(destination: EndGameOptionView(mainPageHistory: mainPageHistory,
                                                         coreDM: coreDM,
-                                                        ingamePlayers: ingamePlayers,
-                                                        sellerInput: sellerInput,
-                                                        sellerIndex: sellerIndex))
+                                                        endGameVM: endGameVM))
                 {
                     HStack {
                         Spacer()
@@ -170,10 +165,10 @@ struct EndGameSellView: View {//광팔기 view
                     
                     .background(
                         RoundedRectangle(cornerRadius: 22)
-                            .foregroundColor(seller.filter{ $0 == true}.count == 1 ? .red : .gray)
+                            .foregroundColor(endGameVM.seller.filter{ $0 == true}.count == 1 ? .red : .gray)
                     )
                     .padding(.horizontal)
-                    .disabled(seller.filter{ $0 == true}.count == 0)
+                    .disabled(endGameVM.seller.filter{ $0 == true}.count == 0)
                 }
             }
             SellPopUpView(show: $sellListPopUp)
@@ -189,21 +184,19 @@ struct EndGameSellView_Previews: PreviewProvider {
         let testHistory = MainPageHistory(context: context)
 
         testHistory.historyName = "2021.09.21"
-        return EndGameSellView(mainPageHistory: testHistory, coreDM: CoreDataManager())
+        return EndGameSellView(mainPageHistory: testHistory, coreDM: CoreDataManager(), endGameVM: EndGameViewModel())
     }
 }
 
 struct EndGameOptionView: View {
     @State var calculateScorePopUp = false
     @Environment(\.presentationMode) var presentationMode
-    
     var mainPageHistory: MainPageHistory
     let coreDM: CoreDataManager
-    var ingamePlayers: [String] = ["플레이어1","플레이어2","플레이어3","플레이어4"]
+    @ObservedObject var endGameVM: EndGameViewModel
     let subTitle = "옵션 점수기록"
     let subExplain = "운이 좋네요!\n해당하는 곳에 체크를 해주세요."
-    @State var sellerInput: [String] = ["","","",""]
-    let sellerIndex: Int? // 누가 광을 판 사람인지
+
     var body: some View {
         ZStack {
             VStack {
@@ -221,24 +214,24 @@ struct EndGameOptionView: View {
                     }
                 }
                 .padding()
-                    ForEach(ingamePlayers, id: \.self) { ingamePlayer in
-                        let index = ingamePlayers.firstIndex(of: ingamePlayer)!
+                ForEach(endGameVM.ingamePlayers, id: \.self) { ingamePlayer in
+                    let index = endGameVM.ingamePlayers.firstIndex(of: ingamePlayer)!
                         HStack {
                             Text("\(index+1)")
-                                .font(.system(size: 16, weight: sellerIndex == index ? .medium : .bold))
-                                .foregroundColor(sellerIndex == index ? .gray : .red)
+                                .font(.system(size: 16, weight: endGameVM.sellerIndex == index ? .medium : .bold))
+                                .foregroundColor(endGameVM.sellerIndex == index ? .gray : .red)
                             Text(ingamePlayer)
-                                .font(.system(size: 16, weight: sellerIndex == index ? .medium : .bold))
+                                .font(.system(size: 16, weight: endGameVM.sellerIndex == index ? .medium : .bold))
                             PopUpIcon(title: "광팜", color: .gray, size: 12)
-                                .opacity(sellerIndex == index ? 1 : 0)
+                                .opacity(endGameVM.sellerIndex == index ? 1 : 0)
                             Spacer()
-                            if sellerIndex != nil {
-                                Text("\(sellerInput[sellerIndex!]) 장")
+                            if endGameVM.sellerIndex != -1 {
+                                Text("\(endGameVM.sellerInput[endGameVM.sellerIndex]) 장")
                                     .foregroundColor(.gray)
-                                    .opacity(sellerIndex == index ? 1 : 0)
+                                    .opacity(endGameVM.sellerIndex == index ? 1 : 0)
                             }
                         }
-                        if sellerIndex == index {
+                    if endGameVM.sellerIndex == index {
                             HStack {
                                 Text("  ")
                                 Spacer()
@@ -250,7 +243,9 @@ struct EndGameOptionView: View {
                             .padding(.bottom, 10)
                         } else {
                             HStack {
-                                optionSelecter()
+                                optionSelecter(optionIndex: $endGameVM.selectOption[index],
+                                    tatacIndex:
+                                                $endGameVM.firstTatac[index])
                             }
                             .padding(.bottom, 10)
                         }
@@ -260,9 +255,7 @@ struct EndGameOptionView: View {
                 Spacer()
                 PushView(destination: EndGamewinnerRecord(mainPageHistory: mainPageHistory,
                                                           coreDM: coreDM,
-                                                          ingamePlayers: ingamePlayers,
-                                                          sellerInput: sellerInput,
-                                                          sellerIndex: sellerIndex))
+                                                          endGameVM: endGameVM))
                 {
                     HStack {
                         Spacer()
@@ -286,37 +279,29 @@ struct EndGameOptionView: View {
     }
     struct optionSelecter: View {
         
-        @State var firstPuck = false
-        @State var secondPuck = false
-        @State var thirdPuck = false
-        @State var firstTatac = false
+        @Binding var optionIndex: Int
+        @Binding var tatacIndex: Bool
         
         var body: some View {
             Button {
-                firstPuck.toggle()
-                secondPuck = false
-                thirdPuck = false
+                optionIndex = 0
             } label: {
-                PopUpIcon(title: "첫 뻑", color: firstPuck == false ? .gray : .red, size: 16)
+                PopUpIcon(title: "첫 뻑", color: optionIndex != 0 ? .gray : .red, size: 16)
             }
             Button {
-                firstPuck = false
-                secondPuck.toggle()
-                thirdPuck = false
+                optionIndex = 1
             } label: {
-                PopUpIcon(title: "연 뻑", color: secondPuck == false ? .gray : .red, size: 16)
+                PopUpIcon(title: "연 뻑", color: optionIndex != 1 ? .gray : .red, size: 16)
             }
             Button {
-                firstPuck = false
-                secondPuck = false
-                thirdPuck.toggle()
+                optionIndex = 2
             } label: {
-                PopUpIcon(title: "삼연 뻑", color: thirdPuck == false ? .gray : .red, size: 16)
+                PopUpIcon(title: "삼연 뻑", color: optionIndex != 2 ? .gray : .red, size: 16)
             }
             Button {
-                firstTatac.toggle()
+                tatacIndex.toggle()
             } label: {
-                PopUpIcon(title: "첫 따닥", color: firstTatac == false ? .gray : .red, size: 16)
+                PopUpIcon(title: "첫 따닥", color: tatacIndex == false ? .gray : .red, size: 16)
             }
             Spacer()
         }
@@ -332,22 +317,16 @@ struct EndGameOptionView_Previews: PreviewProvider {
         testHistory.historyName = "2021.09.21"
         return EndGameOptionView(mainPageHistory: testHistory,
                                  coreDM: CoreDataManager(),
-                                 sellerInput: ["","3","",""],
-                                 sellerIndex: 1)
+                                 endGameVM: EndGameViewModel())
     }
 }
 
 struct EndGamewinnerRecord: View {
     var mainPageHistory: MainPageHistory
     let coreDM: CoreDataManager
+    @ObservedObject var endGameVM: EndGameViewModel
     let subTitle = "승자 점수기록"
     let subExplain = "이긴 플레이어 선택하고,\n몇점을 내었는지 계산 후 점수를 적어주세요"
-    var ingamePlayers: [String] = ["플레이어1","플레이어2","플레이어3","플레이어4"]
-    @State var sellerInput: [String] = ["","","",""]
-    let sellerIndex: Int?
-    @State var winner: [Bool] = Array(repeating: false, count: 4)
-    @State var winnerInput: [String] = ["","","",""]
-    @State var winnerIndex: Int?
     var body: some View {
         VStack {
             BuildTopView(mainTitle: mainPageHistory.historyName ?? "",
@@ -364,30 +343,30 @@ struct EndGamewinnerRecord: View {
                 }
             }
             .padding()
-            ForEach(ingamePlayers, id: \.self) { ingamePlayer in
-                let index = ingamePlayers.firstIndex(of: ingamePlayer)!
+            ForEach(endGameVM.ingamePlayers, id: \.self) { ingamePlayer in
+                let index = endGameVM.ingamePlayers.firstIndex(of: ingamePlayer)!
                 HStack {
                     Text("\(index+1)")
-                        .font(.system(size: 16, weight: sellerIndex == index ? .medium : .bold))
-                        .foregroundColor(sellerIndex == index ? .gray : .red)
+                        .font(.system(size: 16, weight: endGameVM.sellerIndex == index ? .medium : .bold))
+                        .foregroundColor(endGameVM.sellerIndex == index ? .gray : .red)
                     Text(ingamePlayer)
-                        .font(.system(size: 16, weight: sellerIndex == index ? .medium : .bold))
+                        .font(.system(size: 16, weight: endGameVM.sellerIndex == index ? .medium : .bold))
                     PopUpIcon(title: "광팜", color: .gray, size: 12)
-                        .opacity(sellerIndex == index ? 1 : 0)
+                        .opacity(endGameVM.sellerIndex == index ? 1 : 0)
                     Spacer()
 
-                    if sellerIndex != nil {
-                        if sellerIndex == index {
-                            Text("\(sellerInput[sellerIndex!]) 장")
+                    if endGameVM.sellerIndex != -1 {
+                        if endGameVM.sellerIndex == index {
+                            Text("\(endGameVM.sellerInput[endGameVM.sellerIndex]) 장")
                                 .foregroundColor(.gray)
                         } else {
                             Button {
-                                winner = Array(repeating: false, count: 4)
-                                winnerInput = ["","","",""]
-                                winner[index] = true
-                                winnerIndex = index
+                                endGameVM.winner = Array(repeating: false, count: 4)
+                                endGameVM.winnerInput = ["","","",""]
+                                endGameVM.winner[index] = true
+                                endGameVM.winnerIndex = index
                             } label: {
-                                TextField("-", text: $winnerInput[index])
+                                TextField("-", text: $endGameVM.winnerInput[index])
                                     .multilineTextAlignment(.trailing)
                                     .keyboardType(.decimalPad)
                                     .foregroundColor(.black)
@@ -397,12 +376,12 @@ struct EndGamewinnerRecord: View {
                         }
                     } else {
                         Button {
-                            winner = Array(repeating: false, count: 4)
-                            winnerInput = ["","","",""]
-                            winner[index] = true
-                            winnerIndex = index
+                            endGameVM.winner = Array(repeating: false, count: 4)
+                            endGameVM.winnerInput = ["","","",""]
+                            endGameVM.winner[index] = true
+                            endGameVM.winnerIndex = index
                         } label: {
-                            TextField("-", text: $winnerInput[index])
+                            TextField("-", text: $endGameVM.winnerInput[index])
                                 .multilineTextAlignment(.trailing)
                                 .keyboardType(.decimalPad)
                                 .foregroundColor(.black)
@@ -411,7 +390,7 @@ struct EndGamewinnerRecord: View {
                         }
                     }
                 }
-                if sellerIndex == index {
+                if endGameVM.sellerIndex == index {
                     HStack {
                         Text("  ")
                         Spacer()
@@ -427,7 +406,7 @@ struct EndGamewinnerRecord: View {
                         Spacer()
                         Rectangle()
                             .frame(width: 135, height: 1)
-                            .foregroundColor(winner[index] ? .red : .white)
+                            .foregroundColor(endGameVM.winner[index] ? .red : .white)
                     }
                     .padding(.top, -10)
                     .padding(.bottom, 20)
@@ -438,11 +417,7 @@ struct EndGamewinnerRecord: View {
             Spacer()
             PushView(destination: EndGameLoserRecord(mainPageHistory: mainPageHistory,
                                                      coreDM: coreDM,
-                                                     ingamePlayers: ingamePlayers,
-                                                     sellerInput: sellerInput,
-                                                     sellerIndex: sellerIndex,
-                                                     winnerInput: winnerInput,
-                                                     winnerIndex: winnerIndex))
+                                                     endGameVM: endGameVM))
             {
                 HStack {
                     Spacer()
@@ -470,19 +445,14 @@ struct EndGamewinnerRecord_Previews: PreviewProvider {
         testHistory.historyName = "2021.09.21"
         return EndGamewinnerRecord(mainPageHistory: testHistory,
                                    coreDM: CoreDataManager(),
-                                   sellerInput: ["","3","",""],
-                                   sellerIndex: 1)
+                                   endGameVM: EndGameViewModel())
     }
 }
 
 struct EndGameLoserRecord: View {
     var mainPageHistory: MainPageHistory
     let coreDM: CoreDataManager
-    var ingamePlayers: [String] = ["플레이어1","플레이어2","플레이어3","플레이어4"]
-    @State var sellerInput: [String] = ["","","",""]
-    let sellerIndex: Int?
-    @State var winnerInput: [String] = ["","","",""]
-    let winnerIndex: Int?
+    @ObservedObject var endGameVM: EndGameViewModel
     let subTitle = "패자 점수기록"
     let subExplain = "게임에서 패배한 플레이어들의 박 여부를 체크해주세요."
     
@@ -501,31 +471,31 @@ struct EndGameLoserRecord: View {
                 }
             }
             .padding()
-            ForEach(ingamePlayers, id: \.self) { ingamePlayer in
-                let index = ingamePlayers.firstIndex(of: ingamePlayer)!
+            ForEach(endGameVM.ingamePlayers, id: \.self) { ingamePlayer in
+                let index = endGameVM.ingamePlayers.firstIndex(of: ingamePlayer)!
                 HStack {
                     Text("\(index+1)")
-                        .font(.system(size: 16, weight: sellerIndex == index || winnerIndex == index ? .medium : .bold))
-                        .foregroundColor(sellerIndex == index || winnerIndex == index ? .gray : .red)
+                        .font(.system(size: 16, weight: endGameVM.sellerIndex == index || endGameVM.winnerIndex == index ? .medium : .bold))
+                        .foregroundColor(endGameVM.sellerIndex == index || endGameVM.winnerIndex == index ? .gray : .red)
                     Text(ingamePlayer)
-                        .font(.system(size: 16, weight: sellerIndex == index || winnerIndex == index ? .medium : .bold))
-                    if sellerIndex == index {
+                        .font(.system(size: 16, weight: endGameVM.sellerIndex == index || endGameVM.winnerIndex == index ? .medium : .bold))
+                    if endGameVM.sellerIndex == index {
                         PopUpIcon(title: "광팜", color: .gray, size: 12)
-                    } else if winnerIndex == index {
+                    } else if endGameVM.winnerIndex == index {
                         PopUpIcon(title: "승자", color: .gray, size: 12)
                     }
                     Spacer()
-                    if sellerIndex == index {
-                        Text("\(sellerInput[sellerIndex!]) 장")
+                    if endGameVM.sellerIndex == index {
+                        Text("\(endGameVM.sellerInput[endGameVM.sellerIndex]) 장")
                             .foregroundColor(.gray)
                     }
-                    if winnerIndex == index {
-                        Text("\(winnerInput[winnerIndex!]) 장")
+                    if endGameVM.winnerIndex == index {
+                        Text("\(endGameVM.winnerInput[endGameVM.winnerIndex]) 장")
                             .foregroundColor(.gray)
                     }
                     
                 }
-                if sellerIndex == index || winnerIndex == index {
+                if endGameVM.sellerIndex == index || endGameVM.winnerIndex == index {
                     HStack {
                         Text("  ")
                         Spacer()
@@ -537,7 +507,7 @@ struct EndGameLoserRecord: View {
                     .padding(.bottom, 10)
                 } else {
                     HStack {
-                        loseOptionSelecter()
+                        loseOptionSelecter(loserOptionArray: $endGameVM.loserOption[index])
                     }
                 }
                     
@@ -545,7 +515,9 @@ struct EndGameLoserRecord: View {
             .padding(.horizontal)
             .padding(.horizontal)
             Spacer()
-            PushView(destination: LastView())
+            PushView(destination: LastView(mainPageHistory: mainPageHistory,
+                                           coreDM: coreDM,
+                                           endGameVM: endGameVM))
             {
                 HStack {
                     Spacer()
@@ -565,31 +537,28 @@ struct EndGameLoserRecord: View {
     }
     struct loseOptionSelecter: View {
         
-        @State var pBack = false
-        @State var gwangBack = false
-        @State var mungBack = false
-        @State var goBack = false
+        @Binding var loserOptionArray: [Bool]
         
         var body: some View {
             Button {
-                pBack.toggle()
+                loserOptionArray[0].toggle()
             } label: {
-                PopUpIcon(title: "피박", color: pBack == false ? .gray : .red, size: 16)
+                PopUpIcon(title: "피박", color: loserOptionArray[0] == false ? .gray : .red, size: 16)
             }
             Button {
-                gwangBack.toggle()
+                loserOptionArray[1].toggle()
             } label: {
-                PopUpIcon(title: "광박", color: gwangBack == false ? .gray : .red, size: 16)
+                PopUpIcon(title: "광박", color: loserOptionArray[1] == false ? .gray : .red, size: 16)
             }
             Button {
-                mungBack.toggle()
+                loserOptionArray[2].toggle()
             } label: {
-                PopUpIcon(title: "멍박", color: mungBack == false ? .gray : .red, size: 16)
+                PopUpIcon(title: "멍박", color: loserOptionArray[2] == false ? .gray : .red, size: 16)
             }
             Button {
-                goBack.toggle()
+                loserOptionArray[3].toggle()
             } label: {
-                PopUpIcon(title: "고박", color: goBack == false ? .gray : .red, size: 16)
+                PopUpIcon(title: "고박", color: loserOptionArray[3] == false ? .gray : .red, size: 16)
             }
             Spacer()
         }
@@ -605,15 +574,16 @@ struct EndGameLoserRecord_Previews: PreviewProvider {
         
         return EndGameLoserRecord(mainPageHistory: testHistory,
                                   coreDM: CoreDataManager(),
-                                  sellerInput: ["","3","",""],
-                                  sellerIndex: 1,
-                                  winnerInput: ["2","","",""],
-                                  winnerIndex: 0)
+                                  endGameVM: EndGameViewModel())
     }
 
 }
 
 struct LastView: View {
+    var mainPageHistory: MainPageHistory
+    let coreDM: CoreDataManager
+    @ObservedObject var endGameVM: EndGameViewModel
+    
     var body: some View {
         VStack {
             HStack {
@@ -624,7 +594,7 @@ struct LastView: View {
             divideRectangle()
                 .padding(.horizontal, -20)
             Spacer()
-            
+            Image("confetti")
             Spacer()
         }
     }
@@ -632,6 +602,14 @@ struct LastView: View {
 
 struct LastView_Previews: PreviewProvider {
     static var previews: some View {
-        LastView()
+        
+        let context = CoreDataManager().persistentContainer.viewContext
+        let testHistory = MainPageHistory(context: context)
+        
+        testHistory.historyName = "2021.09.21"
+        
+        return LastView(mainPageHistory: testHistory,
+                 coreDM: CoreDataManager(),
+                 endGameVM: EndGameViewModel())
     }
 }
