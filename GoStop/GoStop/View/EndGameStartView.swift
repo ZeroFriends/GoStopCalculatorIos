@@ -146,9 +146,7 @@ struct EndGameStartView: View {
     }
 }
 
-struct CustomColor {
-    static let checkBoxColor = Color("checkBoxColor")
-}
+
 
 struct EndGameView_Previews: PreviewProvider {
     static var previews: some View {
