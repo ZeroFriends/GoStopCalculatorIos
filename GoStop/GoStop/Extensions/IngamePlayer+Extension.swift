@@ -13,7 +13,7 @@ extension IngamePlayer {
         let set = playList as? Set<IngamePlayerPlayList> ?? []
         
         return Array(set.sorted {
-            $0.enemyName! < $1.enemyName!
+            $0.sequence < $1.sequence
         })
     }
     
