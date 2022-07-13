@@ -104,22 +104,29 @@ class CoreDataManager: ObservableObject {
         let round = Round(context: persistentContainer.viewContext)
         round.id = mainPageHistory.id
         round.roundId = UUID()
-        let ingamePlayers = ["플레이어1", "플레이어2", "플레이어3", "플레이어4"]
-        
+        let ingamePlayers = ["플레이어 1", "플레이어 2", "플레이어 3", "플레이어 4"]
+        var playerseq:Int16 = 0
         for ingamePlayer in ingamePlayers {
             let player = IngamePlayer(context: persistentContainer.viewContext)
             player.id = mainPageHistory.id
             player.name = ingamePlayer
             player.roundId = round.roundId
-            player.totalCost = 0
+            player.totalCost = 100
+            player.sequence = playerseq
+            playerseq+=1
+            var sum: Int32 = -100//here
+            var ingameseq: Int16 = 0
             for oneOfEnemyList in ingamePlayers {
                 if oneOfEnemyList != ingamePlayer {
                     let enemy = IngamePlayerPlayList(context: persistentContainer.viewContext)
-                    enemy.cost = 0
+                    enemy.cost = sum//here
                     enemy.id = mainPageHistory.id
                     enemy.roundId = round.roundId
                     enemy.enemyName = oneOfEnemyList
+                    enemy.sequence = ingameseq
                     player.addToPlayList(enemy)
+                    sum += 200//here
+                    ingameseq+=1
                 }
             }
             
@@ -187,5 +194,16 @@ class CoreDataManager: ObservableObject {
         } catch {
             persistentContainer.viewContext.rollback()
         }
+    }
+    
+    func deleteRound(round: Round) {
+        persistentContainer.viewContext.delete(round)
+        
+        do {
+            try persistentContainer.viewContext.save()
+        } catch {
+            persistentContainer.viewContext.rollback()
+        }
+        
     }
 }
