@@ -7,7 +7,7 @@
         <attribute name="sequence" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="totalCost" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="origin" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Round" inverseName="ingamePlayer" inverseEntity="Round"/>
-        <relationship name="playList" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="IngamePlayerPlayList" inverseName="origin" inverseEntity="IngamePlayerPlayList"/>
+        <relationship name="playList" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="IngamePlayerPlayList" inverseName="origin" inverseEntity="IngamePlayerPlayList"/>
     </entity>
     <entity name="IngamePlayerPlayList" representedClassName="IngamePlayerPlayList" syncable="YES" codeGenerationType="class">
         <attribute name="cost" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
@@ -21,9 +21,9 @@
         <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="historyName" optional="YES" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
-        <relationship name="player" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Player" inverseName="origin" inverseEntity="Player"/>
-        <relationship name="round" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Round" inverseName="origin" inverseEntity="Round"/>
-        <relationship name="rule" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Rule" inverseName="origin" inverseEntity="Rule"/>
+        <relationship name="player" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Player" inverseName="origin" inverseEntity="Player"/>
+        <relationship name="round" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Round" inverseName="origin" inverseEntity="Round"/>
+        <relationship name="rule" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="Rule" inverseName="origin" inverseEntity="Rule"/>
     </entity>
     <entity name="Player" representedClassName="Player" syncable="YES" codeGenerationType="class">
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
@@ -34,7 +34,7 @@
     <entity name="Round" representedClassName="Round" syncable="YES" codeGenerationType="class">
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="roundId" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
-        <relationship name="ingamePlayer" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="IngamePlayer" inverseName="origin" inverseEntity="IngamePlayer"/>
+        <relationship name="ingamePlayer" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="IngamePlayer" inverseName="origin" inverseEntity="IngamePlayer"/>
         <relationship name="origin" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MainPageHistory" inverseName="round" inverseEntity="MainPageHistory"/>
     </entity>
     <entity name="Rule" representedClassName="Rule" syncable="YES" codeGenerationType="class">
