@@ -87,11 +87,13 @@ class CoreDataManager: ObservableObject {
         do {
             ingamePlayer = try persistentContainer.viewContext.fetch(request).filter{ $0.id == id}.filter{ $0.name == mainName }
             for player in ingamePlayer {
+                print(player.innerArray)
                 let ingameList = player.innerArray.filter{ $0.enemyName! == enemyName }
                 for i in ingameList {
                     sum += i.cost
                 }
             }
+
             return sum
         } catch {
             print("fetchSpecificPlayerToPlayerCost method error")
@@ -141,6 +143,48 @@ class CoreDataManager: ObservableObject {
             print("\(error)")
         }
     }//round save test용 method
+    
+    func saveRoundOfGameResult(mainPageHistory: MainPageHistory, endGameViewModel: EndGameViewModel) {
+        endGameViewModel.calculate(mainPageHistory: mainPageHistory)
+        //이제 점수저장하자~
+        let round = Round(context: persistentContainer.viewContext)
+        round.id = mainPageHistory.id
+        round.roundId = UUID()
+        
+        var playerSeq: Int16 = 0
+        for playerIndex in 0 ..< endGameViewModel.ingamePlayers.count {
+            let player = IngamePlayer(context: persistentContainer.viewContext)
+            player.id = mainPageHistory.id
+            player.name = endGameViewModel.ingamePlayers[playerIndex]
+            player.roundId = round.roundId
+            player.totalCost = endGameViewModel.totalCost[playerIndex]
+            player.sequence = playerSeq
+            playerSeq += 1
+            
+            var ingameSeq: Int16 = 0
+            for enemyIndex in 0 ..< endGameViewModel.ingamePlayers.count {
+                if playerIndex != enemyIndex {
+                    let enemy = IngamePlayerPlayList(context: persistentContainer.viewContext)
+                    enemy.cost = endGameViewModel.eachCostList[playerIndex][enemyIndex]
+                    enemy.id = mainPageHistory.id
+                    enemy.roundId = round.roundId
+                    enemy.enemyName = endGameViewModel.ingamePlayers[enemyIndex]
+                    enemy.sequence = ingameSeq
+                    player.addToPlayList(enemy)
+                    ingameSeq += 1
+                }
+            }
+            
+            round.addToIngamePlayer(player)
+        }
+        mainPageHistory.addToRound(round)
+        
+        do {
+            try persistentContainer.viewContext.save()
+        } catch {
+            print("\(error)")
+        }
+    }
     
     func saveMainPageHistory(players: [String], historyName: String, jumDang: String, ppuck: String, firstTadack: String, sell: String) {
         let mainPageHistory = MainPageHistory(context: persistentContainer.viewContext)
