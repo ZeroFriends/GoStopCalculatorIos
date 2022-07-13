@@ -657,7 +657,8 @@ struct LastView: View {
             .padding(.top)
         }
         .onAppear {
-            print("testSuccess")
+            //라운드 저장부분
+            coreDM.saveRoundInMainPageHistory(mainPageHistory: mainPageHistory)
         }
     }
 }
