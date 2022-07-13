@@ -50,13 +50,13 @@ struct CalculateView: View {
                                 Text(player.name ?? "")
                                     .font(.system(size: 16, weight: .bold))
                                 Spacer()
-                                let totalCost = coreDM.fetchSpecificPlayerTotalCost(id: mainPageHistory.id ?? UUID(), name: player.name ?? "")
+                                let totalCost = coreDM.fetchSpecificPlayerTotalCost(id: mainPageHistory.id!, name: player.name ?? "")
                                 if totalCost > 0 {
                                     Text("+\(totalCost)원")
                                         .font(.system(size: 16, weight: .bold))
                                         .foregroundColor(.red)
                                 } else if totalCost < 0 {
-                                    Text("-\(totalCost)원")
+                                    Text("\(totalCost)원")
                                         .font(.system(size: 16, weight: .bold))
                                         .foregroundColor(.blue)
                                 } else {

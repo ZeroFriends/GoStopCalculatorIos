@@ -62,7 +62,7 @@ struct RoundDetailView: View {
                                         .font(.system(size: 16, weight: .bold))
                                         .foregroundColor(.red)
                                 } else if ingamePlayer.totalCost < 0 {
-                                    Text("-\(ingamePlayer.totalCost)원")
+                                    Text("\(ingamePlayer.totalCost)원")
                                         .font(.system(size: 16, weight: .bold))
                                         .foregroundColor(.blue)
                                 } else {
