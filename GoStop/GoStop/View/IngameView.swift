@@ -22,6 +22,9 @@ struct IngameView: View {
     
     @State var rounds: [Round] = []
     
+    @State var uselessRound: Round?
+    @State var showingAlert = false
+    
     private func populateRounds() {
         rounds = coreDM.fetchRound(id: mainPageHistory.id ?? UUID())
     }
@@ -71,16 +74,13 @@ struct IngameView: View {
                     }
                     .padding(.horizontal)
                     divideRectangle()
-                    
-    //                    RoundedRectangle(cornerRadius: 18)
-    //                        .foregroundColor(.white)
-    //                        .shadow(color: .gray, radius: 3, x: 0, y: 3)
                         VStack {
                             HStack {
                                 Text("수익현황 👏").font(.system(size: 24, weight: .bold))
                                 Spacer()
                                 Button {
                                     //정산내역 action
+                                    calculateButton = true
                                 } label: {
                                     ZStack {
                                         RoundedRectangle(cornerRadius: 12.5)
@@ -90,13 +90,9 @@ struct IngameView: View {
                                             .stroke(lineWidth: 1)
                                             .foregroundColor(.red)
                                             .frame(width: 79, height: 25)
-                                        Button {
-                                            calculateButton = true
-                                        } label: {
-                                            Text("정산내역 >")
-                                                .font(.system(size: 14, weight: .bold))
-                                                .foregroundColor(.red)
-                                        }
+                                        Text("정산내역 >")
+                                            .font(.system(size: 14, weight: .bold))
+                                            .foregroundColor(.red)
                                     }
                                 }
                             }
@@ -168,7 +164,19 @@ struct IngameView: View {
                                                 Text("\(rounds.firstIndex(of: round)!+1) 라운드")
                                                     .font(.system(size: 16, weight: .bold))
                                                 Spacer()
-                                                Image("moreVertBlack24Dp1")
+
+                                                Button {
+                                                    uselessRound = round
+                                                    showingAlert = true
+                                                } label: {
+                                                    Image("moreVertBlack24Dp1")
+                                                }
+                                                .alert(isPresented: $showingAlert) {
+                                                    Alert(title: Text("삭제하시겠습니까?"), message: nil, primaryButton: .destructive(Text("삭제"), action: {
+                                                        print(uselessRound ?? "no history")
+                                                        coreDM.deleteRound(round: uselessRound!)
+                                                    }), secondaryButton: .cancel(Text("취소")))
+                                                }
                                             }
                                             .padding([.leading, .trailing, .top])
                                             LazyVGrid(columns: columns) {
@@ -197,13 +205,6 @@ struct IngameView: View {
                                                             .font(.system(size: 12, weight: .medium))
                                                             .foregroundColor(.black)
                                                     }
-    //                                                Button {
-    //                                                    //상세보기 action
-    //                                                } label: {
-    //                                                    Text("상세보기 >")
-    //                                                        .font(.system(size: 12, weight: .medium))
-    //                                                        .foregroundColor(.black)
-    //                                                }
                                                     Spacer()
                                                 }
                                                 .padding(.vertical, 3)
@@ -243,6 +244,9 @@ struct IngameView: View {
             }//ZStack
             .navigationBarHidden(true)
             .onAppear {
+                populateRounds()
+            }
+            .onChange(of: coreDM.fetchRound(id: mainPageHistory.id ?? UUID()).count) { _ in
                 populateRounds()
             }
     }
