@@ -284,17 +284,17 @@ struct EndGameOptionView: View {
         
         var body: some View {
             Button {
-                optionIndex = 0
+                optionIndex =  optionIndex == 0 ? -1 : 0
             } label: {
                 PopUpIcon(title: "첫 뻑", color: optionIndex != 0 ? .gray : .red, size: 16)
             }
             Button {
-                optionIndex = 1
+                optionIndex =  optionIndex == 1 ? -1 : 1
             } label: {
                 PopUpIcon(title: "연 뻑", color: optionIndex != 1 ? .gray : .red, size: 16)
             }
             Button {
-                optionIndex = 2
+                optionIndex =  optionIndex == 2 ? -1 : 2
             } label: {
                 PopUpIcon(title: "삼연 뻑", color: optionIndex != 2 ? .gray : .red, size: 16)
             }
@@ -610,7 +610,7 @@ struct LastView: View {
 
             VStack {
                 HStack {
-                    Text("\(mainPageHistory.rounds.count+1) 라운드")
+                    Text("\(mainPageHistory.rounds.count) 라운드")
                     Spacer()
                 }
                 let columns = [
@@ -658,7 +658,9 @@ struct LastView: View {
         }
         .onAppear {
             //라운드 저장부분
-            coreDM.saveRoundInMainPageHistory(mainPageHistory: mainPageHistory)
+
+//            coreDM.saveRoundInMainPageHistory(mainPageHistory: mainPageHistory)
+            coreDM.saveRoundOfGameResult(mainPageHistory: mainPageHistory, endGameViewModel: endGameVM)
         }
     }
 }
