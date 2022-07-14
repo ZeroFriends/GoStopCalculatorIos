@@ -107,32 +107,45 @@ class EndGameViewModel: ObservableObject {
         }
         
         for i in 0 ..< ingamePlayers.count {
-            if loserOption[i][3] == true {//고박 수정해야함
+            if loserOption[i][3] == true {//고박 수정완료
                 var cost = totalCost[i]*2
                 totalCost[i] = 0
                 for j in 0 ..< ingamePlayers.count {
                     
                     if j != sellerIndex && j != i && j != winnerIndex {
-                        if totalCost[j] < 0 {
-                            
-                            cost += totalCost[j]
-                            totalCost[j] = 0
-                            for k in 0 ..< ingamePlayers.count {
-                                if k != sellerIndex {
-                                    eachCostList[j][k] = 0
-                                }
+                        // 승자가 금액이 음수가 될 수 있나?
+                        cost += totalCost[j]
+                        totalCost[j] = 0
+                        for k in 0 ..< ingamePlayers.count {
+                            if k != sellerIndex {
+                                eachCostList[j][k] = 0
+                                eachCostList[winnerIndex][k] = 0
+                                
                             }
                         }
+                        if sellerIndex != -1 {
+                            totalCost[j] = eachCostList[j][sellerIndex]
+                        }
                     }
+                    
+                    
                 }
-//                totalCost[i] = cost
-//                eachCostList[i][winnerIndex] = cost
-//                totalCost[winnerIndex] = abs(cost)
-//                eachCostList[winnerIndex][i] = abs(cost)
+                if sellerIndex == -1 {
+                    totalCost[i] = cost
+                } else {
+                    totalCost[i] = cost + eachCostList[i][sellerIndex]
+                }
+                
+                eachCostList[i][winnerIndex] = cost
+                eachCostList[winnerIndex][i] = abs(cost)
+                
+                
+                if sellerIndex == -1 {
+                    totalCost[winnerIndex] = abs(cost)
+                } else {
+                    totalCost[winnerIndex] = abs(cost)+eachCostList[winnerIndex][sellerIndex]
+                }
             }
         }
-        
-        print(eachCostList)
-        print(totalCost)
     }
 }
