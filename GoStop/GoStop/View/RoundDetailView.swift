@@ -90,7 +90,7 @@ struct RoundDetailView: View {
                                         Text("\(cost)원")
                                             .font(.system(size: 14, weight: .bold))
                                             .foregroundColor(.blue)
-                                        Text("을 받아야 합니다.")
+                                        Text("을 줘야 합니다.")
                                             .font(.system(size: 14, weight: .medium))
                                     } else {
                                         Text("받을 금액이 없습니다.")
