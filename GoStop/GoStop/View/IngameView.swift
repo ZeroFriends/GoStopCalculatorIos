@@ -34,7 +34,6 @@ struct IngameView: View {
             ZStack {
                 NavigationLink(isActive: $toGoHome) {
                     MainPage()
-                    //여기 수정해야함 이러면 네비게이션 스택 계속 쌓임
                 } label: { }
                 NavigationLink(isActive: $gameRuleButton) {
                     gameRuleView(mainPageHistory: mainPageHistory)
@@ -110,6 +109,7 @@ struct IngameView: View {
                                             .font(.system(size: 16, weight: .bold))
                                             .foregroundColor(.red)
                                         Text(player.name ?? "")
+                                            .font(.system(size: 14, weight: .medium))
                                         Spacer()
                                         Text("\(specificCost)")
                                         Text("원")
@@ -186,6 +186,7 @@ struct IngameView: View {
                                                             .font(.system(size: 16, weight: .bold))
                                                             .foregroundColor(.red)
                                                         Text(ingamePlayer.name ?? "name")
+                                                            .font(.system(size: 14, weight: .medium))
                                                         Spacer()
                                                         Text("\(ingamePlayer.totalCost)")
                                                         Text("원")
