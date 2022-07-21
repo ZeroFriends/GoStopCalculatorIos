@@ -246,7 +246,7 @@ struct StartView: View {
                                                     Spacer()
                                                     TextField("0", text: $jumDang)
                                                         .multilineTextAlignment(.trailing)
-                                                        .keyboardType(.decimalPad)
+                                                        .keyboardType(.numberPad)
                                                         .frame(width: 110)
                                                     Text("원")
                                                 }
@@ -272,7 +272,7 @@ struct StartView: View {
                                                     Spacer()
                                                     TextField("0", text: $ppuck)
                                                         .multilineTextAlignment(.trailing)
-                                                        .keyboardType(.decimalPad)
+                                                        .keyboardType(.numberPad)
                                                         .frame(width: 110)
                                                     Text("원")
                                                 }
@@ -294,7 +294,7 @@ struct StartView: View {
                                                     Spacer()
                                                     TextField("0", text: $firstTadack)
                                                         .multilineTextAlignment(.trailing)
-                                                        .keyboardType(.decimalPad)
+                                                        .keyboardType(.numberPad)
                                                         .frame(width: 110)
                                                     Text("원")
                                                 }
@@ -316,7 +316,7 @@ struct StartView: View {
                                                     Spacer()
                                                     TextField("0", text: $sell)
                                                         .multilineTextAlignment(.trailing)
-                                                        .keyboardType(.decimalPad)
+                                                        .keyboardType(.numberPad)
                                                         .frame(width: 110)
                                                     Text("원")
                                                 }
@@ -367,6 +367,9 @@ struct StartView: View {
                 .navigationBarHidden(true)
                 PlayerPopUpView(players: $players, originIndex: $originIndex,show: $showingPopUp)
                 HelpPopUpView(show: $showingHelpPopUp)
+            }
+            .onTapGesture {
+                self.hideKeyboard()
             }
         }
     }
