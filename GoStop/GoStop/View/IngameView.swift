@@ -29,6 +29,49 @@ struct IngameView: View {
         rounds = coreDM.fetchRound(id: mainPageHistory.id ?? UUID())
     }
     
+    struct OptionSelect: View {
+        let player: IngamePlayer
+        
+        var body: some View {
+            HStack {
+                if player.firstpuck == true {
+                    Text("첫뻑")
+                        .font(.system(size: 8, weight: .medium))
+                }
+                if player.secondpuck == true {
+                    Text("연뻑")
+                        .font(.system(size: 8, weight: .medium))
+                }
+                if player.thirdpuck == true {
+                    Text("삼연뻑")
+                        .font(.system(size: 8, weight: .medium))
+                }
+                if player.firsttatack == true {
+                    Text("첫따닥")
+                        .font(.system(size: 8, weight: .medium))
+                }
+                if player.peeback == true {
+                    Text("피박")
+                        .font(.system(size: 8, weight: .medium))
+                }
+                if player.gwangback == true {
+                    Text("광박")
+                        .font(.system(size: 8, weight: .medium))
+                }
+                if player.mungback == true {
+                    Text("멍박")
+                        .font(.system(size: 8, weight: .medium))
+                }
+                if player.goback == true {
+                    Text("고박")
+                        .font(.system(size: 8, weight: .medium))
+                }
+                Text("  ")
+                    .font(.system(size:8, weight: .medium))
+            }
+        }
+    }
+    
     var body: some View {
 
             ZStack {
@@ -185,8 +228,21 @@ struct IngameView: View {
                                                         Text("\(ingamePlayerList.firstIndex(of: ingamePlayer)!+1)")
                                                             .font(.system(size: 16, weight: .bold))
                                                             .foregroundColor(.red)
-                                                        Text(ingamePlayer.name ?? "name")
-                                                            .font(.system(size: 14, weight: .medium))
+                                                        VStack(alignment: .leading) {
+                                                            if ingamePlayer.seller == true {
+                                                                Text("광팜")
+                                                                    .font(.system(size:8, weight: .medium))
+                                                            } else if ingamePlayer.winner == true {
+                                                                Text("승자")
+                                                                    .font(.system(size:8, weight: .medium))
+                                                            } else {
+                                                                Text("  ")
+                                                                    .font(.system(size:8, weight: .medium))
+                                                            }
+                                                            Text(ingamePlayer.name ?? "name")
+                                                                .font(.system(size: 14, weight: .medium))
+                                                            OptionSelect(player: ingamePlayer)
+                                                        }
                                                         Spacer()
                                                         Text("\(ingamePlayer.totalCost)")
                                                         Text("원")
