@@ -128,7 +128,7 @@ struct EndGameSellView: View {//광팔기 view
                                     HStack {
                                         TextField("-", text: $endGameVM.sellerInput[index])
                                             .multilineTextAlignment(.trailing)
-                                            .keyboardType(.decimalPad)
+                                            .keyboardType(.numberPad)
                                             .frame(width: 110)
                                             .foregroundColor(.black)
                                         Text("장")
@@ -146,9 +146,9 @@ struct EndGameSellView: View {//광팔기 view
                         }
                         .padding(.top, -10)
                         .padding(.bottom, 20)
-                    }//이 부분도 충분히 재사용할 수 있음 전환해보자
+                    }
                     .padding(.horizontal)
-                }
+                }//ScrollView
                 .padding(.horizontal)
                 PushView(destination: EndGameOptionView(mainPageHistory: mainPageHistory,
                                                         coreDM: coreDM,
@@ -175,6 +175,9 @@ struct EndGameSellView: View {//광팔기 view
         }
         .navigationBarHidden(true)
         .ignoresSafeArea(.keyboard, edges: .bottom)
+        .onTapGesture {
+            self.hideKeyboard()
+        }
     }
 }
 
@@ -328,112 +331,121 @@ struct EndGamewinnerRecord: View {
     let subTitle = "승자 점수기록"
     let subExplain = "이긴 플레이어 선택하고,\n몇점을 내었는지 계산 후 점수를 적어주세요"
     var body: some View {
-        VStack {
-            BuildTopView(mainTitle: mainPageHistory.historyName ?? "",
-                         subTitle: subTitle,
-                         subExplain: subExplain)
-            HStack {
-                Text("플레이어 리스트")
-                    .font(.system(size: 16, weight: .bold))
-                Spacer()
-                NavigationLink {
-                    CalculateScoreView()
-                } label: {
-                    PopUpIcon(title: "점수 계산 법", color: .red, size: 14)
-                }
-            }
-            .padding()
-            ForEach(endGameVM.ingamePlayers, id: \.self) { ingamePlayer in
-                let index = endGameVM.ingamePlayers.firstIndex(of: ingamePlayer)!
+        ZStack {
+            VStack {
+                BuildTopView(mainTitle: mainPageHistory.historyName ?? "",
+                             subTitle: subTitle,
+                             subExplain: subExplain)
                 HStack {
-                    Text("\(index+1)")
-                        .font(.system(size: 16, weight: endGameVM.sellerIndex == index ? .medium : .bold))
-                        .foregroundColor(endGameVM.sellerIndex == index ? .gray : .red)
-                    Text(ingamePlayer)
-                        .font(.system(size: 16, weight: endGameVM.sellerIndex == index ? .medium : .bold))
-                    PopUpIcon(title: "광팜", color: .gray, size: 12)
-                        .opacity(endGameVM.sellerIndex == index ? 1 : 0)
-                    Spacer()
-
-                    if endGameVM.sellerIndex != -1 {
-                        if endGameVM.sellerIndex == index {
-                            Text("\(endGameVM.sellerInput[endGameVM.sellerIndex]) 장")
-                                .foregroundColor(.gray)
-                        } else {
-                            Button {
-                                endGameVM.winner = Array(repeating: false, count: 4)
-                                endGameVM.winnerInput = ["","","",""]
-                                endGameVM.winner[index] = true
-                                endGameVM.winnerIndex = index
-                            } label: {
-                                TextField("-", text: $endGameVM.winnerInput[index])
-                                    .multilineTextAlignment(.trailing)
-                                    .keyboardType(.decimalPad)
-                                    .foregroundColor(.black)
-                                Text("점")
-                                    .foregroundColor(.black)
-                            }
-                        }
-                    } else {
-                        Button {
-                            endGameVM.winner = Array(repeating: false, count: 4)
-                            endGameVM.winnerInput = ["","","",""]
-                            endGameVM.winner[index] = true
-                            endGameVM.winnerIndex = index
-                        } label: {
-                            TextField("-", text: $endGameVM.winnerInput[index])
-                                .multilineTextAlignment(.trailing)
-                                .keyboardType(.decimalPad)
-                                .foregroundColor(.black)
-                            Text("점")
-                                .foregroundColor(.black)
-                        }
-                    }
-                }
-                if endGameVM.sellerIndex == index {
-                    HStack {
-                        Text("  ")
-                        Spacer()
-                        Rectangle()
-                            .frame(width: 135, height: 1)
-                            .foregroundColor(.gray)
-                    }
-                    .padding(.top, -10)
-                    .padding(.bottom, 20)
-                } else {
-                    HStack {
-                        Text("  ")
-                        Spacer()
-                        Rectangle()
-                            .frame(width: 135, height: 1)
-                            .foregroundColor(endGameVM.winner[index] ? .red : .white)
-                    }
-                    .padding(.top, -10)
-                    .padding(.bottom, 20)
-                }
-            }//foreach
-            .padding(.horizontal)
-            .padding(.horizontal)
-            Spacer()
-            PushView(destination: EndGameLoserRecord(mainPageHistory: mainPageHistory,
-                                                     coreDM: coreDM,
-                                                     endGameVM: endGameVM))
-            {
-                HStack {
-                    Spacer()
-                    Text("다음(3/4)")
+                    Text("플레이어 리스트")
                         .font(.system(size: 16, weight: .bold))
-                        .foregroundColor(.white)
                     Spacer()
+                    NavigationLink {
+                        CalculateScoreView()
+                    } label: {
+                        PopUpIcon(title: "점수 계산 법", color: .red, size: 14)
+                    }
                 }
                 .padding()
-            }
-            .background(
-                RoundedRectangle(cornerRadius: 22)
-                    .foregroundColor(.red)
-            )
-            .padding(.horizontal)
-        }//VStack
+                ScrollView {
+                    ForEach(endGameVM.ingamePlayers, id: \.self) { ingamePlayer in
+                        let index = endGameVM.ingamePlayers.firstIndex(of: ingamePlayer)!
+                        HStack {
+                            Text("\(index+1)")
+                                .font(.system(size: 16, weight: endGameVM.sellerIndex == index ? .medium : .bold))
+                                .foregroundColor(endGameVM.sellerIndex == index ? .gray : .red)
+                            Text(ingamePlayer)
+                                .font(.system(size: 16, weight: endGameVM.sellerIndex == index ? .medium : .bold))
+                            PopUpIcon(title: "광팜", color: .gray, size: 12)
+                                .opacity(endGameVM.sellerIndex == index ? 1 : 0)
+                            Spacer()
+
+                            if endGameVM.sellerIndex != -1 {
+                                if endGameVM.sellerIndex == index {
+                                    Text("\(endGameVM.sellerInput[endGameVM.sellerIndex]) 장")
+                                        .foregroundColor(.gray)
+                                } else {
+                                    Button {
+                                        endGameVM.winner = Array(repeating: false, count: 4)
+                                        endGameVM.winnerInput = ["","","",""]
+                                        endGameVM.winner[index] = true
+                                        endGameVM.winnerIndex = index
+                                    } label: {
+                                        TextField("-", text: $endGameVM.winnerInput[index])
+                                            .multilineTextAlignment(.trailing)
+                                            .keyboardType(.numberPad)
+                                            .foregroundColor(.black)
+                                        Text("점")
+                                            .foregroundColor(.black)
+                                    }
+                                }
+                            } else {
+                                Button {
+                                    endGameVM.winner = Array(repeating: false, count: 4)
+                                    endGameVM.winnerInput = ["","","",""]
+                                    endGameVM.winner[index] = true
+                                    endGameVM.winnerIndex = index
+                                } label: {
+                                    TextField("-", text: $endGameVM.winnerInput[index])
+                                        .multilineTextAlignment(.trailing)
+                                        .keyboardType(.decimalPad)
+                                        .foregroundColor(.black)
+                                    Text("점")
+                                        .foregroundColor(.black)
+                                }
+                            }
+                        }
+                        if endGameVM.sellerIndex == index {
+                            HStack {
+                                Text("  ")
+                                Spacer()
+                                Rectangle()
+                                    .frame(width: 135, height: 1)
+                                    .foregroundColor(.gray)
+                            }
+                            .padding(.top, -10)
+                            .padding(.bottom, 20)
+                        } else {
+                            HStack {
+                                Text("  ")
+                                Spacer()
+                                Rectangle()
+                                    .frame(width: 135, height: 1)
+                                    .foregroundColor(endGameVM.winner[index] ? .red : .white)
+                            }
+                            .padding(.top, -10)
+                            .padding(.bottom, 20)
+                        }
+                    }//foreach
+                    .padding(.horizontal)
+                }//ScrollView
+                .padding(.horizontal)
+                Spacer()
+                PushView(destination: EndGameLoserRecord(mainPageHistory: mainPageHistory,
+                                                         coreDM: coreDM,
+                                                         endGameVM: endGameVM))
+                {
+                    HStack {
+                        Spacer()
+                        Text("다음(3/4)")
+                            .font(.system(size: 16, weight: .bold))
+                            .foregroundColor(.white)
+                        Spacer()
+                    }
+                    .padding()
+                }
+                .background(
+                    RoundedRectangle(cornerRadius: 22)
+                        .foregroundColor(.red)
+                )
+                .padding(.horizontal)
+            }//VStack
+        }
+        .navigationBarHidden(true)
+        .ignoresSafeArea(.keyboard, edges: .bottom)
+        .onTapGesture {
+            self.hideKeyboard()
+        }
     }
 }
 
@@ -583,6 +595,7 @@ struct LastView: View {
     var mainPageHistory: MainPageHistory
     let coreDM: CoreDataManager
     @ObservedObject var endGameVM: EndGameViewModel
+    @State private var isCompleted = false
     
     var body: some View {
         VStack {
@@ -624,6 +637,7 @@ struct LastView: View {
                                 .font(.system(size: 16, weight: .bold))
                                 .foregroundColor(.red)
                             Text(player)
+                                .font(.system(size: 14, weight: .medium))
                             Spacer()
                             Text("\(endGameVM.totalCost[index])")
                             Text("원")
@@ -655,13 +669,14 @@ struct LastView: View {
             )
             .padding(.horizontal)
             .padding(.top)
-        }
-        .onAppear {
-            //라운드 저장부분
+            .onAppear {
+                //라운드 저장부분
 
-//            coreDM.saveRoundInMainPageHistory(mainPageHistory: mainPageHistory)
-            coreDM.saveRoundOfGameResult(mainPageHistory: mainPageHistory, endGameViewModel: endGameVM)
+    //            coreDM.saveRoundInMainPageHistory(mainPageHistory: mainPageHistory)
+                coreDM.saveRoundOfGameResult(mainPageHistory: mainPageHistory, endGameViewModel: endGameVM)
+            }
         }
+
     }
 }
 
