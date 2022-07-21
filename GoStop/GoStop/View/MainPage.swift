@@ -51,7 +51,7 @@ struct TopMainPage: View {
                 Spacer()
                 ZStack {
                     RoundedRectangle(cornerRadius: 12.5).fill().foregroundColor(.white)
-                    RoundedRectangle(cornerRadius: 12.5).stroke(lineWidth: 2).foregroundColor(.orange)
+                    RoundedRectangle(cornerRadius: 12.5).stroke(lineWidth: 2).foregroundColor(.red)
         
                     Button {
                         withAnimation {
@@ -61,27 +61,27 @@ struct TopMainPage: View {
                         Text("Guide")
                             .fontWeight(.bold)
                     }
-                    .foregroundColor(.orange)
+                    .foregroundColor(.red)
                 }
                 .frame(width: 57, height: 25)
             }
             HStack {
-                ZStack {
-                    RoundedRectangle(cornerRadius: 100).fill().foregroundColor(.red)
-                    Button{
-                        //시작하기 버튼 action
-                        
-                        withAnimation {
-                            readyForstart.toggle()
-                        }
-                    } label: {
+                Button{
+                    //시작하기 버튼 action
+                    
+                    withAnimation {
+                        readyForstart.toggle()
+                    }
+                } label: {
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 100).fill().foregroundColor(.red)
+                            .frame(height: 44)
                         Text("시작하기")
                             .fontWeight(.bold)
                             .frame(height: 44)
                     }
-                    .foregroundColor(.white)
                 }
-                .frame(height: 44)
+                .foregroundColor(.white)
             }
             .padding(.vertical)
         }
