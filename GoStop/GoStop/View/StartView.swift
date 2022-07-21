@@ -253,7 +253,7 @@ struct StartView: View {
                                                 HStack {
                                                     Text("  ")
                                                     Text(" 필수항목입니다")
-                                                        .font(.system(size: 12))
+                                                        .font(.system(size: 10))
                                                         .foregroundColor(.gray)
                                                     Spacer()
                                                     Rectangle()
@@ -322,8 +322,8 @@ struct StartView: View {
                                                 }
                                                 HStack {
                                                     Text("  ")
-                                                    Text("  필수항목입니다")
-                                                        .font(.system(size: 12))
+                                                    Text("  4인 플레이 시에만 적용됩니다.")
+                                                        .font(.system(size: 10))
                                                         .foregroundColor(.gray)
                                                     Spacer()
                                                     Rectangle()
