@@ -17,6 +17,7 @@
 		EA33F8302803257500EDB7B9 /* MainPageHistory+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA33F82F2803257500EDB7B9 /* MainPageHistory+Extension.swift */; };
 		EA33F832280331F900EDB7B9 /* gameRuleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA33F831280331F900EDB7B9 /* gameRuleView.swift */; };
 		EA41AD8A2796F9D30085523C /* GuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA41AD892796F9D30085523C /* GuideView.swift */; };
+		EA48D4CF28855E0A0076095E /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA48D4CE28855E0A0076095E /* View+Extension.swift */; };
 		EA4F79E5278EB7A5008B78FF /* GoStopApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA4F79E4278EB7A5008B78FF /* GoStopApp.swift */; };
 		EA4F79E7278EB7A5008B78FF /* LottieAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA4F79E6278EB7A5008B78FF /* LottieAnimationView.swift */; };
 		EA4F79E9278EB7A6008B78FF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EA4F79E8278EB7A6008B78FF /* Assets.xcassets */; };
@@ -52,6 +53,7 @@
 		EA33F82F2803257500EDB7B9 /* MainPageHistory+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainPageHistory+Extension.swift"; sourceTree = "<group>"; };
 		EA33F831280331F900EDB7B9 /* gameRuleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gameRuleView.swift; sourceTree = "<group>"; };
 		EA41AD892796F9D30085523C /* GuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuideView.swift; sourceTree = "<group>"; };
+		EA48D4CE28855E0A0076095E /* View+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
 		EA4F79E1278EB7A5008B78FF /* GoStop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GoStop.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA4F79E4278EB7A5008B78FF /* GoStopApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoStopApp.swift; sourceTree = "<group>"; };
 		EA4F79E6278EB7A5008B78FF /* LottieAnimationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieAnimationView.swift; sourceTree = "<group>"; };
@@ -125,6 +127,7 @@
 				EAD530C72814611500D9C2D3 /* Round+Extension.swift */,
 				EAD530C92814613200D9C2D3 /* IngamePlayer+Extension.swift */,
 				EA61476E287ABA5500B145DE /* CustomColor.swift */,
+				EA48D4CE28855E0A0076095E /* View+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -326,6 +329,7 @@
 				EA4F79E7278EB7A5008B78FF /* LottieAnimationView.swift in Sources */,
 				EA0380162813134A00292035 /* CalculateView.swift in Sources */,
 				EA187DE3279E70C700C94711 /* StartView.swift in Sources */,
+				EA48D4CF28855E0A0076095E /* View+Extension.swift in Sources */,
 				EA4F79E5278EB7A5008B78FF /* GoStopApp.swift in Sources */,
 				EA23FE5C27F4BE010087F293 /* HelpPopUpView.swift in Sources */,
 				EA0C2352282A445E00CF335D /* SellPopUpView.swift in Sources */,
