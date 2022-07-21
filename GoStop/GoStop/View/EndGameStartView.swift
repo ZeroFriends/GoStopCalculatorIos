@@ -131,7 +131,7 @@ struct EndGameStartView: View {
                             .foregroundColor(.white)
                         Spacer()
                     }
-                    .padding(.vertical, 10)
+                    .padding()
                     .background(
                         RoundedRectangle(cornerRadius: 22)
                             .foregroundColor(endGameVM.checkBoxOn.filter{ $0 == true}.count < 2 ||
@@ -139,7 +139,6 @@ struct EndGameStartView: View {
                     )
                 }
                 .disabled(endGameVM.checkBoxOn.filter{ $0 == true}.count < 2 || endGameVM.checkBoxOn.filter{ $0 == true}.count > 4)
-                
             }//VStack
             .padding(.horizontal)
             .navigationBarHidden(true)
