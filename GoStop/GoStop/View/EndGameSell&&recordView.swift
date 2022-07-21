@@ -129,11 +129,11 @@ struct EndGameSellView: View {//광팔기 view
                                         TextField("-", text: $endGameVM.sellerInput[index])
                                             .multilineTextAlignment(.trailing)
                                             .keyboardType(.numberPad)
-                                            .frame(width: 110)
                                             .foregroundColor(.black)
                                         Text("장")
                                             .foregroundColor(endGameVM.seller[index] ? .black : .gray)
                                     }
+                                    
                                 }
                             }
                         }
@@ -154,22 +154,17 @@ struct EndGameSellView: View {//광팔기 view
                                                         coreDM: coreDM,
                                                         endGameVM: endGameVM))
                 {
-                    HStack {
-                        Spacer()
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 22)
+                            .foregroundColor(endGameVM.seller.filter{ $0 == true}.count == 1 ? .red : .gray)
+                            .frame(height: 44)
                         Text("다음(1/4)")
                             .font(.system(size: 16, weight: .bold))
                             .foregroundColor(.white)
-                        Spacer()
                     }
-                    .padding()
-                    
-                    .background(
-                        RoundedRectangle(cornerRadius: 22)
-                            .foregroundColor(endGameVM.seller.filter{ $0 == true}.count == 1 ? .red : .gray)
-                    )
                     .padding(.horizontal)
-                    .disabled(endGameVM.seller.filter{ $0 == true}.count == 0)
                 }
+                .disabled(endGameVM.seller.filter{ $0 == true}.count != 1)
             }
             SellPopUpView(show: $sellListPopUp)
         }
@@ -260,19 +255,15 @@ struct EndGameOptionView: View {
                                                           coreDM: coreDM,
                                                           endGameVM: endGameVM))
                 {
-                    HStack {
-                        Spacer()
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 22)
+                            .foregroundColor(.red)
+                            .frame(height: 44)
                         Text("다음(2/4)")
                             .font(.system(size: 16, weight: .bold))
                             .foregroundColor(.white)
-                        Spacer()
                     }
-                    .padding()
                 }
-                .background(
-                    RoundedRectangle(cornerRadius: 22)
-                        .foregroundColor(.red)
-                )
                 .padding(.horizontal)
             }
         }
@@ -330,6 +321,8 @@ struct EndGamewinnerRecord: View {
     @ObservedObject var endGameVM: EndGameViewModel
     let subTitle = "승자 점수기록"
     let subExplain = "이긴 플레이어 선택하고,\n몇점을 내었는지 계산 후 점수를 적어주세요"
+    
+    @State var switchButton = false
     var body: some View {
         ZStack {
             VStack {
@@ -425,20 +418,17 @@ struct EndGamewinnerRecord: View {
                                                          coreDM: coreDM,
                                                          endGameVM: endGameVM))
                 {
-                    HStack {
-                        Spacer()
-                        Text("다음(3/4)")
-                            .font(.system(size: 16, weight: .bold))
-                            .foregroundColor(.white)
-                        Spacer()
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 22)
+                            .foregroundColor(endGameVM.winner.filter{ $0 == true}.count == 1 ? .red : .gray)
+                            .frame(height: 44)
+                            Text("다음(3/4)")
+                                .font(.system(size: 16, weight: .bold))
+                                .foregroundColor(.white)
                     }
-                    .padding()
                 }
-                .background(
-                    RoundedRectangle(cornerRadius: 22)
-                        .foregroundColor(.red)
-                )
                 .padding(.horizontal)
+                .disabled(endGameVM.winner.filter{ $0 == true }.count != 1)
             }//VStack
         }
         .navigationBarHidden(true)
@@ -531,19 +521,15 @@ struct EndGameLoserRecord: View {
                                            coreDM: coreDM,
                                            endGameVM: endGameVM))
             {
-                HStack {
-                    Spacer()
+                ZStack {
+                    RoundedRectangle(cornerRadius: 22)
+                        .foregroundColor(.red)
+                        .frame(height: 44)
                     Text("금액 계산")
                         .font(.system(size: 16, weight: .bold))
                         .foregroundColor(.white)
-                    Spacer()
                 }
-                .padding()
             }
-            .background(
-                RoundedRectangle(cornerRadius: 22)
-                    .foregroundColor(.red)
-            )
             .padding(.horizontal)
         }
     }
@@ -632,16 +618,69 @@ struct LastView: View {
                 LazyVGrid(columns: columns) {
                     ForEach(endGameVM.ingamePlayers, id: \.self) { player in
                         let index = endGameVM.ingamePlayers.firstIndex(of: player)!
-                        HStack {
-                            Text("\(index+1)")
-                                .font(.system(size: 16, weight: .bold))
-                                .foregroundColor(.red)
-                            Text(player)
-                                .font(.system(size: 14, weight: .medium))
-                            Spacer()
-                            Text("\(endGameVM.totalCost[index])")
-                            Text("원")
-                                .font(.system(size: 12, weight: .medium))
+                        VStack {
+                            HStack {
+                                if index == endGameVM.sellerIndex {
+                                    Text("광팜")
+                                        .font(.system(size: 8, weight: .medium))
+                                } else if index == endGameVM.winnerIndex {
+                                    Text("승자")
+                                        .font(.system(size: 8, weight: .medium))
+                                } else {
+                                    Text("  ")
+                                        .font(.system(size: 8, weight: .medium))
+                                }
+                                Spacer()
+                            }
+                            .padding(.leading, 16)
+                            HStack {
+                                Text("\(index+1)")
+                                    .font(.system(size: 16, weight: .bold))
+                                    .foregroundColor(.red)
+                                Text(player)
+                                    .font(.system(size: 14, weight: .medium))
+                                Spacer()
+                                Text("\(endGameVM.totalCost[index])")
+                                Text("원")
+                                    .font(.system(size: 12, weight: .medium))
+                            }
+                            HStack {
+                                if endGameVM.selectOption[index] == 0 {
+                                    Text("첫뻑")
+                                        .font(.system(size: 8, weight: .medium))
+                                }
+                                if endGameVM.selectOption[index] == 1 {
+                                    Text("연뻑")
+                                        .font(.system(size: 8, weight: .medium))
+                                }
+                                if endGameVM.selectOption[index] == 2 {
+                                    Text("삼연뻑")
+                                        .font(.system(size: 8, weight: .medium))
+                                }
+                                if endGameVM.firstTatac[index] == true {
+                                    Text("첫따닥")
+                                        .font(.system(size: 8, weight: .medium))
+                                }
+                                if endGameVM.loserOption[index][0] == true {
+                                    Text("피박")
+                                        .font(.system(size: 8, weight: .medium))
+                                }
+                                if endGameVM.loserOption[index][1] == true {
+                                    Text("광박")
+                                        .font(.system(size: 8, weight: .medium))
+                                }
+                                if endGameVM.loserOption[index][2] == true {
+                                    Text("멍박")
+                                        .font(.system(size: 8, weight: .medium))
+                                }
+                                if endGameVM.loserOption[index][3] == true {
+                                    Text("고박")
+                                        .font(.system(size: 8, weight: .medium))
+                                }
+                                Text("")
+                                Spacer()
+                            }
+                            .padding(.leading, 16)
                         }
                     }
                 }
@@ -654,19 +693,15 @@ struct LastView: View {
             )
             .padding(.horizontal)
             PopView(destination: .root) {
-                HStack {
-                    Spacer()
+                ZStack {
+                    RoundedRectangle(cornerRadius: 22)
+                        .foregroundColor(.red)
+                        .frame(height: 44)
                     Text("저장하기")
                         .font(.system(size: 16, weight: .bold))
                         .foregroundColor(.white)
-                    Spacer()
                 }
-                .padding()
             }
-            .background(
-                RoundedRectangle(cornerRadius: 22)
-                    .foregroundColor(.red)
-            )
             .padding(.horizontal)
             .padding(.top)
             .onAppear {

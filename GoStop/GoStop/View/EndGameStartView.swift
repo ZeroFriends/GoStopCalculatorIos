@@ -124,19 +124,15 @@ struct EndGameStartView: View {
                         endGameOption = true
                     }
                 } label: {
-                    HStack {
-                        Spacer()
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 22)
+                            .foregroundColor(endGameVM.checkBoxOn.filter{ $0 == true}.count < 2 ||
+                                                                         endGameVM.checkBoxOn.filter{ $0 == true}.count > 4 ? .gray : .red)
+                            .frame(height: 44)
                         Text("완료")
                             .font(.system(size: 16, weight: .bold))
                             .foregroundColor(.white)
-                        Spacer()
                     }
-                    .padding()
-                    .background(
-                        RoundedRectangle(cornerRadius: 22)
-                            .foregroundColor(endGameVM.checkBoxOn.filter{ $0 == true}.count < 2 ||
-                                             endGameVM.checkBoxOn.filter{ $0 == true}.count > 4 ? .gray : .red)
-                    )
                 }
                 .disabled(endGameVM.checkBoxOn.filter{ $0 == true}.count < 2 || endGameVM.checkBoxOn.filter{ $0 == true}.count > 4)
             }//VStack
