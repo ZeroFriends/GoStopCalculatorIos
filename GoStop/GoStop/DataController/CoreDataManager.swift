@@ -158,9 +158,60 @@ class CoreDataManager: ObservableObject {
             player.name = endGameViewModel.ingamePlayers[playerIndex]
             player.roundId = round.roundId
             player.totalCost = endGameViewModel.totalCost[playerIndex]
+            if playerIndex == endGameViewModel.sellerIndex {
+                player.seller = true
+            } else {
+                player.seller = false
+            }//광판사람 설정
+            if playerIndex == endGameViewModel.winnerIndex {
+                player.winner = true
+            } else {
+                player.winner = false
+            }//승자 설정
+            if endGameViewModel.selectOption[playerIndex] == 0 {
+                player.firstpuck = true
+                player.secondpuck = false
+                player.thirdpuck = false
+            } else if endGameViewModel.selectOption[playerIndex] == 1 {
+                player.firstpuck = false
+                player.secondpuck = true
+                player.thirdpuck = false
+            } else if endGameViewModel.selectOption[playerIndex] == 2 {
+                player.firstpuck = false
+                player.secondpuck = false
+                player.thirdpuck = true
+            } else {
+                player.firstpuck = false
+                player.secondpuck = false
+                player.thirdpuck = false
+            }//옵션 점수 기록
+            if endGameViewModel.firstTatac[playerIndex] == true {
+                player.firsttatack = true
+            } else {
+                player.firsttatack = false
+            }
+            if endGameViewModel.loserOption[playerIndex][0] == true {
+                player.peeback = true
+            } else {
+                player.peeback = false
+            }
+            if endGameViewModel.loserOption[playerIndex][1] == true {
+                player.gwangback = true
+            } else {
+                player.gwangback = false
+            }
+            if endGameViewModel.loserOption[playerIndex][2] == true {
+                player.mungback = true
+            } else {
+                player.mungback = false
+            }
+            if endGameViewModel.loserOption[playerIndex][3] == true {
+                player.goback = true
+            } else {
+                player.goback = false
+            }
             player.sequence = playerSeq
             playerSeq += 1
-            
             var ingameSeq: Int16 = 0
             for enemyIndex in 0 ..< endGameViewModel.ingamePlayers.count {
                 if playerIndex != enemyIndex {
