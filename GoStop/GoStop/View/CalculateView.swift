@@ -13,6 +13,36 @@ struct CalculateView: View {
     var coreDM: CoreDataManager
     var mainPageHistory: MainPageHistory
     
+    struct DiviedView: View {
+        var mainPageHistory: MainPageHistory
+        var coreDM: CoreDataManager
+        var player: Player
+        var body: some View {
+            HStack {
+                Text("\(mainPageHistory.playerlist.firstIndex(of: player)!+1)\t")
+                    .font(.system(size: 16, weight: .bold))
+                    .foregroundColor(.red)
+                Text(player.name ?? "")
+                    .font(.system(size: 16, weight: .bold))
+                Spacer()
+                let totalCost = coreDM.fetchSpecificPlayerTotalCost(id: mainPageHistory.id!, name: player.name ?? "")
+                if totalCost > 0 {
+                    Text("+\(totalCost)원")
+                        .font(.system(size: 16, weight: .bold))
+                        .foregroundColor(.red)
+                } else if totalCost < 0 {
+                    Text("\(totalCost)원")
+                        .font(.system(size: 16, weight: .bold))
+                        .foregroundColor(.blue)
+                } else {
+                    Text("\(totalCost)원")
+                        .font(.system(size: 16, weight: .bold))
+                }
+            }
+            .padding(.bottom, 3)
+        }
+    }
+    
     var body: some View {
         VStack {
             HStack {
@@ -43,28 +73,7 @@ struct CalculateView: View {
                 VStack {
                     ForEach(mainPageHistory.playerlist, id: \.self) { player in
                         VStack {
-                            HStack {
-                                Text("\(mainPageHistory.playerlist.firstIndex(of: player)!+1)\t")
-                                    .font(.system(size: 16, weight: .bold))
-                                    .foregroundColor(.red)
-                                Text(player.name ?? "")
-                                    .font(.system(size: 16, weight: .bold))
-                                Spacer()
-                                let totalCost = coreDM.fetchSpecificPlayerTotalCost(id: mainPageHistory.id!, name: player.name ?? "")
-                                if totalCost > 0 {
-                                    Text("+\(totalCost)원")
-                                        .font(.system(size: 16, weight: .bold))
-                                        .foregroundColor(.red)
-                                } else if totalCost < 0 {
-                                    Text("\(totalCost)원")
-                                        .font(.system(size: 16, weight: .bold))
-                                        .foregroundColor(.blue)
-                                } else {
-                                    Text("\(totalCost)원")
-                                        .font(.system(size: 16, weight: .bold))
-                                }
-                            }
-                            .padding(.bottom, 3)
+                            DiviedView(mainPageHistory: mainPageHistory, coreDM: coreDM ,player: player)
                             
                             ForEach(mainPageHistory.playerlist, id: \.self) { innerPlayer in
                                 let mainName = player.name ?? ""
