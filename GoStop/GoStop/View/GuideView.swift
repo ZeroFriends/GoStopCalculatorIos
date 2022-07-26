@@ -14,6 +14,8 @@ struct GuideView: View {
     @Binding var isNavigationViewReady: Bool
     @Binding var readyForStart: Bool
     
+    @State var animation = false
+    
     var body: some View {
         ZStack {
             VStack {
@@ -57,7 +59,7 @@ struct GuideView: View {
                                                 if value.translation.width < 0 {
                                                     //left
                                                     if currentPage < 5 {
-                                                            currentPage += 1
+                                                        currentPage += 1
                                                     }
                                                     
                                                 }
@@ -65,11 +67,12 @@ struct GuideView: View {
                                                 if value.translation.width > 0 {
                                                     //right
                                                     if currentPage > 0 {
-                                                            currentPage -= 1
+                                                        currentPage -= 1
                                                     }
                                                 }
                         }))
                         .offset(y: 50)
+                        .animation(.easeOut, value: currentPage)
                     VStack {
                         pageControl(current: currentPage)
                             .padding(.top)
