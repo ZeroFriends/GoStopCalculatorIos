@@ -18,6 +18,9 @@ struct StartView: View {
     @State var terminateStartView = false
     @State var complete = false
     
+    @State var titleLimitTrigger = false
+    @State var titleLimit = false
+    
     @State var headLine: [String] = ["플레이어 설정 👥","게임규칙 💡"]
     @State var guideLine: [String] = ["최소 플레이어는 2인입니다.\n5인 이상 추가하실 경우 4인 이하만 플레이 할 수 있습니다.","게임 플레이 시 적용될 금액입니다.\n과도한 금액이 나오지 않게 주의해 주세요 :)"]
     
@@ -113,9 +116,13 @@ struct StartView: View {
                                             Spacer()
                                         }
                                         TextField("\(Date(), formatter: dateformat)", text: $HistoryNametextField)
+                                            .limitInputLength(value: $HistoryNametextField, length: 16)
                                             .keyboardType(.default)
                                             .textFieldStyle(OvalTextFieldStyle())
                                         //텍스트필드 테두리 수정하기 + 여기서 입력받은 값 어떻게 처리할것인지
+                                            .alert(isPresented: $titleLimit) {
+                                                Alert(title: Text("모임이름은 최대 16자 입니다."), message: nil, dismissButton: .destructive(Text("확인")))
+                                            }
                                         Text("플레이어")
                                             .fontWeight(.bold)
                                             .font(.system(size: 16))
@@ -367,6 +374,17 @@ struct StartView: View {
                 .navigationBarHidden(true)
                 PlayerPopUpView(players: $players, originIndex: $originIndex,show: $showingPopUp)
                 HelpPopUpView(show: $showingHelpPopUp)
+            }
+            .onChange(of: HistoryNametextField) { textField in
+                if textField.count == 16 {
+                    if titleLimitTrigger == false {
+                        titleLimitTrigger = true
+                    } else {
+                        titleLimit = true
+                    }
+                } else {
+                    titleLimitTrigger = false
+                }
             }
             .onTapGesture {
                 self.hideKeyboard()
