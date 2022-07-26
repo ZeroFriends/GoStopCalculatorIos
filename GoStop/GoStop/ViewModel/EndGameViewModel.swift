@@ -80,11 +80,16 @@ class EndGameViewModel: ObservableObject {
                             
                             eachCostList[playerIndex][enemyIndex] += cost
                             eachCostList[enemyIndex][playerIndex] -= cost
-                            
-                            for i in 0 ..< 3 {
+                            var check = 0
+                            for i in 0 ..< 4 {
+                                
                                 if loserOption[playerIndex][i] == true {
-                                    cost *= 2
+                                    check += 1
+//                                    cost *= 2
                                 }
+                            }
+                            if check != 0 {
+                                cost = cost*(Int32(check)*2)
                             }
                             eachCostList[playerIndex][enemyIndex] -= cost
                             eachCostList[enemyIndex][playerIndex] += cost
@@ -108,7 +113,7 @@ class EndGameViewModel: ObservableObject {
         
         for i in 0 ..< ingamePlayers.count {
             if loserOption[i][3] == true {//고박 수정완료
-                var cost = totalCost[i]*2
+                var cost = totalCost[i]
                 totalCost[i] = 0
                 for j in 0 ..< ingamePlayers.count {
                     
@@ -119,8 +124,8 @@ class EndGameViewModel: ObservableObject {
                         for k in 0 ..< ingamePlayers.count {
                             if k != sellerIndex {
                                 eachCostList[j][k] = 0
+                                eachCostList[k][j] = 0
                                 eachCostList[winnerIndex][k] = 0
-                                
                             }
                         }
                         if sellerIndex != -1 {
