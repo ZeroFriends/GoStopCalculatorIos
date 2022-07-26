@@ -24,11 +24,32 @@ struct MainPage: View {
                         BottomMainPage(coreDM: coreDM)
                 }
                 .navigationBarHidden(true)
+                .toolbar {
+                    ToolbarItemGroup(placement: .keyboard) {
+                        Button("완료") {
+                            self.hideKeyboard()
+                        }
+                    }
+                }
             }
         } else if isNavigationViewReady == true && readyForStart == false {
             GuideView(isNavigationViewReady: $isNavigationViewReady, readyForStart: $readyForStart)
+                .toolbar {
+                    ToolbarItemGroup(placement: .keyboard) {
+                        Button("완료") {
+                            self.hideKeyboard()
+                        }
+                    }
+                }
         } else {
             StartView(isPresent: $readyForStart, coreDM: coreDM)
+                .toolbar {
+                    ToolbarItemGroup(placement: .keyboard) {
+                        Button("완료") {
+                            self.hideKeyboard()
+                        }
+                    }
+                }
         }
     }
 }
@@ -143,7 +164,7 @@ struct BottomMainPage: View {
                                     } label: {
                                         ZStack {
                                             RoundedRectangle(cornerRadius: 18).fill().foregroundColor(.white)
-                                            RoundedRectangle(cornerRadius: 18).stroke().foregroundColor(.gray)
+                                                .shadow(color: .gray, radius: 3, x: 0, y: 3)
                                             HStack {
                                                 VStack(alignment: .leading, spacing: 3) {
                                                     Text("생성일자 \(history.date ?? Date(), formatter: dateformat)")
@@ -166,7 +187,7 @@ struct BottomMainPage: View {
                                                 }
                                                 .alert(isPresented: $showingAlert) {
                                                     Alert(title: Text("삭제하시겠습니까?"), message: nil, primaryButton: .destructive(Text("삭제"), action: {
-                                                        print(uselessHistory ?? "no history")
+//                                                        print(uselessHistory ?? "no history")
                                                         coreDM.deleteMainPageHistory(mainPageHistory: uselessHistory!)
                                                     }), secondaryButton: .cancel(Text("취소")))
                                                 }
