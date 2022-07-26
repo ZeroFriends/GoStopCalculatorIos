@@ -64,7 +64,7 @@ struct HelpPopUpView: View {
 
         var result: Text!
         let parts = str.components(separatedBy: searched)
-        print(parts)
+//        print(parts)
         for i in parts.indices {
             result = (result == nil ? Text(parts[i]) : result + Text(parts[i]))
 
