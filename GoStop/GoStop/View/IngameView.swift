@@ -66,9 +66,10 @@ struct IngameView: View {
                     Text("고박")
                         .font(.system(size: 8, weight: .medium))
                 }
-                Text("  ")
-                    .font(.system(size:8, weight: .medium))
+                Text("")
+                Spacer()
             }
+            .padding(.leading, 22)
         }
     }
     
@@ -216,7 +217,7 @@ struct IngameView: View {
                                                 }
                                                 .alert(isPresented: $showingAlert) {
                                                     Alert(title: Text("삭제하시겠습니까?"), message: nil, primaryButton: .destructive(Text("삭제"), action: {
-                                                        print(uselessRound ?? "no history")
+//                                                        print(uselessRound ?? "no history")
                                                         coreDM.deleteRound(round: uselessRound!)
                                                     }), secondaryButton: .cancel(Text("취소")))
                                                 }
@@ -224,11 +225,8 @@ struct IngameView: View {
                                             .padding([.leading, .trailing, .top])
                                             LazyVGrid(columns: columns) {
                                                 ForEach(ingamePlayerList, id: \.self) { ingamePlayer in
-                                                    HStack {
-                                                        Text("\(ingamePlayerList.firstIndex(of: ingamePlayer)!+1)")
-                                                            .font(.system(size: 16, weight: .bold))
-                                                            .foregroundColor(.red)
-                                                        VStack(alignment: .leading) {
+                                                    VStack {
+                                                        HStack {
                                                             if ingamePlayer.seller == true {
                                                                 Text("광팜")
                                                                     .font(.system(size:8, weight: .medium))
@@ -239,17 +237,24 @@ struct IngameView: View {
                                                                 Text("  ")
                                                                     .font(.system(size:8, weight: .medium))
                                                             }
+                                                            Spacer()
+                                                        }
+                                                        .padding(.leading, 20)
+                                                        HStack {
+                                                            Text("\(ingamePlayerList.firstIndex(of: ingamePlayer)!+1)")
+                                                                .font(.system(size: 16, weight: .bold))
+                                                                .foregroundColor(.red)
                                                             Text(ingamePlayer.name ?? "name")
                                                                 .font(.system(size: 14, weight: .medium))
-                                                            OptionSelect(player: ingamePlayer)
+                                                            Spacer()
+                                                            Text("\(ingamePlayer.totalCost)")
+                                                            Text("원")
+                                                                .font(.system(size: 12, weight: .medium))
                                                         }
-                                                        Spacer()
-                                                        Text("\(ingamePlayer.totalCost)")
-                                                        Text("원")
-                                                            .font(.system(size: 12, weight: .medium))
+                                                        OptionSelect(player: ingamePlayer)
+                                                        .frame(width: 150)
+                                                        .padding([.trailing, .bottom])
                                                     }
-                                                    .frame(width: 150)
-                                                    .padding([.leading, .trailing, .bottom])
                                                 }
                                             }
                                             .padding([.leading, .trailing, .top])
@@ -299,6 +304,13 @@ struct IngameView: View {
                     
                 }//VStack
             }//ZStack
+            .toolbar {
+                ToolbarItemGroup(placement: .keyboard) {
+                    Button("완료") {
+                        self.hideKeyboard()
+                    }
+                }
+            }
             .navigationBarHidden(true)
             .onAppear {
                 populateRounds()

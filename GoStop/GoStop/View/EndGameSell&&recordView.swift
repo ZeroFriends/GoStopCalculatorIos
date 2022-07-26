@@ -7,7 +7,7 @@
 
 import NavigationStack
 import SwiftUI
-
+import UIKit
 
 struct PopUpIcon: View {
     
@@ -88,6 +88,8 @@ struct EndGameSellView: View {//광팔기 view
     let subTitle = "광팔기"
     let subExplain = "4인 플레이경우 한명이 필수로 광을 팔아야 플레이가 가능합니다. 광을 판 플레이어를 선택해주세요"
     
+    @State var nextActivity = false
+    
     var body: some View {
         ZStack {
             VStack {
@@ -109,22 +111,22 @@ struct EndGameSellView: View {//광팔기 view
                 }
                 .padding()
                 ScrollView {
-                    ForEach(endGameVM.ingamePlayers, id: \.self) { ingamePlayer in
-                        let index = endGameVM.ingamePlayers.firstIndex(of: ingamePlayer)!
-                        HStack {
-                            Text("\(index+1)")
-                                .font(.system(size: 16, weight: endGameVM.seller[index] ? .bold : .medium))
-                                .foregroundColor(.red)
-                            Text(ingamePlayer)
-                                .font(.system(size: 16, weight: endGameVM.seller[index] ? .bold : .medium))
-                            Spacer()
-                            Button {
-                                endGameVM.seller = Array(repeating: false, count: 4)
-                                endGameVM.sellerInput = ["","","",""]
-                                endGameVM.seller[index] = true
-                                endGameVM.sellerIndex = index
-                            } label: {
-                                VStack {
+                    VStack {
+                        ForEach(endGameVM.ingamePlayers, id: \.self) { ingamePlayer in
+                            let index = endGameVM.ingamePlayers.firstIndex(of: ingamePlayer)!
+                            HStack {
+                                Text("\(index+1)")
+                                    .font(.system(size: 16, weight: endGameVM.seller[index] ? .bold : .medium))
+                                    .foregroundColor(.red)
+                                Text(ingamePlayer)
+                                    .font(.system(size: 16, weight: endGameVM.seller[index] ? .bold : .medium))
+                                Spacer()
+                                Button {
+                                    endGameVM.seller = Array(repeating: false, count: 4)
+                                    endGameVM.sellerInput = ["","","",""]
+                                    endGameVM.seller[index] = true
+                                    endGameVM.sellerIndex = index
+                                } label: {
                                     HStack {
                                         TextField("-", text: $endGameVM.sellerInput[index])
                                             .multilineTextAlignment(.trailing)
@@ -133,46 +135,50 @@ struct EndGameSellView: View {//광팔기 view
                                         Text("장")
                                             .foregroundColor(endGameVM.seller[index] ? .black : .gray)
                                     }
-                                    
                                 }
                             }
+                            .onChange(of: endGameVM.sellerInput[index]) { _ in
+                                if Int(endGameVM.sellerInput[index]) ?? 0 > 0 {
+                                    nextActivity = true
+                                } else {
+                                    nextActivity = false
+                                }
+                            }
+                            .padding(.horizontal)
+                            HStack {
+                                Text("  ")
+                                Spacer()
+                                Rectangle()
+                                    .frame(width: 135, height: 1)
+                                    .foregroundColor(endGameVM.seller[index] ? .red : .gray)
+                            }
+                            .padding(.top, -15)//15
+                            .padding(.bottom, 10)//10
                         }
-                        HStack {
-                            Text("  ")
-                            Spacer()
-                            Rectangle()
-                                .frame(width: 135, height: 1)
-                                .foregroundColor(endGameVM.seller[index] ? .red : .gray)
+                        .padding(.horizontal)
+                        PushView(destination: EndGameOptionView(mainPageHistory: mainPageHistory,
+                                                                coreDM: coreDM,
+                                                                endGameVM: endGameVM))
+                        {
+                            ZStack {
+                                RoundedRectangle(cornerRadius: 22)
+                                    .foregroundColor(nextActivity ? .red : .gray)
+                                    .frame(height: 44)
+                                Text("다음(1/4)")
+                                    .font(.system(size: 16, weight: .bold))
+                                    .foregroundColor(.white)
+                            }
+                            .padding(.horizontal)
                         }
-                        .padding(.top, -10)
-                        .padding(.bottom, 20)
+                        .disabled(!nextActivity)
+                        .padding(.top, 280)
                     }
-                    .padding(.horizontal)
                 }//ScrollView
-                .padding(.horizontal)
-                PushView(destination: EndGameOptionView(mainPageHistory: mainPageHistory,
-                                                        coreDM: coreDM,
-                                                        endGameVM: endGameVM))
-                {
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 22)
-                            .foregroundColor(endGameVM.seller.filter{ $0 == true}.count == 1 ? .red : .gray)
-                            .frame(height: 44)
-                        Text("다음(1/4)")
-                            .font(.system(size: 16, weight: .bold))
-                            .foregroundColor(.white)
-                    }
-                    .padding(.horizontal)
-                }
-                .disabled(endGameVM.seller.filter{ $0 == true}.count != 1)
             }
             SellPopUpView(show: $sellListPopUp)
         }
-        .navigationBarHidden(true)
-        .ignoresSafeArea(.keyboard, edges: .bottom)
-        .onTapGesture {
-            self.hideKeyboard()
-        }
+//        .navigationBarHidden(true)
+//        .ignoresSafeArea(.keyboard)
     }
 }
 
@@ -194,7 +200,10 @@ struct EndGameOptionView: View {
     @ObservedObject var endGameVM: EndGameViewModel
     let subTitle = "옵션 점수기록"
     let subExplain = "운이 좋네요!\n해당하는 곳에 체크를 해주세요."
-
+    
+    @State var showingAlert = false
+    @State var pushActivity = false
+    
     var body: some View {
         ZStack {
             VStack {
@@ -237,7 +246,7 @@ struct EndGameOptionView: View {
                                     .frame(width: 135, height: 1)
                                     .foregroundColor(.gray)
                             }//광파는 사람만 나타나게 해야함
-                            .padding(.top, -20)
+                            .padding(.top, -15)
                             .padding(.bottom, 10)
                         } else {
                             HStack {
@@ -246,11 +255,22 @@ struct EndGameOptionView: View {
                                                 $endGameVM.firstTatac[index])
                             }
                             .padding(.bottom, 10)
+                            .onChange(of: endGameVM.selectOption[index]) { _ in
+                                if endGameVM.selectOption[index] == 2 {
+                                    showingAlert = true
+                                }
+                            }
+                            .alert(isPresented: $showingAlert) {
+                                Alert(title: Text("게임 종료하시겠습니까"), message: nil, primaryButton: .destructive(Text("네"), action: {
+                                        pushActivity = true
+                                }), secondaryButton: .cancel(Text("아니오")))
+                            }
                         }
                 }
                 .padding(.horizontal)
                 .padding(.horizontal)
                 Spacer()
+                PushView(destination: LastView(mainPageHistory: mainPageHistory, coreDM: coreDM, endGameVM: endGameVM), isActive: $pushActivity) {}
                 PushView(destination: EndGamewinnerRecord(mainPageHistory: mainPageHistory,
                                                           coreDM: coreDM,
                                                           endGameVM: endGameVM))
@@ -259,7 +279,7 @@ struct EndGameOptionView: View {
                         RoundedRectangle(cornerRadius: 22)
                             .foregroundColor(.red)
                             .frame(height: 44)
-                        Text("다음(2/4)")
+                        Text(endGameVM.ingamePlayers.count == 4 ? "다음(2/4)" : "다음(1/3)")
                             .font(.system(size: 16, weight: .bold))
                             .foregroundColor(.white)
                     }
@@ -322,7 +342,8 @@ struct EndGamewinnerRecord: View {
     let subTitle = "승자 점수기록"
     let subExplain = "이긴 플레이어 선택하고,\n몇점을 내었는지 계산 후 점수를 적어주세요"
     
-    @State var switchButton = false
+    @State var nextActivity = false
+    @State var maximumValueAlert = false
     var body: some View {
         ZStack {
             VStack {
@@ -368,6 +389,20 @@ struct EndGamewinnerRecord: View {
                                             .multilineTextAlignment(.trailing)
                                             .keyboardType(.numberPad)
                                             .foregroundColor(.black)
+                                            .onChange(of: endGameVM.winnerInput[index]) { _ in
+                                                if Int(endGameVM.winnerInput[index]) ?? 0 > 0 {
+                                                    nextActivity = true
+                                                    
+                                                } else {
+                                                    nextActivity = false
+                                                }
+                                            }
+                                            .onChange(of: endGameVM.winnerInput[index]) { _ in
+                                                if Int(endGameVM.winnerInput[index]) ?? 0 > 8519680 {
+                                                    maximumValueAlert = true
+                                                    
+                                                }
+                                            }
                                         Text("점")
                                             .foregroundColor(.black)
                                     }
@@ -381,8 +416,20 @@ struct EndGamewinnerRecord: View {
                                 } label: {
                                     TextField("-", text: $endGameVM.winnerInput[index])
                                         .multilineTextAlignment(.trailing)
-                                        .keyboardType(.decimalPad)
+                                        .keyboardType(.numberPad)
                                         .foregroundColor(.black)
+                                        .onChange(of: endGameVM.winnerInput[index]) { _ in
+                                            if Int(endGameVM.winnerInput[index]) ?? 0 > 0 {
+                                                nextActivity = true
+                                            } else {
+                                                nextActivity = false
+                                            }
+                                        }
+                                        .onChange(of: endGameVM.winnerInput[index]) { _ in
+                                            if Int(endGameVM.winnerInput[index]) ?? 0 > 8519680 {
+                                                maximumValueAlert = true
+                                            }
+                                        }
                                     Text("점")
                                         .foregroundColor(.black)
                                 }
@@ -396,8 +443,8 @@ struct EndGamewinnerRecord: View {
                                     .frame(width: 135, height: 1)
                                     .foregroundColor(.gray)
                             }
-                            .padding(.top, -10)
-                            .padding(.bottom, 20)
+                            .padding(.top, -15)
+                            .padding(.bottom, 10)
                         } else {
                             HStack {
                                 Text("  ")
@@ -406,11 +453,14 @@ struct EndGamewinnerRecord: View {
                                     .frame(width: 135, height: 1)
                                     .foregroundColor(endGameVM.winner[index] ? .red : .white)
                             }
-                            .padding(.top, -10)
-                            .padding(.bottom, 20)
+                            .padding(.top, -15)
+                            .padding(.bottom, 10)
                         }
                     }//foreach
                     .padding(.horizontal)
+                    .alert(isPresented: $maximumValueAlert) {
+                        Alert(title: Text(""), message: Text("고스톱에서 날 수 있는 가장 큰 점수는 8,519,680점입니다."), dismissButton: .destructive(Text("확인")))
+                    }
                 }//ScrollView
                 .padding(.horizontal)
                 Spacer()
@@ -420,22 +470,19 @@ struct EndGamewinnerRecord: View {
                 {
                     ZStack {
                         RoundedRectangle(cornerRadius: 22)
-                            .foregroundColor(endGameVM.winner.filter{ $0 == true}.count == 1 ? .red : .gray)
+                            .foregroundColor(nextActivity ? .red : .gray)
                             .frame(height: 44)
-                            Text("다음(3/4)")
+                        Text(endGameVM.ingamePlayers.count == 4 ? "다음(3/4)" : "다음(2/3)")
                                 .font(.system(size: 16, weight: .bold))
                                 .foregroundColor(.white)
                     }
                 }
                 .padding(.horizontal)
-                .disabled(endGameVM.winner.filter{ $0 == true }.count != 1)
+                .disabled(!nextActivity)
             }//VStack
         }
         .navigationBarHidden(true)
         .ignoresSafeArea(.keyboard, edges: .bottom)
-        .onTapGesture {
-            self.hideKeyboard()
-        }
     }
 }
 
@@ -510,6 +557,15 @@ struct EndGameLoserRecord: View {
                 } else {
                     HStack {
                         loseOptionSelecter(loserOptionArray: $endGameVM.loserOption[index])
+                    }
+                    .onChange(of: endGameVM.loserOption[index][3]) { _ in
+                        if endGameVM.loserOption[index][3] == true {
+                            for i in 0 ..< 4 {
+                                if i != index {
+                                    endGameVM.loserOption[i][3] = false
+                                }
+                            }
+                        }
                     }
                 }
                     
