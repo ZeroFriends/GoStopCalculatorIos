@@ -15,14 +15,17 @@ struct GuideView: View {
     @Binding var readyForStart: Bool
     
     @State var animation = false
-    
+    @State var opacity: Double = 1
     var body: some View {
         ZStack {
             VStack {
                 HStack {
                     Button {
                         if currentPage > 0 {
-                                currentPage -= 1
+                            withAnimation(.easeInOut(duration: 0.1), {
+                                opacity = 0.3
+                            })
+                            currentPage -= 1
                         }
                     } label: {
                         if currentPage > 0 {
@@ -54,11 +57,15 @@ struct GuideView: View {
                     guideImages[currentPage]
                         .resizable()
                         .aspectRatio(3/7, contentMode: .fit)
+                        .opacity(opacity)
                         .gesture(DragGesture(minimumDistance: 0, coordinateSpace: .local)
                                             .onEnded({ value in
                                                 if value.translation.width < 0 {
                                                     //left
                                                     if currentPage < 5 {
+                                                        withAnimation(.easeInOut(duration: 0.1), {
+                                                            opacity = 0.3
+                                                        })
                                                         currentPage += 1
                                                     }
                                                     
@@ -67,12 +74,19 @@ struct GuideView: View {
                                                 if value.translation.width > 0 {
                                                     //right
                                                     if currentPage > 0 {
+                                                        withAnimation(.easeInOut(duration: 0.1), {
+                                                            opacity = 0.3
+                                                        })
                                                         currentPage -= 1
                                                     }
                                                 }
                         }))
                         .offset(y: 50)
-                        .animation(.easeOut, value: currentPage)
+                        .onChange(of: currentPage) { _ in
+                            withAnimation(.easeInOut(duration: 0.8), {
+                                opacity = 1
+                            })
+                        }
                     VStack {
                         pageControl(current: currentPage)
                             .padding(.top)
@@ -81,6 +95,9 @@ struct GuideView: View {
                             RoundedRectangle(cornerRadius: 26).fill().foregroundColor(.black)
                             Button {
                                 if currentPage  < 5 {
+                                    withAnimation(.easeInOut(duration: 0.1), {
+                                        opacity = 0.3
+                                    })
                                     currentPage += 1
                                 } else {
                                     withAnimation {
@@ -123,8 +140,8 @@ struct pageControl: UIViewRepresentable {
     }
 }
 
-struct NavigationViewTest_Previews: PreviewProvider {
-    static var previews: some View {
-        GuideView(isNavigationViewReady: .constant(false), readyForStart: .constant(false))
-    }
-}
+//struct NavigationViewTest_Previews: PreviewProvider {
+//    static var previews: some View {
+//        GuideView(isNavigationViewReady: .constant(false), readyForStart: .constant(false))
+//    }
+//}
