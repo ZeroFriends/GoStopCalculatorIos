@@ -72,7 +72,7 @@ struct TopMainPage: View {
                 Spacer()
                 ZStack {
                     RoundedRectangle(cornerRadius: 12.5).fill().foregroundColor(.white)
-                    RoundedRectangle(cornerRadius: 12.5).stroke(lineWidth: 2).foregroundColor(.red)
+                    RoundedRectangle(cornerRadius: 12.5).stroke(lineWidth: 1).foregroundColor(.red)
         
                     Button {
                         withAnimation {
@@ -80,7 +80,7 @@ struct TopMainPage: View {
                         }
                     } label: {
                         Text("Guide")
-                            .fontWeight(.bold)
+                            .font(.system(size: 14, weight: .bold))
                     }
                     .foregroundColor(.red)
                 }

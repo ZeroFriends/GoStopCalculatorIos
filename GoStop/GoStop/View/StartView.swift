@@ -377,13 +377,8 @@ struct StartView: View {
             }
             .onChange(of: HistoryNametextField) { textField in
                 if textField.count == 16 {
-                    if titleLimitTrigger == false {
-                        titleLimitTrigger = true
-                    } else {
+                    HistoryNametextField.removeLast()
                         titleLimit = true
-                    }
-                } else {
-                    titleLimitTrigger = false
                 }
             }
             .onTapGesture {

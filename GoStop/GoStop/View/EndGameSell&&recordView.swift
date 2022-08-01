@@ -90,6 +90,8 @@ struct EndGameSellView: View {//광팔기 view
     
     @State var nextActivity = false
     
+    @State var sellerAlert = false
+    
     var body: some View {
         ZStack {
             VStack {
@@ -111,7 +113,7 @@ struct EndGameSellView: View {//광팔기 view
                 }
                 .padding()
                 ScrollView {
-                    VStack {
+//                    VStack {
                         ForEach(endGameVM.ingamePlayers, id: \.self) { ingamePlayer in
                             let index = endGameVM.ingamePlayers.firstIndex(of: ingamePlayer)!
                             HStack {
@@ -138,11 +140,18 @@ struct EndGameSellView: View {//광팔기 view
                                 }
                             }
                             .onChange(of: endGameVM.sellerInput[index]) { _ in
-                                if Int(endGameVM.sellerInput[index]) ?? 0 > 0 {
+                                if Int(endGameVM.sellerInput[index]) ?? 0 > 0 && Int(endGameVM.sellerInput[index]) ?? 0 <= 16 {
                                     nextActivity = true
                                 } else {
                                     nextActivity = false
                                 }
+                                if Int(endGameVM.sellerInput[index]) ?? 0 > 16 {
+                                    sellerAlert = true
+                                    endGameVM.sellerInput[index] = "16"
+                                }
+                            }
+                            .alert(isPresented: $sellerAlert) {
+                                Alert(title: Text(""), message: Text("광팔기는 최대 16장 까지 가능합니다."), dismissButton: .destructive(Text("확인")))
                             }
                             .padding(.horizontal)
                             HStack {
@@ -155,30 +164,30 @@ struct EndGameSellView: View {//광팔기 view
                             .padding(.top, -15)//15
                             .padding(.bottom, 10)//10
                         }
-                        .padding(.horizontal)
-                        PushView(destination: EndGameOptionView(mainPageHistory: mainPageHistory,
-                                                                coreDM: coreDM,
-                                                                endGameVM: endGameVM))
-                        {
-                            ZStack {
-                                RoundedRectangle(cornerRadius: 22)
-                                    .foregroundColor(nextActivity ? .red : .gray)
-                                    .frame(height: 44)
-                                Text("다음(1/4)")
-                                    .font(.system(size: 16, weight: .bold))
-                                    .foregroundColor(.white)
-                            }
-                            .padding(.horizontal)
-                        }
-                        .disabled(!nextActivity)
-                        .padding(.top, 280)
-                    }
+//                    }
                 }//ScrollView
+                .padding(.horizontal)
+                Spacer()
+                PushView(destination: EndGameOptionView(mainPageHistory: mainPageHistory,
+                                                        coreDM: coreDM,
+                                                        endGameVM: endGameVM))
+                {
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 22)
+                            .foregroundColor(nextActivity ? .red : .gray)
+                            .frame(height: 44)
+                        Text("다음(1/4)")
+                            .font(.system(size: 16, weight: .bold))
+                            .foregroundColor(.white)
+                    }
+                    .padding(.horizontal)
+                }
+                .disabled(!nextActivity)
             }
             SellPopUpView(show: $sellListPopUp)
         }
-//        .navigationBarHidden(true)
-//        .ignoresSafeArea(.keyboard)
+        .navigationBarHidden(true)
+        .ignoresSafeArea(.keyboard, edges: .bottom)
     }
 }
 
@@ -390,17 +399,15 @@ struct EndGamewinnerRecord: View {
                                             .keyboardType(.numberPad)
                                             .foregroundColor(.black)
                                             .onChange(of: endGameVM.winnerInput[index]) { _ in
-                                                if Int(endGameVM.winnerInput[index]) ?? 0 > 0 {
+                                                if Int(endGameVM.winnerInput[index]) ?? 0 > 0 && Int(endGameVM.winnerInput[index]) ?? 0 > 8519680 {
                                                     nextActivity = true
                                                     
                                                 } else {
                                                     nextActivity = false
                                                 }
-                                            }
-                                            .onChange(of: endGameVM.winnerInput[index]) { _ in
                                                 if Int(endGameVM.winnerInput[index]) ?? 0 > 8519680 {
                                                     maximumValueAlert = true
-                                                    
+                                                    endGameVM.winnerInput[index] = "0"
                                                 }
                                             }
                                         Text("점")
