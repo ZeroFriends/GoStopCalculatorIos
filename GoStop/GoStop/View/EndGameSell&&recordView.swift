@@ -399,7 +399,7 @@ struct EndGamewinnerRecord: View {
                                             .keyboardType(.numberPad)
                                             .foregroundColor(.black)
                                             .onChange(of: endGameVM.winnerInput[index]) { _ in
-                                                if Int(endGameVM.winnerInput[index]) ?? 0 > 0 && Int(endGameVM.winnerInput[index]) ?? 0 > 8519680 {
+                                                if Int(endGameVM.winnerInput[index]) ?? 0 > 0 && Int(endGameVM.winnerInput[index]) ?? 0 < 8519680 {
                                                     nextActivity = true
                                                     
                                                 } else {

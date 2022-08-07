@@ -84,13 +84,13 @@ class EndGameViewModel: ObservableObject {
                             for i in 0 ..< 4 {
                                 
                                 if loserOption[playerIndex][i] == true {
-                                    check += 1
-//                                    cost *= 2
+//                                    check += 1
+                                    cost *= 2
                                 }
                             }
-                            if check != 0 {
-                                cost = cost*(Int32(check)*2)
-                            }
+//                            if check != 0 {
+//                                cost = cost*(Int32(check)*2)
+//                            }
                             eachCostList[playerIndex][enemyIndex] -= cost
                             eachCostList[enemyIndex][playerIndex] += cost
                         }
@@ -113,13 +113,21 @@ class EndGameViewModel: ObservableObject {
         
         for i in 0 ..< ingamePlayers.count {
             if loserOption[i][3] == true {//고박 수정완료
-                var cost = totalCost[i]
-                totalCost[i] = 0
+                var cost = totalCost[i]//고박의 총 내야할 금액
+                //광팔기가 있을때와 없을때를 나눠줘야함
+                if sellerIndex != -1 {
+                    cost -= eachCostList[i][sellerIndex]
+                }
+                totalCost[i] = 0//0으로 초기화
                 for j in 0 ..< ingamePlayers.count {
                     
                     if j != sellerIndex && j != i && j != winnerIndex {
                         // 승자가 금액이 음수가 될 수 있나?
-                        cost += totalCost[j]
+                        if sellerIndex != -1 {
+                            cost = (totalCost[j]-eachCostList[i][sellerIndex])*2 + cost
+                        } else {
+                            cost = totalCost[j]*2 + cost
+                        }
                         totalCost[j] = 0
                         for k in 0 ..< ingamePlayers.count {
                             if k != sellerIndex {
@@ -150,7 +158,7 @@ class EndGameViewModel: ObservableObject {
                 } else {
                     totalCost[winnerIndex] = abs(cost)+eachCostList[winnerIndex][sellerIndex]
                 }
-            }
+            }//고박이 존재한다면
         }
     }
 }
