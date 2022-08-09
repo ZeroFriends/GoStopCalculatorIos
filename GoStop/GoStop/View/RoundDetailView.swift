@@ -17,7 +17,85 @@ struct RoundDetailView: View {
 //    private func populateIngamePlayer() {
 //        ingamePlayers = coreDM.fetchIngamePlayers(id: mainPageHistory.id!, roundId: round.roundId!)
 //    }
+    struct subPlayerView: View {
+        let innerPlayer: [IngamePlayerPlayList]
+        
+        var body: some View {
+            ForEach(innerPlayer, id: \.self) { innerIngamePlayer in
+                
+                let cost = innerIngamePlayer.cost
+                HStack {
+                    Text(innerIngamePlayer.enemyName ?? "")
+                        .font(.system(size: 14, weight: .medium))
+                    Text("에게")
+                        .font(.system(size: 14, weight: .medium))
+                    if cost > 0 {
+                        Text("+\(cost)원")
+                            .font(.system(size: 14, weight: .bold))
+                            .foregroundColor(.red)
+                        Text("을 받아야 합니다.")
+                            .font(.system(size: 14, weight: .medium))
+                    } else if cost < 0 {
+                        Text("\(cost)원")
+                            .font(.system(size: 14, weight: .bold))
+                            .foregroundColor(.blue)
+                        Text("을 줘야 합니다.")
+                            .font(.system(size: 14, weight: .medium))
+                    } else {
+                        Text("받을 금액이 없습니다.")
+                            .font(.system(size: 14, weight: .medium))
+                    }
+                    Spacer()
+                }//HStack
+            }
+        }
+    }
     
+    struct OptionSelect: View {
+        let player: IngamePlayer
+        
+        var body: some View {
+            HStack {
+                if player.firstpuck == true {
+                    Text("첫뻑")
+                        .font(.system(size: 8, weight: .medium))
+                }
+                if player.secondpuck == true {
+                    Text("연뻑")
+                        .font(.system(size: 8, weight: .medium))
+                }
+                if player.thirdpuck == true {
+                    Text("삼연뻑")
+                        .font(.system(size: 8, weight: .medium))
+                }
+                if player.firsttatack == true {
+                    Text("첫따닥")
+                        .font(.system(size: 8, weight: .medium))
+                }
+                if player.peeback == true {
+                    Text("피박")
+                        .font(.system(size: 8, weight: .medium))
+                }
+                if player.gwangback == true {
+                    Text("광박")
+                        .font(.system(size: 8, weight: .medium))
+                }
+                if player.mungback == true {
+                    Text("멍박")
+                        .font(.system(size: 8, weight: .medium))
+                }
+                if player.goback == true {
+                    Text("고박")
+                        .font(.system(size: 8, weight: .medium))
+                }
+                Text("")
+                Spacer()
+            }
+            .padding(.leading, 22)
+            .padding(.bottom, 5)
+        }
+    }
+        
     struct MainIngamePlayerView: View {
         let ingamePlayerList: [IngamePlayer]
         let ingamePlayer: IngamePlayer
@@ -27,30 +105,12 @@ struct RoundDetailView: View {
                 Text("\(ingamePlayerList.firstIndex(of: ingamePlayer)!+1)\t")
                     .font(.system(size: 16, weight: .bold))
                     .foregroundColor(.red)
-                HStack {
+//                HStack {
                 Text(ingamePlayer.name ?? "no name")
                     .font(.system(size: 16, weight: .bold))
-                    if ingamePlayer.winner == true {
-                        Text("승")
-                            .font(.system(size: 10, weight: .bold))
-                            .foregroundColor(.white)
-                            .padding(3)
-                            .background(
-                                Circle()
-                                    .foregroundColor(.red)
-                            )
-                    }
-                    if ingamePlayer.seller == true {
-                        Text("광")
-                            .font(.system(size: 10, weight: .bold))
-                            .foregroundColor(.white)
-                            .padding(3)
-                            .background(
-                                Circle()
-                                    .foregroundColor(.green)
-                            )
-                    }
-                }
+                    .padding(.leading, -15)
+//                }
+
                 Spacer()
                 if ingamePlayer.totalCost > 0 {
                     Text("+\(ingamePlayer.totalCost)원")
@@ -65,7 +125,6 @@ struct RoundDetailView: View {
                         .font(.system(size: 16, weight: .bold))
                 }
             }//HStack
-            .padding(.bottom, 3)
         }
         
     }
@@ -101,36 +160,24 @@ struct RoundDetailView: View {
                     ForEach(round.ingamePlayerList, id: \.self) { ingamePlayer in
                         
                         VStack {
+                            HStack {
+                                if ingamePlayer.seller == true {
+                                    Text("광팜")
+                                        .font(.system(size:8, weight: .medium))
+                                } else if ingamePlayer.winner == true {
+                                    Text("승자")
+                                        .font(.system(size:8, weight: .medium))
+                                } else {
+                                    Text("  ")
+                                        .font(.system(size:8, weight: .medium))
+                                }
+                                Spacer()
+                            }
+                            .padding(.leading, 22)
                             MainIngamePlayerView(ingamePlayerList: round.ingamePlayerList, ingamePlayer: ingamePlayer)
-                            
+                            OptionSelect(player: ingamePlayer)
                             let inner = ingamePlayer.innerArray
-                            ForEach(inner, id: \.self) { innerIngamePlayer in
-
-                                let cost = innerIngamePlayer.cost
-                                HStack {
-                                    Text(innerIngamePlayer.enemyName ?? "")
-                                        .font(.system(size: 14, weight: .medium))
-                                    Text("에게")
-                                        .font(.system(size: 14, weight: .medium))
-                                    if cost > 0 {
-                                        Text("+\(cost)원")
-                                            .font(.system(size: 14, weight: .bold))
-                                            .foregroundColor(.red)
-                                        Text("을 받아야 합니다.")
-                                            .font(.system(size: 14, weight: .medium))
-                                    } else if cost < 0 {
-                                        Text("\(cost)원")
-                                            .font(.system(size: 14, weight: .bold))
-                                            .foregroundColor(.blue)
-                                        Text("을 줘야 합니다.")
-                                            .font(.system(size: 14, weight: .medium))
-                                    } else {
-                                        Text("받을 금액이 없습니다.")
-                                            .font(.system(size: 14, weight: .medium))
-                                    }
-                                    Spacer()
-                                }//HStack
-                            }//ForEach
+                            subPlayerView(innerPlayer: inner)
 
                         }
                         .padding()

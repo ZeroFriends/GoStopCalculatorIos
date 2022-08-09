@@ -101,9 +101,9 @@ struct GuideView: View {
                                     currentPage += 1
                                 } else {
                                     withAnimation {
-                                        readyForStart.toggle()
+//                                        readyForStart.toggle()
                                         isNavigationViewReady.toggle()
-                                    }
+                                    }//화면 전환 완료
                                 }
                                 
                             } label: {

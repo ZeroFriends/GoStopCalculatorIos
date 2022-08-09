@@ -80,7 +80,7 @@ class EndGameViewModel: ObservableObject {
                             
                             eachCostList[playerIndex][enemyIndex] += cost
                             eachCostList[enemyIndex][playerIndex] -= cost
-                            var check = 0
+//                            var check = 0
                             for i in 0 ..< 4 {
                                 
                                 if loserOption[playerIndex][i] == true {

@@ -129,7 +129,7 @@ struct EndGameStartView: View {
                             .foregroundColor(endGameVM.checkBoxOn.filter{ $0 == true}.count < 2 ||
                                                                          endGameVM.checkBoxOn.filter{ $0 == true}.count > 4 ? .gray : .red)
                             .frame(height: 44)
-                        Text("완료")
+                        Text("다음")
                             .font(.system(size: 16, weight: .bold))
                             .foregroundColor(.white)
                     }
