@@ -27,10 +27,12 @@ struct StartView: View {
     @State var lineIndex = 0
     @State var originIndex = 0
     
-    @State var jumDang = "0"
-    @State var ppuck = "0"
-    @State var firstTadack = "0"
-    @State var sell = "0"//rule
+    @State var jumDang = ""
+    @State var ppuck = ""
+    @State var firstTadack = ""
+    @State var sell = ""//rule
+    
+    @State var disableState = false
     
     let coreDM: CoreDataManager
     
@@ -57,14 +59,14 @@ struct StartView: View {
                         VStack {
                             HStack {
                                 Button {
-                                    lineIndex = 0
-                                } label: {
-                                    if lineIndex > 0 {
-                                        Image(systemName: "arrow.left")
+                                    if lineIndex == 0 {
+                                        terminateStartView = true
                                     } else {
-                                        Image(systemName: "arrow.left")
-                                            .opacity(0)
+                                        lineIndex = 0
+                                        disableState = true
                                     }
+                                } label: {
+                                    Image(systemName: "arrow.left")
                                 }
                                 
                                 Spacer()
@@ -75,7 +77,12 @@ struct StartView: View {
                                 Button {
                                     terminateStartView = true
                                 } label: {
-                                    Image(systemName: "multiply")
+                                    if lineIndex == 0 {
+                                        Image(systemName: "multiply")
+                                            .opacity(0)
+                                    } else {
+                                        Image(systemName: "multiply")
+                                    }
                                 }
                                 .alert(isPresented: $terminateStartView) {
                                     Alert(title: Text("게임설정을 종료하시겠습니까?"), message: nil, primaryButton: .destructive(Text("네"), action: {
@@ -344,6 +351,7 @@ struct StartView: View {
                                     Spacer()
                                     HStack {
                                         Button {
+                                            disableState = false
                                             withAnimation {
                                                 if lineIndex < 1 {
                                                     lineIndex += 1
@@ -355,14 +363,14 @@ struct StartView: View {
                                         } label: {
                                             ZStack {
                                                 RoundedRectangle(cornerRadius: 18).fill()
-                                                    .foregroundColor(players.count >= 2 ? .red : .gray)
+                                                    .foregroundColor(disableState ? .red : .gray)
                                                 Text(lineIndex < 1 ? "다음" : "완료")
                                                     .foregroundColor(.white)
                                                     .fontWeight(.bold)
                                             }
                                         }
                                         .frame(height: 44)
-                                        .disabled(players.count < 2)
+                                        .disabled(!disableState)
                                     }
                                 }
                                 .padding()
@@ -379,6 +387,20 @@ struct StartView: View {
                 if textField.count == 16 {
                     HistoryNametextField.removeLast()
                         titleLimit = true
+                }
+            }
+            .onChange(of: players.count) { _ in
+                if players.count >= 2 && lineIndex == 0 {
+                    disableState = true
+                } else {
+                    disableState = false
+                }
+            }
+            .onChange(of: jumDang) { _ in
+                if Int(jumDang) ?? 0 > 0 {
+                    disableState = true
+                } else {
+                    disableState = false
                 }
             }
             .onTapGesture {
