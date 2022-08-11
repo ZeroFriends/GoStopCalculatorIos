@@ -35,7 +35,7 @@ class EndGameViewModel: ObservableObject {
     //totalCost 계산은 어떻게?
     func calculate(mainPageHistory: MainPageHistory) {
 
-            for playerIndex in 0 ..< ingamePlayers.count {
+            for playerIndex in 0 ..< ingamePlayers.count {//전체 게임 플레이어
                 
                 for enemyIndex in 0 ..< ingamePlayers.count {
                     if playerIndex == sellerIndex {
