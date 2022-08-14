@@ -135,6 +135,7 @@ struct EndGameStartView: View {
                     }
                 }
                 .disabled(endGameVM.checkBoxOn.filter{ $0 == true}.count < 2 || endGameVM.checkBoxOn.filter{ $0 == true}.count > 4)
+                .padding(.bottom, 5)
             }//VStack
             .padding(.horizontal)
             .navigationBarHidden(true)

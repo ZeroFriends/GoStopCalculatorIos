@@ -299,6 +299,7 @@ struct IngameView: View {
                                     .foregroundColor(.white)
                             }
                             .padding(.horizontal)
+                            .padding(.bottom, 5)
                         }
                     }
                     

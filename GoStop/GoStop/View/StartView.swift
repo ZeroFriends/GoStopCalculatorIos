@@ -390,7 +390,7 @@ struct StartView: View {
                 }
             }
             .onChange(of: players.count) { _ in
-                if players.count >= 2 && lineIndex == 0 {
+                if (players.count >= 2 && lineIndex == 0) {
                     disableState = true
                 } else {
                     disableState = false
@@ -401,6 +401,11 @@ struct StartView: View {
                     disableState = true
                 } else {
                     disableState = false
+                }
+            }
+            .onChange(of: lineIndex) { _ in
+                if Int(jumDang) ?? 0 > 0 {
+                    disableState = true
                 }
             }
             .onTapGesture {

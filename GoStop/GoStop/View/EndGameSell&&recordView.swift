@@ -200,6 +200,7 @@ struct EndGameSellView: View {//광팔기 view
                             .foregroundColor(.white)
                     }
                     .padding(.horizontal)
+                    .padding(.bottom, 5)
                 }
                 .disabled(!nextActivity)
             }
@@ -320,6 +321,7 @@ struct EndGameOptionView: View {
                             .font(.system(size: 16, weight: .bold))
                             .foregroundColor(.white)
                     }
+                    .padding(.bottom, 5)
                 }
                 .padding(.horizontal)
             }
@@ -549,6 +551,7 @@ struct EndGamewinnerRecord: View {
                                 .font(.system(size: 16, weight: .bold))
                                 .foregroundColor(.white)
                     }
+                    .padding(.bottom, 5)
                 }
                 .padding(.horizontal)
                 .disabled(!nextActivity)
@@ -664,6 +667,7 @@ struct EndGameLoserRecord: View {
                         .font(.system(size: 16, weight: .bold))
                         .foregroundColor(.white)
                 }
+                .padding(.bottom, 5)
             }
             .padding(.horizontal)
         }
@@ -841,6 +845,7 @@ struct LastView: View {
                         .font(.system(size: 16, weight: .bold))
                         .foregroundColor(.white)
                 }
+                .padding(.bottom, 5)
             }
             .padding(.horizontal)
             .padding(.top)
