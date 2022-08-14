@@ -107,6 +107,7 @@ struct EndGameSellView: View {//광팔기 view
                         withAnimation {
                             sellListPopUp = true
                         }
+                        self.hideKeyboard()
                     } label: {
                         PopUpIcon(title: "광팔 수 있는 패", color: .red, size: 14)
                     }
@@ -199,6 +200,7 @@ struct EndGameSellView: View {//광팔기 view
                             .foregroundColor(.white)
                     }
                     .padding(.horizontal)
+                    .padding(.bottom, 5)
                 }
                 .disabled(!nextActivity)
             }
@@ -287,10 +289,19 @@ struct EndGameOptionView: View {
                                     showingAlert = true
                                 }
                             }
+//                            .alert(isPresented: $showingAlert) {
+//                                Alert(title: Text("삼연뻑이 있습니다"), message: Text("게임을 종료하시겠습니까?"), primaryButton: .destructive(Text("확인"), action: {
+//                                        pushActivity = true
+//                                }), secondaryButton: .cancel(Text("취소")))
+//                            }
                             .alert(isPresented: $showingAlert) {
                                 Alert(title: Text("삼연뻑이 있습니다"), message: Text("게임을 종료하시겠습니까?"), primaryButton: .destructive(Text("확인"), action: {
-                                        pushActivity = true
-                                }), secondaryButton: .cancel(Text("취소")))
+                                    pushActivity = true
+                                }), secondaryButton: .cancel(Text("취소"), action: {
+                                    for i in 0 ..< 4 {
+                                        endGameVM.selectOption[i] = -1
+                                    }
+                                }))
                             }
                         }
                 }
@@ -310,20 +321,21 @@ struct EndGameOptionView: View {
                             .font(.system(size: 16, weight: .bold))
                             .foregroundColor(.white)
                     }
+                    .padding(.bottom, 5)
                 }
                 .padding(.horizontal)
             }
         }
         .navigationBarHidden(true)
         .ignoresSafeArea(.keyboard, edges: .bottom)
-        .onChange(of: showingAlert) { _ in
-            if showingAlert == false {
-//                endGameVM.selectOption[2] = -1
-                for i in 0 ..< 4 {
-                    endGameVM.selectOption[i] = -1
-                }
-            }
-        }
+//        .onChange(of: showingAlert) { _ in
+//            if showingAlert == false {
+////                endGameVM.selectOption[2] = -1
+//                for i in 0 ..< 4 {
+//                    endGameVM.selectOption[i] = -1
+//                }
+//            }
+//        }
     }
     struct optionSelecter: View {
         
@@ -539,6 +551,7 @@ struct EndGamewinnerRecord: View {
                                 .font(.system(size: 16, weight: .bold))
                                 .foregroundColor(.white)
                     }
+                    .padding(.bottom, 5)
                 }
                 .padding(.horizontal)
                 .disabled(!nextActivity)
@@ -654,6 +667,7 @@ struct EndGameLoserRecord: View {
                         .font(.system(size: 16, weight: .bold))
                         .foregroundColor(.white)
                 }
+                .padding(.bottom, 5)
             }
             .padding(.horizontal)
         }
@@ -831,6 +845,7 @@ struct LastView: View {
                         .font(.system(size: 16, weight: .bold))
                         .foregroundColor(.white)
                 }
+                .padding(.bottom, 5)
             }
             .padding(.horizontal)
             .padding(.top)

@@ -114,6 +114,7 @@ struct GuideView: View {
                                     .frame(width: 318, height: 52)
                             }
                         }.frame(width: 318, height: 52)
+                            .padding(.bottom, 5)
                     }
                 }
             }

@@ -35,7 +35,7 @@ class EndGameViewModel: ObservableObject {
     //totalCost 계산은 어떻게?
     func calculate(mainPageHistory: MainPageHistory) {
 
-            for playerIndex in 0 ..< ingamePlayers.count {
+            for playerIndex in 0 ..< ingamePlayers.count {//전체 게임 플레이어
                 
                 for enemyIndex in 0 ..< ingamePlayers.count {
                     if playerIndex == sellerIndex {
@@ -58,8 +58,8 @@ class EndGameViewModel: ObservableObject {
                     }
                     if firstTatac[playerIndex] == true {//첫 따닥 인 경우
                         if enemyIndex != sellerIndex {
-                            eachCostList[playerIndex][enemyIndex] += mainPageHistory.rule!.firstTadack*3
-                            eachCostList[enemyIndex][playerIndex] -= mainPageHistory.rule!.firstTadack*3
+                            eachCostList[playerIndex][enemyIndex] += mainPageHistory.rule!.firstTadack
+                            eachCostList[enemyIndex][playerIndex] -= mainPageHistory.rule!.firstTadack
                         }//3점에 해당하는 금액을 즉시 획득한다는 뜻이 rule에서 첫따닥 점당 점수 *3 이라는 말이겠지?
                     }
                     
@@ -81,7 +81,7 @@ class EndGameViewModel: ObservableObject {
                             eachCostList[playerIndex][enemyIndex] += cost
                             eachCostList[enemyIndex][playerIndex] -= cost
 //                            var check = 0
-                            for i in 0 ..< 4 {
+                            for i in 0 ..< 3 {
                                 
                                 if loserOption[playerIndex][i] == true {
 //                                    check += 1
@@ -119,29 +119,57 @@ class EndGameViewModel: ObservableObject {
                     cost -= eachCostList[i][sellerIndex]
                 }
                 totalCost[i] = 0//0으로 초기화
-                for j in 0 ..< ingamePlayers.count {
-                    
-                    if j != sellerIndex && j != i && j != winnerIndex {
-                        // 승자가 금액이 음수가 될 수 있나?
-                        if sellerIndex != -1 {
-                            cost = (totalCost[j]-eachCostList[i][sellerIndex])*2 + cost
-                        } else {
-                            cost = totalCost[j]*2 + cost
-                        }
-                        totalCost[j] = 0
-                        for k in 0 ..< ingamePlayers.count {
-                            if k != sellerIndex {
-                                eachCostList[j][k] = 0
-                                eachCostList[k][j] = 0
-                                eachCostList[winnerIndex][k] = 0
+                if ingamePlayers.count == 2 {
+                    cost *= 2
+                    for j in 0 ..< ingamePlayers.count {
+                        
+                        if j != sellerIndex && j != i && j != winnerIndex {
+                            // 승자가 금액이 음수가 될 수 있나?
+                            if sellerIndex != -1 {
+                                cost = (totalCost[j]-eachCostList[i][sellerIndex])*2 + cost
+                            } else {
+                                cost = totalCost[j]*2 + cost
+                            }
+                            totalCost[j] = 0
+                            for k in 0 ..< ingamePlayers.count {
+                                if k != sellerIndex {
+                                    eachCostList[j][k] = 0
+                                    eachCostList[k][j] = 0
+                                    eachCostList[winnerIndex][k] = 0
+                                }
+                            }
+                            if sellerIndex != -1 {
+                                totalCost[j] = eachCostList[j][sellerIndex]
                             }
                         }
-                        if sellerIndex != -1 {
-                            totalCost[j] = eachCostList[j][sellerIndex]
-                        }
+                        
+                        
                     }
-                    
-                    
+                } else {
+                    for j in 0 ..< ingamePlayers.count {
+                        
+                        if j != sellerIndex && j != i && j != winnerIndex {
+                            // 승자가 금액이 음수가 될 수 있나?
+                            if sellerIndex != -1 {
+                                cost = (totalCost[j]-eachCostList[i][sellerIndex]) + cost
+                            } else {
+                                cost = totalCost[j] + cost
+                            }
+                            totalCost[j] = 0
+                            for k in 0 ..< ingamePlayers.count {
+                                if k != sellerIndex {
+                                    eachCostList[j][k] = 0
+                                    eachCostList[k][j] = 0
+                                    eachCostList[winnerIndex][k] = 0
+                                }
+                            }
+                            if sellerIndex != -1 {
+                                totalCost[j] = eachCostList[j][sellerIndex]
+                            }
+                        }
+                        
+                        
+                    }
                 }
                 if sellerIndex == -1 {
                     totalCost[i] = cost
