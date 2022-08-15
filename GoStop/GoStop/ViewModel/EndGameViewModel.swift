@@ -42,26 +42,26 @@ class EndGameViewModel: ObservableObject {
                         eachCostList[playerIndex][enemyIndex] += mainPageHistory.rule!.sell*Int32(sellerInput[sellerIndex])!
                         eachCostList[enemyIndex][playerIndex] -= mainPageHistory.rule!.sell*Int32(sellerInput[sellerIndex])!
                     }//광팔기
-                    if selectOption[playerIndex] != -1 {//첫 뻑, 연 뻑, 삼연 뻑 중 하나 택한 상황
-                        if enemyIndex != sellerIndex {
-                            if selectOption[playerIndex] == 0 {//첫 뻑
-                                eachCostList[playerIndex][enemyIndex] += mainPageHistory.rule!.ppuck
-                                eachCostList[enemyIndex][playerIndex] -= mainPageHistory.rule!.ppuck
-                            } else if selectOption[playerIndex] == 1 {//연 뻑
-                                eachCostList[playerIndex][enemyIndex] += mainPageHistory.rule!.ppuck*2
-                                eachCostList[enemyIndex][playerIndex] -= mainPageHistory.rule!.ppuck*2
-                            } else {//삼연 뻑
-                                eachCostList[playerIndex][enemyIndex] += mainPageHistory.rule!.ppuck*4
-                                eachCostList[enemyIndex][playerIndex] -= mainPageHistory.rule!.ppuck*4
-                            }
-                        }
-                    }
-                    if firstTatac[playerIndex] == true {//첫 따닥 인 경우
-                        if enemyIndex != sellerIndex {
-                            eachCostList[playerIndex][enemyIndex] += mainPageHistory.rule!.firstTadack
-                            eachCostList[enemyIndex][playerIndex] -= mainPageHistory.rule!.firstTadack
-                        }//3점에 해당하는 금액을 즉시 획득한다는 뜻이 rule에서 첫따닥 점당 점수 *3 이라는 말이겠지?
-                    }
+//                    if selectOption[playerIndex] != -1 {//첫 뻑, 연 뻑, 삼연 뻑 중 하나 택한 상황
+//                        if enemyIndex != sellerIndex {
+//                            if selectOption[playerIndex] == 0 {//첫 뻑
+//                                eachCostList[playerIndex][enemyIndex] += mainPageHistory.rule!.ppuck
+//                                eachCostList[enemyIndex][playerIndex] -= mainPageHistory.rule!.ppuck
+//                            } else if selectOption[playerIndex] == 1 {//연 뻑
+//                                eachCostList[playerIndex][enemyIndex] += mainPageHistory.rule!.ppuck*2
+//                                eachCostList[enemyIndex][playerIndex] -= mainPageHistory.rule!.ppuck*2
+//                            } else {//삼연 뻑
+//                                eachCostList[playerIndex][enemyIndex] += mainPageHistory.rule!.ppuck*4
+//                                eachCostList[enemyIndex][playerIndex] -= mainPageHistory.rule!.ppuck*4
+//                            }
+//                        }
+//                    }
+//                    if firstTatac[playerIndex] == true {//첫 따닥 인 경우
+//                        if enemyIndex != sellerIndex {
+//                            eachCostList[playerIndex][enemyIndex] += mainPageHistory.rule!.firstTadack
+//                            eachCostList[enemyIndex][playerIndex] -= mainPageHistory.rule!.firstTadack
+//                        }//3점에 해당하는 금액을 즉시 획득한다는 뜻이 rule에서 첫따닥 점당 점수 *3 이라는 말이겠지?
+//                    }
                     
                     if playerIndex == winnerIndex {//승자 점수기록
                         
@@ -187,6 +187,39 @@ class EndGameViewModel: ObservableObject {
                     totalCost[winnerIndex] = abs(cost)+eachCostList[winnerIndex][sellerIndex]
                 }
             }//고박이 존재한다면
+        }
+        
+        for playerIndex in 0 ..< ingamePlayers.count {//전체 게임 플레이어
+            
+            for enemyIndex in 0 ..< ingamePlayers.count {
+                if selectOption[playerIndex] != -1 {//첫 뻑, 연 뻑, 삼연 뻑 중 하나 택한 상황
+                    if enemyIndex != sellerIndex {
+                        if selectOption[playerIndex] == 0 {//첫 뻑
+                            eachCostList[playerIndex][enemyIndex] += mainPageHistory.rule!.ppuck
+                            eachCostList[enemyIndex][playerIndex] -= mainPageHistory.rule!.ppuck
+                        } else if selectOption[playerIndex] == 1 {//연 뻑
+                            eachCostList[playerIndex][enemyIndex] += mainPageHistory.rule!.ppuck*2
+                            eachCostList[enemyIndex][playerIndex] -= mainPageHistory.rule!.ppuck*2
+                        } else {//삼연 뻑
+                            eachCostList[playerIndex][enemyIndex] += mainPageHistory.rule!.ppuck*4
+                            eachCostList[enemyIndex][playerIndex] -= mainPageHistory.rule!.ppuck*4
+                        }
+                    }
+                }
+                if firstTatac[playerIndex] == true {//첫 따닥 인 경우
+                    if enemyIndex != sellerIndex {
+                        eachCostList[playerIndex][enemyIndex] += mainPageHistory.rule!.firstTadack
+                        eachCostList[enemyIndex][playerIndex] -= mainPageHistory.rule!.firstTadack
+                    }
+                }
+            }
+        }
+        for i in 0 ..< ingamePlayers.count {
+            totalCost[i] = 0
+            for j in 0 ..< 4 {
+                totalCost[i] += eachCostList[i][j]
+            }
+            
         }
     }
 }

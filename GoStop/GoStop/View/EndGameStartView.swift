@@ -18,6 +18,8 @@ struct EndGameStartView: View {
     @State var endGameSell = false
     @State var endGameOption = false
     
+    @State var isActive = false
+    
     var subTitle = "시작하기"
     var subExplain = "2인 이상 4인까지 게임을 플레이 할 수 있으며,\n4인 플레이를 할 경우 1명은 광을 반드시 팔아야 합니다."
 
@@ -75,7 +77,11 @@ struct EndGameStartView: View {
                             let checkBoxIndex = mainPageHistory.playerlist.firstIndex(of: player)!
                             Button {
 //                                checkBoxOn[checkBoxIndex].toggle()
-                                endGameVM.checkBoxOn[checkBoxIndex].toggle()
+                                if endGameVM.checkBoxOn[checkBoxIndex] == false && endGameVM.checkBoxOn.filter({ $0 == true }).count == 4 {
+                                    isActive = true
+                                } else {
+                                    endGameVM.checkBoxOn[checkBoxIndex].toggle()
+                                }
                             } label: {
                                 HStack {
                                     Text("\(checkBoxIndex+1)\t")
@@ -93,6 +99,9 @@ struct EndGameStartView: View {
                                 RoundedRectangle(cornerRadius: 8)
                                     .foregroundColor(endGameVM.checkBoxOn[checkBoxIndex] == true ? CustomColor.checkBoxColor : .white)
                             )
+                            .alert(isPresented: $isActive) {
+                                Alert(title: Text(""), message: Text("플레이어는 2인이상 4인이하만 지정."), dismissButton: .destructive(Text("확인")))
+                            }
                         }
                     }//VStack
                     //광팔기 view
