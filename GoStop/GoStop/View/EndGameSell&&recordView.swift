@@ -208,6 +208,11 @@ struct EndGameSellView: View {//광팔기 view
         }
         .navigationBarHidden(true)
         .ignoresSafeArea(.keyboard, edges: .bottom)
+        .onAppear {
+            if endGameVM.sellerIndex != -1 {
+                nextActivity = true
+            }
+        }
     }
 }
 
@@ -328,14 +333,13 @@ struct EndGameOptionView: View {
         }
         .navigationBarHidden(true)
         .ignoresSafeArea(.keyboard, edges: .bottom)
-//        .onChange(of: showingAlert) { _ in
-//            if showingAlert == false {
-////                endGameVM.selectOption[2] = -1
-//                for i in 0 ..< 4 {
-//                    endGameVM.selectOption[i] = -1
-//                }
-//            }
-//        }
+        .onAppear {
+            if endGameVM.ingamePlayers.count != 4 {
+                endGameVM.seller = Array(repeating: false, count: 4)
+                endGameVM.sellerInput = ["","","",""]
+                endGameVM.sellerIndex = -1
+            }
+        }
     }
     struct optionSelecter: View {
         

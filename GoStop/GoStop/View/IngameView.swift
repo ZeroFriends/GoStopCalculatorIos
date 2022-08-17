@@ -116,6 +116,7 @@ struct IngameView: View {
                         }
                     }
                     .padding(.horizontal)
+                    .frame(height: 35)
                     divideRectangle()
                         VStack {
                             HStack {
@@ -156,6 +157,7 @@ struct IngameView: View {
                                             .font(.system(size: 14, weight: .medium))
                                         Spacer()
                                         Text("\(specificCost)")
+                                            .font(.system(size: 14, weight: .medium))
                                         Text("원")
                                             .font(.system(size: 12, weight: .medium))
                                     }
@@ -253,11 +255,11 @@ struct IngameView: View {
                                                         }
                                                         OptionSelect(player: ingamePlayer)
                                                         .frame(width: 150)
-                                                        .padding([.trailing, .bottom])
+                                                        .padding([.trailing])
                                                     }
                                                 }
                                             }
-                                            .padding([.leading, .trailing, .top])
+                                            .padding([.leading, .trailing])
                                             ZStack {
                                                 Color(hue: 1.0, saturation: 0.0, brightness: 0.941)
                                                 HStack {
@@ -326,7 +328,8 @@ struct divideRectangle: View {
     var body: some View {
         Rectangle()
             .frame(height: 1)
-            .foregroundColor(/*@START_MENU_TOKEN@*/Color.gray/*@END_MENU_TOKEN@*/)
+            .foregroundColor(Color(hex: 0xeeeeee))
+            
     }
 }
 
