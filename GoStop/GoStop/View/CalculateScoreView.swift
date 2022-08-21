@@ -243,7 +243,7 @@ struct CalculateScoreView: View {
                         Rectangle()
                             .frame(width: 156, height: 156)
                             .foregroundColor(.white)
-                            .shadow(color: .gray, radius: 1, x: 0, y: 0)
+                            .shadow(color: Color(hex: 0xbdbdbd), radius: 1, x: 0, y: 0)
                         VStack(spacing: 25) {
                             Image("group")
                             Text("5광 • 15점")
@@ -255,7 +255,7 @@ struct CalculateScoreView: View {
                         Rectangle()
                             .frame(width: 156, height: 156)
                             .foregroundColor(.white)
-                            .shadow(color: .gray, radius: 1, x: 0, y: 0)
+                            .shadow(color: Color(hex: 0xbdbdbd), radius: 1, x: 0, y: 0)
                         VStack(spacing: 25) {
                             Image("group16")
                             Text("4광 • 4점")
@@ -269,7 +269,7 @@ struct CalculateScoreView: View {
                         Rectangle()
                             .frame(width: 156, height: 156)
                             .foregroundColor(.white)
-                            .shadow(color: .gray, radius: 1, x: 0, y: 0)
+                            .shadow(color: Color(hex: 0xbdbdbd), radius: 1, x: 0, y: 0)
                         VStack(spacing: 25) {
                             Image("groupCopy2")
                             Text("3광 • 3점")
@@ -281,7 +281,7 @@ struct CalculateScoreView: View {
                         Rectangle()
                             .frame(width: 156, height: 156)
                             .foregroundColor(.white)
-                            .shadow(color: .gray, radius: 1, x: 0, y: 0)
+                            .shadow(color: Color(hex: 0xbdbdbd), radius: 1, x: 0, y: 0)
                         VStack(spacing: 25) {
                             Image("group17")
                             VStack {
@@ -300,7 +300,7 @@ struct CalculateScoreView: View {
                         Rectangle()
                             .frame(width: 156, height: 156)
                             .foregroundColor(.white)
-                            .shadow(color: .gray, radius: 1, x: 0, y: 0)
+                            .shadow(color: Color(hex: 0xbdbdbd), radius: 1, x: 0, y: 0)
                         VStack(spacing: 25) {
                             Image("group5")
                             VStack {
@@ -317,7 +317,7 @@ struct CalculateScoreView: View {
                         Rectangle()
                             .frame(width: 156, height: 156)
                             .foregroundColor(.white)
-                            .shadow(color: .gray, radius: 1, x: 0, y: 0)
+                            .shadow(color: Color(hex: 0xbdbdbd), radius: 1, x: 0, y: 0)
                         VStack(spacing: 25) {
                             Image("group6")
                             VStack {
@@ -337,7 +337,7 @@ struct CalculateScoreView: View {
                         Rectangle()
                             .frame(width: 156, height: 156)
                             .foregroundColor(.white)
-                            .shadow(color: .gray, radius: 1, x: 0, y: 0)
+                            .shadow(color: Color(hex: 0xbdbdbd), radius: 1, x: 0, y: 0)
                         VStack(spacing: 25) {
                             Image("group3")
                             Text("홍단 • 3점")
@@ -349,7 +349,7 @@ struct CalculateScoreView: View {
                         Rectangle()
                             .frame(width: 156, height: 156)
                             .foregroundColor(.white)
-                            .shadow(color: .gray, radius: 1, x: 0, y: 0)
+                            .shadow(color: Color(hex: 0xbdbdbd), radius: 1, x: 0, y: 0)
                         VStack(spacing: 25) {
                             Image("group2")
                             Text("청단 • 3점")
@@ -363,7 +363,7 @@ struct CalculateScoreView: View {
                         Rectangle()
                             .frame(width: 156, height: 156)
                             .foregroundColor(.white)
-                            .shadow(color: .gray, radius: 1, x: 0, y: 0)
+                            .shadow(color: Color(hex: 0xbdbdbd), radius: 1, x: 0, y: 0)
                         VStack(spacing: 25) {
                             Image("group20")
                             Text("초단 • 3점")
@@ -375,7 +375,7 @@ struct CalculateScoreView: View {
                         Rectangle()
                             .frame(width: 156, height: 156)
                             .foregroundColor(.white)
-                            .shadow(color: .gray, radius: 1, x: 0, y: 0)
+                            .shadow(color: Color(hex: 0xbdbdbd), radius: 1, x: 0, y: 0)
                         VStack(spacing: 25) {
                             Image("group21")
                             Text("고도리 • 5점")
@@ -389,7 +389,7 @@ struct CalculateScoreView: View {
                         Rectangle()
                             .frame(width: 156, height: 156)
                             .foregroundColor(.white)
-                            .shadow(color: .gray, radius: 1, x: 0, y: 0)
+                            .shadow(color: Color(hex: 0xbdbdbd), radius: 1, x: 0, y: 0)
                         VStack {
                             Image("group22")
                             Text("10장 • 1점")
@@ -404,7 +404,7 @@ struct CalculateScoreView: View {
                         Rectangle()
                             .frame(width: 156, height: 156)
                             .foregroundColor(.white)
-                            .shadow(color: .gray, radius: 1, x: 0, y: 0)
+                            .shadow(color: Color(hex: 0xbdbdbd), radius: 1, x: 0, y: 0)
                         VStack(spacing: 25) {
                             Image("group21")
                             Text("고도리 • 5점")

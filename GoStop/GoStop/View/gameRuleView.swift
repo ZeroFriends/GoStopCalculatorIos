@@ -28,6 +28,7 @@ struct gameRuleView: View {
                 Image(systemName: "arrow.left")
                     .opacity(0)
             }
+            .frame(height: 35)
             .padding(.horizontal)
             divideRectangle()
             VStack {
@@ -41,7 +42,7 @@ struct gameRuleView: View {
                     RoundedRectangle(cornerRadius: 18)
                         .foregroundColor(.white)
                         .frame(height: 148)
-                        .shadow(color: .gray, radius: 3, x: 0, y: 3)
+                        .shadow(color: Color(hex: 0xbdbdbd), radius: 3, x: 0, y: 3)
                     VStack {
                         HStack(spacing: 40) {
                             HStack {

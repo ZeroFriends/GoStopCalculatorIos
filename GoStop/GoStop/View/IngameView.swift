@@ -118,6 +118,7 @@ struct IngameView: View {
                     .padding(.horizontal)
                     .frame(height: 35)
                     divideRectangle()
+                        .padding(.bottom, 6)
                         VStack {
                             HStack {
                                 Text("수익현황 👏").font(.system(size: 24, weight: .bold))
@@ -156,13 +157,31 @@ struct IngameView: View {
                                         Text(player.name ?? "")
                                             .font(.system(size: 14, weight: .medium))
                                         Spacer()
-                                        Text("\(specificCost)")
-                                            .font(.system(size: 14, weight: .medium))
-                                        Text("원")
-                                            .font(.system(size: 12, weight: .medium))
+                                        if specificCost > 0 {
+                                            Text("\(specificCost)")
+                                                .font(.system(size: 14, weight: .medium))
+                                                .foregroundColor(.red)
+                                            Text("원")
+                                                .font(.system(size: 12, weight: .medium))
+                                                .foregroundColor(.red)
+                                        } else if specificCost == 0 {
+                                            Text("\(specificCost)")
+                                                .font(.system(size: 14, weight: .medium))
+                                            Text("원")
+                                                .font(.system(size: 12, weight: .medium))
+                                        } else {
+                                            Text("\(specificCost)")
+                                                .font(.system(size: 14, weight: .medium))
+                                                .foregroundColor(.blue)
+                                            Text("원")
+                                                .font(.system(size: 12, weight: .medium))
+                                                .foregroundColor(.blue)
+                                        }
                                     }
                                     .frame(width: 150)
-                                    .padding([.leading, .trailing, .bottom])
+//                                    .padding([.leading, .trailing, .bottom])
+                                    .padding([.leading, .trailing])
+                                    .padding(.bottom, 8)
                                 }
                             }
                             .padding()
@@ -170,15 +189,16 @@ struct IngameView: View {
                         .background (
                             RoundedRectangle(cornerRadius: 18)
                                 .foregroundColor(.white)
-                                .shadow(color: .gray, radius: 3, x: 0, y: 3)
+                                .shadow(color: Color(hex: 0xbdbdbd), radius: 3, x: 0, y: 3)
                         )
                         .padding(.horizontal)
                     HStack {
                         Text("진행내역 🤝")
-                            .font(.system(size: 28, weight: .bold))
+                            .font(.system(size: 24, weight: .bold))
                         Spacer()
                     }
                     .padding()
+                    .padding(.bottom, -22)
                     if rounds.isEmpty {
                         Spacer()
                         Image("errorOutlineBlack24Dp1")
@@ -249,9 +269,26 @@ struct IngameView: View {
                                                             Text(ingamePlayer.name ?? "name")
                                                                 .font(.system(size: 14, weight: .medium))
                                                             Spacer()
-                                                            Text("\(ingamePlayer.totalCost)")
-                                                            Text("원")
-                                                                .font(.system(size: 12, weight: .medium))
+                                                            if ingamePlayer.totalCost > 0 {
+                                                                Text("\(ingamePlayer.totalCost)")
+                                                                    .font(.system(size: 14, weight: .medium))
+                                                                    .foregroundColor(.red)
+                                                                Text("원")
+                                                                    .font(.system(size: 12, weight: .medium))
+                                                                    .foregroundColor(.red)
+                                                            } else if ingamePlayer.totalCost == 0 {
+                                                                Text("\(ingamePlayer.totalCost)")
+                                                                    .font(.system(size: 14, weight: .medium))
+                                                                Text("원")
+                                                                    .font(.system(size: 12, weight: .medium))
+                                                            } else {
+                                                                Text("\(ingamePlayer.totalCost)")
+                                                                    .font(.system(size: 14, weight: .medium))
+                                                                    .foregroundColor(.blue)
+                                                                Text("원")
+                                                                    .font(.system(size: 12, weight: .medium))
+                                                                    .foregroundColor(.blue)
+                                                            }
                                                         }
                                                         OptionSelect(player: ingamePlayer)
                                                         .frame(width: 150)
@@ -279,8 +316,9 @@ struct IngameView: View {
                                     .background (
                                         RoundedRectangle(cornerRadius: 18)
                                             .foregroundColor(.white)
-                                            .shadow(color: .gray, radius: 3, x: 0, y: 3)
+                                            .shadow(color: Color(hex: 0xbdbdbd), radius: 3, x: 0, y: 3)
                                     )
+                                    .padding(.top, 10)
                                 }
                                 .padding()
                                 .frame(maxWidth: .infinity)

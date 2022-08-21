@@ -63,6 +63,7 @@ struct TopMainPage: View {
                 Text("NEW GAME")
                     .font(.system(size: 12))
                     .fontWeight(.bold)
+                    .foregroundColor(Color(hex: 0x212121))
                 Spacer()
             }
             HStack {
@@ -127,6 +128,7 @@ struct BottomMainPage: View {
                         .font(.system(size: 12))
                         .fontWeight(.bold)
                         .padding([.top, .leading, .trailing])
+                        .foregroundColor(Color(hex: 0x424242))
                     Spacer()
                 }
                 HStack {
@@ -136,20 +138,27 @@ struct BottomMainPage: View {
                     Spacer()
                 }
                 .padding(.horizontal)
+                .padding(.bottom, -10)
                 Spacer()
                 
                 if coreDM.mainPageHistoryList.isEmpty {
-                    VStack {
+                    VStack(spacing: 3) {
                         Image("group118")
+                            .padding(.bottom, 2)
                         Text("게임을 추가한 내역이 없습니다.")
                             .font(.system(size: 14))
                             .fontWeight(.bold)
                         HStack {
                             Text("상단에")
+                                .padding(.trailing, -3)
+                                .font(.system(size: 12))
                             Text("시작하기")
                                 .underline()
                                 .fontWeight(.bold)
+                                .font(.system(size: 12))
                             Text("버튼을 눌러 게임을 생성해주세요.")
+                                .font(.system(size: 12))
+                                .padding(.leading, -3)
                         }
                         .font(.system(size: 14))
                     }
@@ -164,7 +173,7 @@ struct BottomMainPage: View {
                                     } label: {
                                         ZStack {
                                             RoundedRectangle(cornerRadius: 18).fill().foregroundColor(.white)
-                                                .shadow(color: .gray, radius: 3, x: 0, y: 3)
+                                                .shadow(color: Color(hex: 0xbdbdbd), radius: 3, x: 0, y: 3)
                                             HStack {
                                                 VStack(alignment: .leading, spacing: 3) {
                                                     Text("생성일자 \(history.date ?? Date(), formatter: dateformat)")
@@ -174,7 +183,7 @@ struct BottomMainPage: View {
                                                         .fontWeight(.bold)
                                                         .font(.system(size: 20))
                                                 }
-                                                .padding()
+                                                .padding()//16
                                                 Spacer()
                                                 Button {
                                                     uselessHistory = history

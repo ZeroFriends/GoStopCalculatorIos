@@ -112,9 +112,10 @@ struct CalculateView: View {
                         .background (
                             RoundedRectangle(cornerRadius: 18)
                                 .foregroundColor(.white)
-                                .shadow(color: .gray, radius: 5, x: 0, y: 3)
+                                .shadow(color: Color(hex: 0xbdbdbd), radius: 5, x: 0, y: 3)
                         )
                     }
+                    .padding(.bottom, 10)
                 }
                 .padding()
                 .frame(maxWidth: .infinity)
