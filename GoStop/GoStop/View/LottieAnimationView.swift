@@ -45,7 +45,7 @@ struct LottieAnimationView: View {
             VStack {
                 ZStack {
                     LottieView(filename: "로티이미지")
-                        .frame(width: 96, height: 111)
+                        .frame(width: 120, height: 140)
                         .position(x: geometry.size.width/2, y: geometry.size.height/2)
                     Image("main")
                         .background(Color.white)

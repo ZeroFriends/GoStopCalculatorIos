@@ -43,8 +43,10 @@ struct EndGameStartView: View {
                             .foregroundColor(.black)
                     }
                 }
+                .frame(height: 35)
                 divideRectangle()
                     .padding(.horizontal, -20)
+                    .padding(.bottom, 6)
                 VStack(alignment: .center,spacing: 10) {
                     HStack {
                         Text(subTitle)
@@ -62,7 +64,7 @@ struct EndGameStartView: View {
                 .background (
                     RoundedRectangle(cornerRadius: 18)
                         .foregroundColor(.white)
-                        .shadow(color: .gray, radius: 5, x: 0, y: 3)
+                        .shadow(color: Color(hex: 0xbdbdbd), radius: 5, x: 0, y: 3)
                 )
                 
                 HStack {
@@ -71,6 +73,7 @@ struct EndGameStartView: View {
                     Spacer()
                 }
                 .padding(.vertical, 10)
+                .padding(.top, 20)
                 ScrollView {
                     VStack {
                         ForEach(mainPageHistory.playerlist, id:\.self) { player in
@@ -136,7 +139,7 @@ struct EndGameStartView: View {
                     ZStack {
                         RoundedRectangle(cornerRadius: 22)
                             .foregroundColor(endGameVM.checkBoxOn.filter{ $0 == true}.count < 2 ||
-                                                                         endGameVM.checkBoxOn.filter{ $0 == true}.count > 4 ? .gray : .red)
+                                             endGameVM.checkBoxOn.filter{ $0 == true}.count > 4 ? Color(hex: 0xbdbdbd) : .red)
                             .frame(height: 44)
                         Text("다음")
                             .font(.system(size: 16, weight: .bold))

@@ -140,8 +140,8 @@ struct StartView: View {
                                                 HStack {
                                                     Spacer()
                                                     Text("플레이어 추가 버튼으로 플레이어를 등록해주세요")
-                                                        .font(.system(size: 14))
-                                                        .foregroundColor(.gray)
+                                                        .font(.system(size: 12))
+                                                        .foregroundColor(Color(hex: 0xbdbdbd))
                                                     Spacer()
                                                 }
                                                 HStack {
@@ -152,14 +152,14 @@ struct StartView: View {
                                                     } label: {
                                                         ZStack {
                                                             RoundedRectangle(cornerRadius: 18).fill().foregroundColor(.white)
-                                                             RoundedRectangle(cornerRadius: 18).stroke(lineWidth: 2).foregroundColor(.black)
+                                                            RoundedRectangle(cornerRadius: 18).stroke(lineWidth: 1).foregroundColor(.black)
                                                             Text("+ 플레이어 추가")
                                                                 .foregroundColor(.black)
                                                                 .fontWeight(.bold)
                                                         }
                                                     }
                                                     .frame(height: 36)
-                                                    .padding()
+                                                    .padding(.top)
                                                 }
                                             }
                                             .padding(.vertical)
@@ -209,14 +209,14 @@ struct StartView: View {
                                                     } label: {
                                                         ZStack {
                                                             RoundedRectangle(cornerRadius: 18).fill().foregroundColor(.white)
-                                                             RoundedRectangle(cornerRadius: 18).stroke(lineWidth: 2).foregroundColor(.black)
+                                                             RoundedRectangle(cornerRadius: 18).stroke(lineWidth: 1).foregroundColor(.black)
                                                             Text("+ 플레이어 추가")
                                                                 .foregroundColor(.black)
                                                                 .fontWeight(.bold)
                                                         }
                                                     }
                                                     .frame(height: 36)
-                                                    .padding()
+//                                                    .padding()
                                                 }
                                             }
                                             .alert(isPresented: $playersNumberExcess) {
@@ -236,7 +236,7 @@ struct StartView: View {
                                                 } label: {
                                                     ZStack {
                                                         RoundedRectangle(cornerRadius: 12.5).fill().foregroundColor(.white)
-                                                        RoundedRectangle(cornerRadius: 12.5).stroke(lineWidth: 2).foregroundColor(.red)
+                                                        RoundedRectangle(cornerRadius: 12.5).stroke(lineWidth: 1).foregroundColor(.red)
                                                         Text("도움말")
                                                             .foregroundColor(.red)
                                                             .fontWeight(.bold)
@@ -272,6 +272,7 @@ struct StartView: View {
                                                     Spacer()
                                                     Rectangle()
                                                         .frame(width: 135, height: 1)
+                                                        .foregroundColor(Int(jumDang) ?? 0 > 0 ? .red : .black)
                                                 }
                                                 .padding(.top, -5)
                                                 .padding(.bottom, 20)
@@ -295,6 +296,7 @@ struct StartView: View {
                                                     Spacer()
                                                     Rectangle()
                                                         .frame(width: 135, height: 1)
+                                                        .foregroundColor(Int(ppuck) ?? 0 > 0 ? .red : .black)
                                                 }
                                                 .padding(.top, -5)
                                                 .padding(.bottom, 20)
@@ -317,6 +319,7 @@ struct StartView: View {
                                                     Spacer()
                                                     Rectangle()
                                                         .frame(width: 135, height: 1)
+                                                        .foregroundColor(Int(firstTadack) ?? 0 > 0 ? .red : .black)
                                                 }
                                                 .padding(.top, -5)
                                                 .padding(.bottom, 20)
@@ -342,10 +345,11 @@ struct StartView: View {
                                                     Spacer()
                                                     Rectangle()
                                                         .frame(width: 135, height: 1)
+                                                        .foregroundColor(Int(sell) ?? 0 > 0 ? .red : .black)
                                                 }
                                                 .padding(.top, -5)
                                             }
-                                            .padding()
+                                            .padding(.vertical)
                                         }
                                     }
                                     Spacer()
@@ -362,8 +366,9 @@ struct StartView: View {
                                             }
                                         } label: {
                                             ZStack {
+                                                
                                                 RoundedRectangle(cornerRadius: 18).fill()
-                                                    .foregroundColor(disableState ? .red : .gray)
+                                                    .foregroundColor(disableState ? .red : Color(hex: 0xbdbdbd))
                                                 Text(lineIndex < 1 ? "다음" : "완료")
                                                     .foregroundColor(.white)
                                                     .fontWeight(.bold)
@@ -421,9 +426,9 @@ struct OvalTextFieldStyle: TextFieldStyle {
             .padding(10)
             .foregroundColor(.gray)
             .background(Color.white)
-            .cornerRadius(18)
-            .overlay(RoundedRectangle(cornerRadius: 18)
-                        .stroke(Color.gray, lineWidth: 2)
+            .cornerRadius(12)
+            .overlay(RoundedRectangle(cornerRadius: 12)
+                        .stroke(Color(hex: 0xbdbdbd), lineWidth: 1)
             )
     }
 }

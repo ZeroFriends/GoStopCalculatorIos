@@ -53,8 +53,10 @@ struct BuildTopView: View {
                         .foregroundColor(.black)
                 }
             }
+            .frame(height: 35)
             divideRectangle()
                 .padding(.horizontal, -20)
+                .padding(.bottom, 6)
             VStack(alignment: .center,spacing: 10) {
                 HStack {
                     Text(subTitle)
@@ -72,7 +74,7 @@ struct BuildTopView: View {
             .background (
                 RoundedRectangle(cornerRadius: 18)
                     .foregroundColor(.white)
-                    .shadow(color: .gray, radius: 5, x: 0, y: 3)
+                    .shadow(color: Color(hex: 0xbdbdbd), radius: 5, x: 0, y: 3)
             )
         }
         .padding(.horizontal)
@@ -112,7 +114,9 @@ struct EndGameSellView: View {//광팔기 view
                         PopUpIcon(title: "광팔 수 있는 패", color: .red, size: 14)
                     }
                 }
-                .padding()
+                .padding(.horizontal)
+                .padding(.vertical, 10)
+                .padding(.top, 20)
                 ScrollView {
 //                    VStack {
                         ForEach(endGameVM.ingamePlayers, id: \.self) { ingamePlayer in
@@ -136,7 +140,7 @@ struct EndGameSellView: View {//광팔기 view
                                             .keyboardType(.numberPad)
                                             .foregroundColor(.black)
                                         Text("장")
-                                            .foregroundColor(endGameVM.seller[index] ? .black : .gray)
+                                            .foregroundColor(endGameVM.seller[index] ? .black : Color(hex: 0xbdbdbd))
                                     }
                                 }
                                 .onChange(of: endGameVM.sellerInput[index]) { _ in
@@ -178,10 +182,11 @@ struct EndGameSellView: View {//광팔기 view
                                 Spacer()
                                 Rectangle()
                                     .frame(width: 135, height: 1)
-                                    .foregroundColor(endGameVM.seller[index] ? .red : .gray)
+                                    .foregroundColor(endGameVM.seller[index] ? .red : Color(hex: 0xbdbdbd))
                             }
                             .padding(.top, -15)//15
                             .padding(.bottom, 10)//10
+                            .padding(.trailing)
                         }
 //                    }
                 }//ScrollView
@@ -193,9 +198,9 @@ struct EndGameSellView: View {//광팔기 view
                 {
                     ZStack {
                         RoundedRectangle(cornerRadius: 22)
-                            .foregroundColor(nextActivity ? .red : .gray)
+                            .foregroundColor(nextActivity ? .red : Color(hex: 0xbdbdbd))
                             .frame(height: 44)
-                        Text("다음(1/4)")
+                        Text("다음")
                             .font(.system(size: 16, weight: .bold))
                             .foregroundColor(.white)
                     }
@@ -208,6 +213,11 @@ struct EndGameSellView: View {//광팔기 view
         }
         .navigationBarHidden(true)
         .ignoresSafeArea(.keyboard, edges: .bottom)
+        .onAppear {
+            if endGameVM.sellerIndex != -1 {
+                nextActivity = true
+            }
+        }
     }
 }
 
@@ -249,15 +259,18 @@ struct EndGameOptionView: View {
                         PopUpIcon(title: "고스톱 설명서", color: .red, size: 14)
                     }
                 }
-                .padding()
+                .padding(.horizontal)
+                .padding(.vertical, 10)
+                .padding(.top, 20)
                 ForEach(endGameVM.ingamePlayers, id: \.self) { ingamePlayer in
                     let index = endGameVM.ingamePlayers.firstIndex(of: ingamePlayer)!
                         HStack {
                             Text("\(index+1)")
                                 .font(.system(size: 16, weight: endGameVM.sellerIndex == index ? .medium : .bold))
-                                .foregroundColor(endGameVM.sellerIndex == index ? .gray : .red)
+                                .foregroundColor(endGameVM.sellerIndex == index ? Color(hex: 0xbdbdbd) : .red)
                             Text(ingamePlayer)
                                 .font(.system(size: 16, weight: endGameVM.sellerIndex == index ? .medium : .bold))
+                                .foregroundColor(endGameVM.sellerIndex == index ? Color(hex: 0xbdbdbd) : .black)
                             PopUpIcon(title: "광팜", color: .gray, size: 12)
                                 .opacity(endGameVM.sellerIndex == index ? 1 : 0)
                             Spacer()
@@ -273,7 +286,7 @@ struct EndGameOptionView: View {
                                 Spacer()
                                 Rectangle()
                                     .frame(width: 135, height: 1)
-                                    .foregroundColor(.gray)
+                                    .foregroundColor(Color(hex: 0xbdbdbd))
                             }//광파는 사람만 나타나게 해야함
                             .padding(.top, -15)
                             .padding(.bottom, 10)
@@ -317,7 +330,7 @@ struct EndGameOptionView: View {
                         RoundedRectangle(cornerRadius: 22)
                             .foregroundColor(.red)
                             .frame(height: 44)
-                        Text(endGameVM.ingamePlayers.count == 4 ? "다음(2/4)" : "다음(1/3)")
+                        Text("다음(1/3)")
                             .font(.system(size: 16, weight: .bold))
                             .foregroundColor(.white)
                     }
@@ -328,14 +341,13 @@ struct EndGameOptionView: View {
         }
         .navigationBarHidden(true)
         .ignoresSafeArea(.keyboard, edges: .bottom)
-//        .onChange(of: showingAlert) { _ in
-//            if showingAlert == false {
-////                endGameVM.selectOption[2] = -1
-//                for i in 0 ..< 4 {
-//                    endGameVM.selectOption[i] = -1
-//                }
-//            }
-//        }
+        .onAppear {
+            if endGameVM.ingamePlayers.count != 4 {
+                endGameVM.seller = Array(repeating: false, count: 4)
+                endGameVM.sellerInput = ["","","",""]
+                endGameVM.sellerIndex = -1
+            }
+        }
     }
     struct optionSelecter: View {
         
@@ -406,16 +418,19 @@ struct EndGamewinnerRecord: View {
                         PopUpIcon(title: "고스톱 설명서", color: .red, size: 14)
                     }
                 }
-                .padding()
+                .padding(.horizontal)
+                .padding(.vertical, 10)
+                .padding(.top, 20)
                 ScrollView {
                     ForEach(endGameVM.ingamePlayers, id: \.self) { ingamePlayer in
                         let index = endGameVM.ingamePlayers.firstIndex(of: ingamePlayer)!
                         HStack {
                             Text("\(index+1)")
                                 .font(.system(size: 16, weight: endGameVM.sellerIndex == index ? .medium : .bold))
-                                .foregroundColor(endGameVM.sellerIndex == index ? .gray : .red)
+                                .foregroundColor(endGameVM.sellerIndex == index ? Color(hex: 0xbdbdbd) : .red)
                             Text(ingamePlayer)
                                 .font(.system(size: 16, weight: endGameVM.sellerIndex == index ? .medium : .bold))
+                                .foregroundColor(endGameVM.sellerIndex == index ? Color(hex: 0xbdbdbd) : .black)
                             PopUpIcon(title: "광팜", color: .gray, size: 12)
                                 .opacity(endGameVM.sellerIndex == index ? 1 : 0)
                             Spacer()
@@ -545,9 +560,9 @@ struct EndGamewinnerRecord: View {
                 {
                     ZStack {
                         RoundedRectangle(cornerRadius: 22)
-                            .foregroundColor(nextActivity ? .red : .gray)
+                            .foregroundColor(nextActivity ? .red : Color(hex: 0xbdbdbd))
                             .frame(height: 44)
-                        Text(endGameVM.ingamePlayers.count == 4 ? "다음(3/4)" : "다음(2/3)")
+                        Text("다음(2/3)")
                                 .font(.system(size: 16, weight: .bold))
                                 .foregroundColor(.white)
                     }
@@ -559,6 +574,11 @@ struct EndGamewinnerRecord: View {
         }
         .navigationBarHidden(true)
         .ignoresSafeArea(.keyboard, edges: .bottom)
+        .onAppear {
+            if endGameVM.winnerIndex != -1 {
+                nextActivity = true
+            }
+        }
     }
 }
 
@@ -598,28 +618,31 @@ struct EndGameLoserRecord: View {
                     PopUpIcon(title: "고스톱 설명서", color: .red, size: 14)
                 }
             }
-            .padding()
+            .padding(.horizontal)
+            .padding(.vertical, 10)
+            .padding(.top, 20)
             ForEach(endGameVM.ingamePlayers, id: \.self) { ingamePlayer in
                 let index = endGameVM.ingamePlayers.firstIndex(of: ingamePlayer)!
                 HStack {
                     Text("\(index+1)")
                         .font(.system(size: 16, weight: endGameVM.sellerIndex == index || endGameVM.winnerIndex == index ? .medium : .bold))
-                        .foregroundColor(endGameVM.sellerIndex == index || endGameVM.winnerIndex == index ? .gray : .red)
+                        .foregroundColor(endGameVM.sellerIndex == index || endGameVM.winnerIndex == index ? Color(hex: 0xbdbdbd) : .red)
                     Text(ingamePlayer)
                         .font(.system(size: 16, weight: endGameVM.sellerIndex == index || endGameVM.winnerIndex == index ? .medium : .bold))
+                        .foregroundColor(endGameVM.sellerIndex == index || endGameVM.winnerIndex == index ? Color(hex: 0xbdbdbd) : .black)
                     if endGameVM.sellerIndex == index {
-                        PopUpIcon(title: "광팜", color: .gray, size: 12)
+                        PopUpIcon(title: "광팜", color: Color(hex: 0xbdbdbd), size: 12)
                     } else if endGameVM.winnerIndex == index {
-                        PopUpIcon(title: "승자", color: .gray, size: 12)
+                        PopUpIcon(title: "승자", color: Color(hex: 0xbdbdbd), size: 12)
                     }
                     Spacer()
                     if endGameVM.sellerIndex == index {
                         Text("\(endGameVM.sellerInput[endGameVM.sellerIndex]) 장")
-                            .foregroundColor(.gray)
+                            .foregroundColor(Color(hex: 0xbdbdbd))
                     }
                     if endGameVM.winnerIndex == index {
                         Text("\(endGameVM.winnerInput[endGameVM.winnerIndex]) 장")
-                            .foregroundColor(.gray)
+                            .foregroundColor(Color(hex: 0xbdbdbd))
                     }
                     
                 }
@@ -629,7 +652,7 @@ struct EndGameLoserRecord: View {
                         Spacer()
                         Rectangle()
                             .frame(width: 135, height: 1)
-                            .foregroundColor(.gray)
+                            .foregroundColor(Color(hex: 0xbdbdbd))
                     }
                     .padding(.top, -20)
                     .padding(.bottom, 10)
@@ -637,6 +660,7 @@ struct EndGameLoserRecord: View {
                     HStack {
                         loseOptionSelecter(loserOptionArray: $endGameVM.loserOption[index])
                     }
+                    .padding(.bottom)
                     .onChange(of: endGameVM.loserOption[index][3]) { _ in
                         if endGameVM.loserOption[index][3] == true {
                             for i in 0 ..< 4 {
@@ -742,9 +766,11 @@ struct LastView: View {
                 .font(.system(size: 24, weight: .bold))
             HStack {
                 Text("하단에")
+                    .padding(.trailing, -3)
                 Text("저장하기")
                     .underline()
                     .fontWeight(.bold)
+                    .padding(.trailing, -3)
                 Text("버튼을 누르고 다음게임을 진행해주세요.")
             }
             .font(.system(size: 14, weight: .medium))
@@ -784,9 +810,26 @@ struct LastView: View {
                                 Text(player)
                                     .font(.system(size: 14, weight: .medium))
                                 Spacer()
-                                Text("\(endGameVM.totalCost[index])")
-                                Text("원")
-                                    .font(.system(size: 12, weight: .medium))
+                                if endGameVM.totalCost[index] > 0 {
+                                    Text("\(endGameVM.totalCost[index])")
+                                        .font(.system(size: 14, weight: .medium))
+                                        .foregroundColor(.red)
+                                    Text("원")
+                                        .font(.system(size: 12, weight: .medium))
+                                        .foregroundColor(.red)
+                                } else if endGameVM.totalCost[index] == 0 {
+                                    Text("\(endGameVM.totalCost[index])")
+                                        .font(.system(size: 14, weight: .medium))
+                                    Text("원")
+                                        .font(.system(size: 12, weight: .medium))
+                                } else {
+                                    Text("\(endGameVM.totalCost[index])")
+                                        .font(.system(size: 14, weight: .medium))
+                                        .foregroundColor(.blue)
+                                    Text("원")
+                                        .font(.system(size: 12, weight: .medium))
+                                        .foregroundColor(.blue)
+                                }
                             }
                             HStack {
                                 if endGameVM.selectOption[index] == 0 {
@@ -833,7 +876,7 @@ struct LastView: View {
             .background (
                 RoundedRectangle(cornerRadius: 18)
                     .foregroundColor(.white)
-                    .shadow(color: .gray, radius: 5, x: 0, y: 3)
+                    .shadow(color: Color(hex: 0xbdbdbd), radius: 5, x: 0, y: 3)
             )
             .padding(.horizontal)
             PopView(destination: .root) {
