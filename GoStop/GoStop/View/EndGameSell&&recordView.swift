@@ -8,6 +8,7 @@
 import NavigationStack
 import SwiftUI
 import UIKit
+import GoogleMobileAds
 
 struct PopUpIcon: View {
     
@@ -751,6 +752,8 @@ struct LastView: View {
     @ObservedObject var endGameVM: EndGameViewModel
     @State private var isCompleted = false
     
+    let fullScreenAd = Interstitial()
+    
     var body: some View {
         VStack {
             HStack {
@@ -897,6 +900,10 @@ struct LastView: View {
 
     //            coreDM.saveRoundInMainPageHistory(mainPageHistory: mainPageHistory)
                 coreDM.saveRoundOfGameResult(mainPageHistory: mainPageHistory, endGameViewModel: endGameVM)
+            }
+            .onDisappear{
+                
+                fullScreenAd.showAd()
             }
         }
 
