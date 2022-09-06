@@ -31,6 +31,8 @@
 		EA992662279570BC0064AC82 /* MainPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA992661279570BC0064AC82 /* MainPage.swift */; };
 		EAAF94A328210E1B00A0C3BC /* EndGameStartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAAF94A228210E1B00A0C3BC /* EndGameStartView.swift */; };
 		EAB2F89F2833F1B5005E9DD6 /* CalculateScoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB2F89E2833F1B5005E9DD6 /* CalculateScoreView.swift */; };
+		EAC07B3128C777730019E939 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = EAC07B3028C777730019E939 /* GoogleMobileAds */; };
+		EAC07B3428C7797F0019E939 /* Interstitial.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAC07B3328C7797F0019E939 /* Interstitial.swift */; };
 		EAC13AF2281A7A2F001D5C2B /* RoundDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAC13AF1281A7A2F001D5C2B /* RoundDetailView.swift */; };
 		EAC8DE232793E24C0056EEC3 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = EAC8DE222793E24C0056EEC3 /* Lottie */; };
 		EAC8DE252793E3560056EEC3 /* 8707-loading.json in Resources */ = {isa = PBXBuildFile; fileRef = EAC8DE242793E3560056EEC3 /* 8707-loading.json */; };
@@ -68,6 +70,8 @@
 		EA992661279570BC0064AC82 /* MainPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPage.swift; sourceTree = "<group>"; };
 		EAAF94A228210E1B00A0C3BC /* EndGameStartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndGameStartView.swift; sourceTree = "<group>"; };
 		EAB2F89E2833F1B5005E9DD6 /* CalculateScoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculateScoreView.swift; sourceTree = "<group>"; };
+		EAC07B3228C777E60019E939 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EAC07B3328C7797F0019E939 /* Interstitial.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Interstitial.swift; sourceTree = "<group>"; };
 		EAC13AF1281A7A2F001D5C2B /* RoundDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundDetailView.swift; sourceTree = "<group>"; };
 		EAC8DE242793E3560056EEC3 /* 8707-loading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "8707-loading.json"; sourceTree = "<group>"; };
 		EAC8DE262793E3BB0056EEC3 /* 로티이미지.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "로티이미지.json"; sourceTree = "<group>"; };
@@ -80,6 +84,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EAC07B3128C777730019E939 /* GoogleMobileAds in Frameworks */,
 				EAC8DE232793E24C0056EEC3 /* Lottie in Frameworks */,
 				EADB5F332843F271000F5928 /* NavigationStack in Frameworks */,
 			);
@@ -128,6 +133,7 @@
 				EAD530C92814613200D9C2D3 /* IngamePlayer+Extension.swift */,
 				EA61476E287ABA5500B145DE /* CustomColor.swift */,
 				EA48D4CE28855E0A0076095E /* View+Extension.swift */,
+				EAC07B3328C7797F0019E939 /* Interstitial.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -160,6 +166,7 @@
 		EA4F79E3278EB7A5008B78FF /* GoStop */ = {
 			isa = PBXGroup;
 			children = (
+				EAC07B3228C777E60019E939 /* Info.plist */,
 				EAC8DE262793E3BB0056EEC3 /* 로티이미지.json */,
 				EAC8DE242793E3560056EEC3 /* 8707-loading.json */,
 				EA4F79E4278EB7A5008B78FF /* GoStopApp.swift */,
@@ -219,6 +226,7 @@
 			packageProductDependencies = (
 				EAC8DE222793E24C0056EEC3 /* Lottie */,
 				EADB5F322843F271000F5928 /* NavigationStack */,
+				EAC07B3028C777730019E939 /* GoogleMobileAds */,
 			);
 			productName = GoStop;
 			productReference = EA4F79E1278EB7A5008B78FF /* GoStop.app */;
@@ -251,6 +259,7 @@
 			packageReferences = (
 				EAC8DE212793E24C0056EEC3 /* XCRemoteSwiftPackageReference "lottie-ios" */,
 				EADB5F312843F271000F5928 /* XCRemoteSwiftPackageReference "swiftui-navigation-stack" */,
+				EAC07B2F28C777730019E939 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
 			);
 			productRefGroup = EA4F79E2278EB7A5008B78FF /* Products */;
 			projectDirPath = "";
@@ -335,6 +344,7 @@
 				EA0C2352282A445E00CF335D /* SellPopUpView.swift in Sources */,
 				EA33F8302803257500EDB7B9 /* MainPageHistory+Extension.swift in Sources */,
 				EA5CEB1027E2528100234E29 /* CoreDataManager.swift in Sources */,
+				EAC07B3428C7797F0019E939 /* Interstitial.swift in Sources */,
 				EA992662279570BC0064AC82 /* MainPage.swift in Sources */,
 				EA0C234E282A322F00CF335D /* EndGameSell&&recordView.swift in Sources */,
 				EA61476F287ABA5500B145DE /* CustomColor.swift in Sources */,
@@ -483,6 +493,7 @@
 				DEVELOPMENT_TEAM = WZPRSF7LPK;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = GoStop/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "고스톱금액계산기";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -516,6 +527,7 @@
 				DEVELOPMENT_TEAM = WZPRSF7LPK;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = GoStop/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "고스톱금액계산기";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -561,6 +573,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		EAC07B2F28C777730019E939 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/googleads/swift-package-manager-google-mobile-ads.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 		EAC8DE212793E24C0056EEC3 /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/airbnb/lottie-ios.git";
@@ -580,6 +600,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		EAC07B3028C777730019E939 /* GoogleMobileAds */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EAC07B2F28C777730019E939 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
+			productName = GoogleMobileAds;
+		};
 		EAC8DE222793E24C0056EEC3 /* Lottie */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = EAC8DE212793E24C0056EEC3 /* XCRemoteSwiftPackageReference "lottie-ios" */;
