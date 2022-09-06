@@ -6,9 +6,16 @@
 //
 
 import SwiftUI
+import GoogleMobileAds
+import AppTrackingTransparency
+import AdSupport
 
 @main
 struct GoStopApp: App {
+    
+    init() {
+        GADMobileAds.sharedInstance().start(completionHandler: nil)
+    }
     
     var body: some Scene {
         WindowGroup {
