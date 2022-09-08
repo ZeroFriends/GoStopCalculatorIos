@@ -40,6 +40,8 @@
 		EAD530C82814611500D9C2D3 /* Round+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAD530C72814611500D9C2D3 /* Round+Extension.swift */; };
 		EAD530CA2814613200D9C2D3 /* IngamePlayer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAD530C92814613200D9C2D3 /* IngamePlayer+Extension.swift */; };
 		EADB5F332843F271000F5928 /* NavigationStack in Frameworks */ = {isa = PBXBuildFile; productRef = EADB5F322843F271000F5928 /* NavigationStack */; };
+		EAF6DA5728C9CA910064E216 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EAF6DA5628C9CA910064E216 /* GoogleService-Info.plist */; };
+		EAF6DA5A28C9CB0D0064E216 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = EAF6DA5928C9CB0D0064E216 /* FirebaseAnalytics */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -77,6 +79,7 @@
 		EAC8DE262793E3BB0056EEC3 /* 로티이미지.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "로티이미지.json"; sourceTree = "<group>"; };
 		EAD530C72814611500D9C2D3 /* Round+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Round+Extension.swift"; sourceTree = "<group>"; };
 		EAD530C92814613200D9C2D3 /* IngamePlayer+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "IngamePlayer+Extension.swift"; sourceTree = "<group>"; };
+		EAF6DA5628C9CA910064E216 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +89,7 @@
 			files = (
 				EAC07B3128C777730019E939 /* GoogleMobileAds in Frameworks */,
 				EAC8DE232793E24C0056EEC3 /* Lottie in Frameworks */,
+				EAF6DA5A28C9CB0D0064E216 /* FirebaseAnalytics in Frameworks */,
 				EADB5F332843F271000F5928 /* NavigationStack in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -167,6 +171,7 @@
 			isa = PBXGroup;
 			children = (
 				EAC07B3228C777E60019E939 /* Info.plist */,
+				EAF6DA5628C9CA910064E216 /* GoogleService-Info.plist */,
 				EAC8DE262793E3BB0056EEC3 /* 로티이미지.json */,
 				EAC8DE242793E3560056EEC3 /* 8707-loading.json */,
 				EA4F79E4278EB7A5008B78FF /* GoStopApp.swift */,
@@ -227,6 +232,7 @@
 				EAC8DE222793E24C0056EEC3 /* Lottie */,
 				EADB5F322843F271000F5928 /* NavigationStack */,
 				EAC07B3028C777730019E939 /* GoogleMobileAds */,
+				EAF6DA5928C9CB0D0064E216 /* FirebaseAnalytics */,
 			);
 			productName = GoStop;
 			productReference = EA4F79E1278EB7A5008B78FF /* GoStop.app */;
@@ -260,6 +266,7 @@
 				EAC8DE212793E24C0056EEC3 /* XCRemoteSwiftPackageReference "lottie-ios" */,
 				EADB5F312843F271000F5928 /* XCRemoteSwiftPackageReference "swiftui-navigation-stack" */,
 				EAC07B2F28C777730019E939 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
+				EAF6DA5828C9CB0D0064E216 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			productRefGroup = EA4F79E2278EB7A5008B78FF /* Products */;
 			projectDirPath = "";
@@ -277,6 +284,7 @@
 			files = (
 				EA4F79EC278EB7A6008B78FF /* Preview Assets.xcassets in Resources */,
 				EAC8DE252793E3560056EEC3 /* 8707-loading.json in Resources */,
+				EAF6DA5728C9CA910064E216 /* GoogleService-Info.plist in Resources */,
 				EAC8DE272793E3BB0056EEC3 /* 로티이미지.json in Resources */,
 				EA4F79E9278EB7A6008B78FF /* Assets.xcassets in Resources */,
 			);
@@ -597,6 +605,14 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		EAF6DA5828C9CB0D0064E216 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -614,6 +630,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = EADB5F312843F271000F5928 /* XCRemoteSwiftPackageReference "swiftui-navigation-stack" */;
 			productName = NavigationStack;
+		};
+		EAF6DA5928C9CB0D0064E216 /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EAF6DA5828C9CB0D0064E216 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
 		};
 /* End XCSwiftPackageProductDependency section */
 
