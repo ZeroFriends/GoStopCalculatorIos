@@ -34,7 +34,7 @@ final class Interstitial:NSObject, GADFullScreenContentDelegate {
 
     func showAd(){
         if self.interstitial != nil {
-//            let root = UIApplication.shared.windows.first?.rootViewController
+//            let root = UIApplication.shared.windows.first?.rootViewControllver
             let scenes = UIApplication.shared.connectedScenes
             let windowScenes = scenes.first as? UIWindowScene
             let root = windowScenes?.keyWindow?.rootViewController

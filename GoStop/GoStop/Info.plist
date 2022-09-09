@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>GADApplicationIdentifier</key>
+	<string>ca-app-pub-3757871575844611~2268030259</string>
+	<key>GADIsAdManagerApp</key>
+	<true/>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
@@ -9,12 +13,6 @@
 		<key>NSAllowsArbitraryLoadsInWebContent</key>
 		<true/>
 	</dict>
-	<key>GADApplicationIdentifier</key>
-	<string>ca-app-pub-3757871575844611~2268030259</string>
-	<key>GADIsAdManagerApp</key>
-	<true/>
-	<key>NSUserTrackingUsageDescription</key>
-	<string>앱 추적 투명성 승인 요청</string>
 	<key>SKAdNetworkItems</key>
 	<array>
 		<dict>
