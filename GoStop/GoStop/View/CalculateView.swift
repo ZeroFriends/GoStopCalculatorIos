@@ -12,6 +12,7 @@ struct CalculateView: View {
     @Environment(\.presentationMode) var presentationMode
     var coreDM: CoreDataManager
     var mainPageHistory: MainPageHistory
+    let fullScreenAd = Interstitial()
     
     struct DiviedView: View {
         var mainPageHistory: MainPageHistory
@@ -120,6 +121,9 @@ struct CalculateView: View {
                 .padding()
                 .frame(maxWidth: .infinity)
             }
+        }
+        .onAppear{
+            fullScreenAd.showAd()
         }
         .navigationBarHidden(true)
     }
