@@ -19,13 +19,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
                   })
     return true
   }
-    private func requestTrackingAuthorization() {
-      if #available(iOS 14, *) {
-        if ATTrackingManager.trackingAuthorizationStatus == .notDetermined {
-          ATTrackingManager.requestTrackingAuthorization(completionHandler: { _ in })
-        }
-      }
-    }
 }
 @main
 struct GoStopApp: App {
