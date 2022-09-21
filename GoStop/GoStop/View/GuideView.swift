@@ -9,7 +9,7 @@ import SwiftUI
 
 struct GuideView: View {
 
-    @State var guideImages = [Image("그룹 92"),Image("그룹 93"),Image("그룹 94"),Image("그룹 95"),Image("그룹 96"),Image("그룹 97")]
+    @State var guideImages = [Image("iOS 도움말1"),Image("iOS 도움말2"),Image("iOS 도움말3"),Image("iOS 도움말4"),Image("iOS 도움말5"),Image("iOS 도움말6")]
     @State var currentPage = 0
     @Binding var isNavigationViewReady: Bool
     @Binding var readyForStart: Bool
@@ -56,7 +56,7 @@ struct GuideView: View {
                         .ignoresSafeArea(.all, edges: .bottom)
                     guideImages[currentPage]
                         .resizable()
-                        .aspectRatio(3/7, contentMode: .fit)
+                        .aspectRatio(1/2, contentMode: .fit)
                         .opacity(opacity)
                         .gesture(DragGesture(minimumDistance: 0, coordinateSpace: .local)
                                             .onEnded({ value in
