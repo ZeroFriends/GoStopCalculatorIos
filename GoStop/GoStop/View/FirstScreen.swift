@@ -4,7 +4,7 @@
 //
 //  Created by 이태현 on 2022/01/17.
 //
-
+import AppTrackingTransparency
 import SwiftUI
 
 struct FirstScreen: View {
@@ -31,6 +31,9 @@ struct FirstScreen: View {
                 cnt += 1//이렇게 안하면 첫화면일때 계속 로티이미지 떠버려서 막음
             }
         }
+        .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
+                    ATTrackingManager.requestTrackingAuthorization(completionHandler: { status in })
+                }
     }
 }
 

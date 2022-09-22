@@ -4,7 +4,6 @@
 //
 //  Created by 이태현 on 2022/01/12.
 //
-
 import SwiftUI
 import GoogleMobileAds
 import AppTrackingTransparency
@@ -15,11 +14,12 @@ class AppDelegate: NSObject, UIApplicationDelegate {
   func application(_ application: UIApplication,
                    didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
     FirebaseApp.configure()
-
+      ATTrackingManager.requestTrackingAuthorization(completionHandler: { status in
+                      
+                  })
     return true
   }
 }
-
 @main
 struct GoStopApp: App {
     

@@ -2,8 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSUserTrackingUsageDescription</key>
+	<string>&quot;사용자에게 맞춤 광고를 제공하기 위해 정보를 수집하려 합니다.&quot;</string>
 	<key>GADApplicationIdentifier</key>
-	<string>ca-app-pub-3757871575844611~2268030259</string>
+	<string>ca-app-pub-1663298612263181~7077411917</string>
 	<key>GADIsAdManagerApp</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
